@@ -1,5 +1,5 @@
 declare module "react-rating-stars-component" {
-  import { ElementType } from "react";
+  import { ReactElement } from "react";
 
   interface ReactStarsProps {
     classNames?: string;
@@ -11,9 +11,9 @@ declare module "react-rating-stars-component" {
     size?: number;
     color?: string;
     activeColor?: string;
-    emptyIcon?: ElementType;
-    halfIcon?: ElementType;
-    filledIcon?: ElementType;
+    emptyIcon?: ReactElement;
+    halfIcon?: ReactElement;
+    filledIcon?: ReactElement;
     a11y?: boolean;
     onChange?: (rating: number) => void;
   }
