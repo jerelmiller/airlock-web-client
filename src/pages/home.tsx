@@ -1,11 +1,11 @@
-import BedroomInput from '../components/BedroomInput';
-import Hero from '../components/Hero';
-import Layout from '../layouts/Layout';
-import ListingCard from '../components/ListingCard';
-import Nav from '../components/Nav';
-import PropTypes from 'prop-types';
-import QueryResult from '../components/QueryResult';
-import React, {useState} from 'react';
+import BedroomInput from "../components/BedroomInput";
+import Hero from "../components/Hero";
+import Layout from "../layouts/Layout";
+import ListingCard from "../components/ListingCard";
+import Nav from "../components/Nav";
+import PropTypes from "prop-types";
+import QueryResult from "../components/QueryResult";
+import { useState } from "react";
 import {
   Button,
   Center,
@@ -15,14 +15,14 @@ import {
   Input,
   SimpleGrid,
   Stack,
-  Text
-} from '@chakra-ui/react';
-import {Link} from 'react-router-dom';
-import {format} from 'date-fns';
-import {getDatePickerProps, getNextDate} from '../utils';
-import {gql, useQuery} from '@apollo/client';
+  Text,
+} from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+import { format } from "date-fns";
+import { getDatePickerProps, getNextDate } from "../utils";
+import { gql, useQuery } from "@apollo/client";
 
-import 'react-datepicker/dist/react-datepicker.css';
+import "react-datepicker/dist/react-datepicker.css";
 
 export const FEATURED_LISTINGS = gql`
   query GetFeaturedListings {
@@ -39,10 +39,10 @@ export const FEATURED_LISTINGS = gql`
 `;
 
 const INPUT_PROPS = {
-  size: 'lg',
-  width: 'auto',
-  maxWidth: '300px',
-  marginTop: '2'
+  size: "lg",
+  width: "auto",
+  maxWidth: "300px",
+  marginTop: "2",
 };
 
 export default function Home() {
@@ -56,10 +56,10 @@ export default function Home() {
     startDate,
     endDate,
     setStartDate,
-    setEndDate
+    setEndDate,
   });
 
-  const {loading, error, data} = useQuery(FEATURED_LISTINGS);
+  const { loading, error, data } = useQuery(FEATURED_LISTINGS);
 
   return (
     <>
@@ -83,7 +83,7 @@ export default function Home() {
                 spacing={4}
                 p={6}
                 borderRadius={3}
-                direction={['column', 'row']}
+                direction={["column", "row"]}
                 maxWidth="862px"
                 alignItems="flex-end"
                 bgColor="white"
@@ -102,7 +102,7 @@ export default function Home() {
                     {...INPUT_PROPS}
                     minDate={today < startDate ? startDate : today}
                     selected={endDate}
-                    onChange={date => setEndDate(date)}
+                    onChange={(date) => setEndDate(date)}
                     width="150px"
                   />
                 </InputContainer>
@@ -115,10 +115,10 @@ export default function Home() {
                   as={Link}
                   to={`/search/?startDate=${format(
                     startDate,
-                    'MM-dd-yyyy'
+                    "MM-dd-yyyy",
                   )}&endDate=${format(
                     endDate,
-                    'MM-dd-yyyy'
+                    "MM-dd-yyyy",
                   )}&numOfBeds=${numOfBeds}`}
                 >
                   Find a place
@@ -129,14 +129,14 @@ export default function Home() {
         </Center>
       </Hero>
       <QueryResult loading={loading} error={error} data={data}>
-        {data => (
+        {(data) => (
           <Layout noNav p={12} pt={8}>
             <Heading as="h1" fontSize="3xl" fontWeight="bold" mb={6}>
               Ideas for your next stellar trip
             </Heading>
             <SimpleGrid minChildWidth="255px" spacing={6}>
               {data &&
-                data.featuredListings.map(listing => (
+                data.featuredListings.map((listing) => (
                   <ListingCard key={listing.title} {...listing} />
                 ))}
             </SimpleGrid>
@@ -147,7 +147,7 @@ export default function Home() {
   );
 }
 
-function InputContainer({label, children}) {
+function InputContainer({ label, children }) {
   return (
     <Stack direction="column" spacing={2}>
       <Text as="label" fontSize="large" fontWeight="bold">
@@ -160,5 +160,5 @@ function InputContainer({label, children}) {
 
 InputContainer.propTypes = {
   label: PropTypes.string,
-  children: PropTypes.node
+  children: PropTypes.node,
 };
