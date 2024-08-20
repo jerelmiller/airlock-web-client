@@ -12,7 +12,7 @@ const httpLink = createHttpLink({
   uri:
     import.meta.env.MODE !== "production"
       ? "http://localhost:4000"
-      : process.env.REACT_APP_GQL_SERVER,
+      : process.env.VITE_APP_GQL_SERVER,
   // uri: 'https://rt-airlock-gateway-managed.herokuapp.com/'
 });
 
