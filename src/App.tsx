@@ -28,45 +28,19 @@ export default function App() {
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/search">
-        <Search />
-      </Route>
-      <Route path="/login">
-        <Login />
-      </Route>
-      <Route exact path="/listings">
-        <Listings />
-      </Route>
-      <Route path="/listings/create">
-        <CreateListing />
-      </Route>
-      <Route exact path="/listing/:id">
-        <Listing />
-      </Route>
-      <Route path="/listing/:id/edit">
-        <EditListing />
-      </Route>
-      <Route path="/listing/:id/bookings">
-        <HostBookings />
-      </Route>
-      <Route path="/listing/:id/past-bookings">
-        <HostPastBookings />
-      </Route>
-      <Route path="/trips">
-        <Trips />
-      </Route>
-      <Route path="/past-trips">
-        <PastTrips />
-      </Route>
-      <Route path="/profile">
-        <Profile />
-      </Route>
-      <Route path="/wallet">
-        <Wallet />
-      </Route>
-      <Route exact path="/">
-        <Home />
-      </Route>
+      <Route path="/" element={<Home />} />
+      <Route path="/search" element={<Search />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/listings" element={<Listings />} />
+      <Route path="/listings/create" element={<CreateListing />} />
+      <Route path="/listing/:id" element={<Listing />} />
+      <Route path="/listing/:id/edit" element={<EditListing />} />
+      <Route path="/listing/:id/bookings" element={<HostBookings />} />
+      <Route path="/listing/:id/past-bookings" element={<HostPastBookings />} />
+      <Route path="/trips" element={<Trips />} />
+      <Route path="/past-trips" element={<PastTrips />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/wallet" element={<Wallet />} />
     </>
   )
 );
