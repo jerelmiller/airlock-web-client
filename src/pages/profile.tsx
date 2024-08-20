@@ -1,5 +1,5 @@
-import Layout from '../layouts/Layout';
-import React, {useRef} from 'react';
+import Layout from "../layouts/Layout";
+import { useRef } from "react";
 import {
   Box,
   Button,
@@ -9,12 +9,12 @@ import {
   Stack,
   Text,
   Textarea,
-  VStack
-} from '@chakra-ui/react';
-import {IoCheckmark, IoExit, IoWallet} from 'react-icons/io5';
-import {Link} from 'react-router-dom';
-import {gql, useMutation} from '@apollo/client';
-import {useUser} from '../utils';
+  VStack,
+} from "@chakra-ui/react";
+import { IoCheckmark, IoExit, IoWallet } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import { gql, useMutation } from "@apollo/client";
+import { useUser } from "../utils";
 
 export const UPDATE_PROFILE = gql`
   mutation UpdateUserProfile($updateProfileInput: UpdateProfileInput) {
@@ -35,20 +35,20 @@ export const UPDATE_PROFILE = gql`
 `;
 
 export default function Profile() {
-  const {user, setUser} = useUser();
+  const { user, setUser } = useUser();
   const txtProfileDescRef = useRef();
-  const [updateProfileData, {loading, error, client}] = useMutation(
+  const [updateProfileData, { loading, error, client }] = useMutation(
     UPDATE_PROFILE,
     {
-      onCompleted: data => {
-        setUser({...data.updateProfile.user});
-        const {profileDescription} = data.updateProfile.user;
+      onCompleted: (data) => {
+        setUser({ ...data.updateProfile.user });
+        const { profileDescription } = data.updateProfile.user;
 
-        if (user.__typename === 'Host') {
+        if (user.__typename === "Host") {
           txtProfileDescRef.current.value = profileDescription;
         }
-      }
-    }
+      },
+    },
   );
 
   if (error) return `Submission error! ${error.message}`;
@@ -67,7 +67,7 @@ export default function Profile() {
             />
             <Stack>
               <Text fontWeight="bold" fontSize="lg">
-                {user.name}{' '}
+                {user.name}{" "}
                 <Text
                   as="span"
                   textTransform="uppercase"
@@ -78,7 +78,7 @@ export default function Profile() {
                 </Text>
               </Text>
             </Stack>
-            {user.__typename === 'Host' && (
+            {user.__typename === "Host" && (
               <Box>
                 <Text mb="1" fontWeight="bold" alignSelf="flex-start">
                   About
@@ -92,25 +92,25 @@ export default function Profile() {
               </Box>
             )}
             <Stack direction="row" spacing="2">
-              {user.__typename === 'Host' && (
+              {user.__typename === "Host" && (
                 <Button
                   rightIcon={<IoCheckmark />}
                   onClick={() => {
                     const updateProfileInput = {
-                      profileDescription: txtProfileDescRef?.current.value
+                      profileDescription: txtProfileDescRef?.current.value,
                     };
                     return updateProfileData({
                       variables: {
-                        updateProfileInput
-                      }
+                        updateProfileInput,
+                      },
                     });
                   }}
                   disabled={loading}
                 >
-                  {loading ? 'Updating...' : 'Update Profile'}
+                  {loading ? "Updating..." : "Update Profile"}
                 </Button>
               )}
-              {user.__typename === 'Guest' && (
+              {user.__typename === "Guest" && (
                 <Box>
                   <Button as={Link} to="wallet" rightIcon={<IoWallet />}>
                     Go to wallet
@@ -121,8 +121,8 @@ export default function Profile() {
                 as={Link}
                 to="login"
                 onClick={() => {
-                  localStorage.removeItem('token');
-                  setUser({user: null});
+                  localStorage.removeItem("token");
+                  setUser({ user: null });
                   client.clearStore();
                 }}
                 rightIcon={<IoExit />}
