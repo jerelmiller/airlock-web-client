@@ -1,8 +1,7 @@
-import CurrentTrips from '../components/Trips';
-import Layout from '../layouts/Layout';
-import QueryResult from '../components/QueryResult';
-import React from 'react';
-import {gql, useQuery} from '@apollo/client';
+import CurrentTrips from "../components/Trips";
+import Layout from "../layouts/Layout";
+import QueryResult from "../components/QueryResult";
+import { gql, useQuery } from "@apollo/client";
 
 export const GUEST_TRIPS = gql`
   query GetGuestTrips {
@@ -34,12 +33,12 @@ export const GUEST_TRIPS = gql`
 `;
 
 export default function Trips() {
-  const {loading, error, data} = useQuery(GUEST_TRIPS);
+  const { loading, error, data } = useQuery(GUEST_TRIPS);
 
   return (
     <Layout>
       <QueryResult loading={loading} error={error} data={data}>
-        {({upcomingGuestBookings}) => (
+        {({ upcomingGuestBookings }) => (
           <CurrentTrips trips={upcomingGuestBookings} />
         )}
       </QueryResult>
