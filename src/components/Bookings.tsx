@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-import React from 'react';
 import {
   Box,
   Flex,
@@ -8,24 +6,33 @@ import {
   StackDivider,
   Text,
   VStack,
-  Wrap
-} from '@chakra-ui/react';
+  Wrap,
+} from "@chakra-ui/react";
 import {
   Content,
   Image,
   InnerContainer,
   ListingReviews,
-  OuterContainer
-} from './Card';
-import {IoChevronBack} from 'react-icons/io5';
+  OuterContainer,
+} from "./Card";
+import { IoChevronBack } from "react-icons/io5";
 
-import {HOST_BOOKINGS, SUBMIT_REVIEW} from '../pages/past-bookings';
-import {Link as RouterLink, useLocation, useParams} from 'react-router-dom';
+import { HOST_BOOKINGS, SUBMIT_REVIEW } from "../pages/past-bookings";
+import { Link as RouterLink, useLocation, useParams } from "react-router-dom";
 
-function Booking({booking, listingTitle, isPast}) {
+interface BookingProps {
+  booking: unknown;
+  listingTitle?: string;
+  isPast?: boolean;
+}
+
+function Booking({ booking, listingTitle, isPast }: BookingProps) {
   const hasHostReview = booking.guestReview !== null;
   const title = booking.listing?.title || listingTitle;
-  const graphqlVariables = {listingId: booking.listing.id, status: 'COMPLETED'};
+  const graphqlVariables = {
+    listingId: booking.listing.id,
+    status: "COMPLETED",
+  };
 
   if (isPast) {
     return (
@@ -46,7 +53,7 @@ function Booking({booking, listingTitle, isPast}) {
               checkOutDate={booking.checkOutDate}
               hasReviews={hasHostReview}
             >
-              {booking.status === 'CURRENT' ? (
+              {booking.status === "CURRENT" ? (
                 <Box w="max-content">
                   <Text fontWeight="semibold" fontStyle="italic">
                     Current guest
@@ -64,17 +71,17 @@ function Booking({booking, listingTitle, isPast}) {
               mutationOptions: {
                 variables: {
                   ...graphqlVariables,
-                  bookingId: booking.id
+                  bookingId: booking.id,
                 },
                 // NOTE: for the scope of this project, we've opted for the simpler refetch approach
                 // another, more optimized option is to update the cache directly -- https://www.apollographql.com/docs/react/data/mutations/#updating-the-cache-directly
                 refetchQueries: [
                   {
                     query: HOST_BOOKINGS,
-                    variables: graphqlVariables
-                  }
-                ]
-              }
+                    variables: graphqlVariables,
+                  },
+                ],
+              },
             }}
           />
         </InnerContainer>
@@ -98,7 +105,7 @@ function Booking({booking, listingTitle, isPast}) {
               checkInDate={booking.checkInDate}
               checkOutDate={booking.checkOutDate}
             >
-              {booking.status === 'CURRENT' ? (
+              {booking.status === "CURRENT" ? (
                 <Box w="max-content">
                   <Text fontWeight="semibold" fontStyle="italic">
                     Current guest
@@ -113,15 +120,19 @@ function Booking({booking, listingTitle, isPast}) {
   }
 }
 
-Booking.propTypes = {
-  booking: PropTypes.object,
-  isPast: PropTypes.bool,
-  listingTitle: PropTypes.string
-};
+interface BookingsProps {
+  title: string;
+  bookings: unknown[];
+  isPast?: boolean;
+}
 
-export default function Bookings({title, bookings, isPast = false}) {
-  const {pathname} = useLocation();
-  const {id} = useParams();
+export default function Bookings({
+  title,
+  bookings,
+  isPast = false,
+}: BookingsProps) {
+  const { pathname } = useLocation();
+  const { id } = useParams();
 
   return (
     <>
@@ -132,7 +143,7 @@ export default function Bookings({title, bookings, isPast = false}) {
         fontWeight="semibold"
       >
         <IoChevronBack />
-        <Link as={RouterLink} to={'/listings'} fontWeight="semibold">
+        <Link as={RouterLink} to={"/listings"} fontWeight="semibold">
           Back to listings
         </Link>
       </Flex>
@@ -152,10 +163,10 @@ export default function Bookings({title, bookings, isPast = false}) {
           to={`/listing/${id}/bookings`}
           mr="8"
           fontWeight={
-            pathname === `/listing/${id}/bookings` ? 'bold' : 'normal'
+            pathname === `/listing/${id}/bookings` ? "bold" : "normal"
           }
           color={
-            pathname === `/listing/${id}/bookings` ? 'indigo.dark' : 'gray.dark'
+            pathname === `/listing/${id}/bookings` ? "indigo.dark" : "gray.dark"
           }
         >
           Upcoming Bookings
@@ -164,12 +175,12 @@ export default function Bookings({title, bookings, isPast = false}) {
           as={RouterLink}
           to={`/listing/${id}/past-bookings`}
           fontWeight={
-            pathname === `/listing/${id}/past-bookings` ? 'bold' : 'normal'
+            pathname === `/listing/${id}/past-bookings` ? "bold" : "normal"
           }
           color={
             pathname === `/listing/${id}/past-bookings`
-              ? 'indigo.dark'
-              : 'gray.dark'
+              ? "indigo.dark"
+              : "gray.dark"
           }
         >
           Past Bookings
@@ -191,15 +202,9 @@ export default function Bookings({title, bookings, isPast = false}) {
         </VStack>
       ) : (
         <Text textAlign="center">
-          You have no {isPast ? 'previous' : 'current or upcoming'} bookings
+          You have no {isPast ? "previous" : "current or upcoming"} bookings
         </Text>
       )}
     </>
   );
 }
-
-Bookings.propTypes = {
-  title: PropTypes.string.isRequired,
-  bookings: PropTypes.array.isRequired,
-  isPast: PropTypes.bool
-};
