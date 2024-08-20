@@ -1,7 +1,6 @@
-import Layout from '../layouts/Layout';
-import QueryResult from '../components/QueryResult';
-import React from 'react';
-import Stars from '../components/Stars';
+import Layout from "../layouts/Layout";
+import QueryResult from "../components/QueryResult";
+import Stars from "../components/Stars";
 import {
   Box,
   Button,
@@ -10,25 +9,25 @@ import {
   Image,
   StackDivider,
   Text,
-  VStack
-} from '@chakra-ui/react';
-import {HOST_LISTINGS} from '../utils';
-import {IoAddCircleOutline} from 'react-icons/io5';
-import {Link} from 'react-router-dom';
-import {useQuery} from '@apollo/client';
+  VStack,
+} from "@chakra-ui/react";
+import { HOST_LISTINGS } from "../utils";
+import { IoAddCircleOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import { useQuery } from "@apollo/client";
 
 const LINK_PROPS = {
   as: Link,
-  mr: '4',
-  color: 'indigo.dark',
-  fontWeight: 'semibold',
+  mr: "4",
+  color: "indigo.dark",
+  fontWeight: "semibold",
   _hover: {
-    textDecoration: 'underline'
-  }
+    textDecoration: "underline",
+  },
 };
 
 export default function Listings() {
-  const {loading, error, data} = useQuery(HOST_LISTINGS);
+  const { loading, error, data } = useQuery(HOST_LISTINGS);
 
   return (
     <Layout>
@@ -46,7 +45,7 @@ export default function Listings() {
         </Button>
       </Flex>
       <QueryResult loading={loading} error={error} data={data}>
-        {({hostListings}) => {
+        {({ hostListings }) => {
           return (
             <VStack
               spacing="4"
@@ -58,7 +57,7 @@ export default function Listings() {
                   title,
                   photoThumbnail,
                   overallRating,
-                  numberOfUpcomingBookings
+                  numberOfUpcomingBookings,
                 } = listingData;
                 return (
                   <Box key={`${title}-${index}`} overflow="hidden" w="full">
