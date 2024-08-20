@@ -1,14 +1,8 @@
 {
-  "extends": [
-    "plugin:jsx-a11y/recommended"
-],
-"overrides": [
+  "extends": ["plugin:jsx-a11y/recommended"],
+  "overrides": [
     {
-      "files": [
-        "**/__tests__/*.js",
-        "**/__tests__/*.jsx",
-        "**.test.js"
-      ],
+      "files": ["**/__tests__/*.js", "**/__tests__/*.jsx", "**.test.js"],
       "env": {
         "jest": true
       }
