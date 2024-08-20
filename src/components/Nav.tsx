@@ -1,13 +1,23 @@
-import Logo from '../assets/airlock-logo.svg';
-import PropTypes from 'prop-types';
-import React from 'react';
-import {Avatar, Box, Button, Flex, HStack, Image, Text} from '@chakra-ui/react';
-import {Link, NavLink} from 'react-router-dom';
-import {useUser} from '../utils';
+import Logo from "../assets/airlock-logo.svg";
+import {
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  HStack,
+  Image,
+  Text,
+} from "@chakra-ui/react";
+import { Link, NavLink } from "react-router-dom";
+import { useUser } from "../utils";
 
-export default function Nav({isLight}) {
-  const txtColor = isLight ? '#fff' : '#000';
-  const {user} = useUser();
+interface NavProps {
+  isLight?: boolean;
+}
+
+export default function Nav({ isLight }: NavProps) {
+  const txtColor = isLight ? "#fff" : "#000";
+  const { user } = useUser();
 
   return (
     <Box px="2" h="80px" bgColor="white">
@@ -33,7 +43,7 @@ export default function Nav({isLight}) {
           </HStack>
         </Box>
         <HStack spacing="2">
-          {user && user.__typename === 'Guest' && (
+          {user && user.__typename === "Guest" && (
             <Button
               as={NavLink}
               to="/trips"
@@ -43,7 +53,7 @@ export default function Nav({isLight}) {
               My trips
             </Button>
           )}
-          {user && user.__typename === 'Host' && (
+          {user && user.__typename === "Host" && (
             <Button
               as={NavLink}
               to="/listings"
@@ -74,7 +84,3 @@ export default function Nav({isLight}) {
     </Box>
   );
 }
-
-Nav.propTypes = {
-  isLight: PropTypes.bool
-};
