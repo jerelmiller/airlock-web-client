@@ -17,10 +17,10 @@ import {
 import { useUser } from "./utils";
 
 import {
-  Redirect,
+  Navigate,
   Route,
   BrowserRouter as Router,
-  Switch,
+  Routes,
 } from "react-router-dom";
 
 export default function App() {
@@ -28,7 +28,7 @@ export default function App() {
 
   return (
     <Router>
-      <Switch>
+      <Routes>
         <Route path="/search">
           <Search />
         </Route>
@@ -68,7 +68,7 @@ export default function App() {
         <Route exact path="/">
           <Home />
         </Route>
-      </Switch>
+      </Routes>
     </Router>
   );
 }
@@ -81,7 +81,7 @@ function PrivateRoute({ children, user, ...rest }) {
         user ? (
           children
         ) : (
-          <Redirect
+          <Navigate
             to={{
               pathname: "/login",
               state: { from: location },
