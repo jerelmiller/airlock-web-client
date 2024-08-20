@@ -5,7 +5,7 @@ import { Button } from "@chakra-ui/react";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { LISTING_FRAGMENT } from "../utils";
 import { gql, useQuery } from "@apollo/client";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const EDIT_LISTING = gql`
   mutation UpdateListingMutation(
@@ -43,7 +43,7 @@ export const LISTING = gql`
 `;
 
 export default function EditListing() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { id } = useParams();
   const { loading, error, data } = useQuery(LISTING, { variables: { id } });
 
@@ -52,7 +52,7 @@ export default function EditListing() {
       <Button
         role="link"
         aria-label="Go back to previous page"
-        onClick={() => history.goBack()}
+        onClick={() => navigate(-1)}
         leftIcon={<IoArrowBackOutline />}
         mb="4"
       >
@@ -88,7 +88,7 @@ export default function EditListing() {
               mutation={EDIT_LISTING}
               mutationOptions={{
                 onCompleted: () => {
-                  history.push(`/listing/${listingId}`);
+                  navigate(`/listing/${listingId}`);
                 },
               }}
             />

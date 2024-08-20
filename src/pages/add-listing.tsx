@@ -3,7 +3,7 @@ import ListingForm from "../components/ListingForm";
 import { Button } from "@chakra-ui/react";
 import { HOST_LISTINGS, LISTING_FRAGMENT } from "../utils";
 import { IoArrowBackOutline } from "react-icons/io5";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
 
 export const CREATE_LISTING = gql`
@@ -25,7 +25,8 @@ export const CREATE_LISTING = gql`
 `;
 
 export default function CreateListing() {
-  const history = useHistory();
+  const navigate = useNavigate();
+
   return (
     <Layout>
       <Button as={Link} to="/listings" leftIcon={<IoArrowBackOutline />} mb="4">
@@ -44,7 +45,7 @@ export default function CreateListing() {
         mutation={CREATE_LISTING}
         mutationOptions={{
           onCompleted: () => {
-            history.push("/listings");
+            navigate("/listings");
           },
           update: (cache, { data }) => {
             // update the cache to add our new listing
