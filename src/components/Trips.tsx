@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import PropTypes from "prop-types";
+import React from "react";
 import {
   Box,
   Heading,
@@ -7,18 +7,18 @@ import {
   StackDivider,
   Tag,
   VStack,
-  Wrap
-} from '@chakra-ui/react';
+  Wrap,
+} from "@chakra-ui/react";
 import {
   Content,
   Image,
   InnerContainer,
   ListingReviews,
-  OuterContainer
-} from './Card';
-import {PAST_GUEST_TRIPS} from '../pages/past-trips';
-import {Link as RouterLink, useLocation} from 'react-router-dom';
-import {gql} from '@apollo/client';
+  OuterContainer,
+} from "./Card";
+import { PAST_GUEST_TRIPS } from "../pages/past-trips";
+import { Link as RouterLink, useLocation } from "react-router-dom";
+import { gql } from "@apollo/client";
 
 export const SUBMIT_REVIEW = gql`
   mutation SubmitReview(
@@ -46,7 +46,7 @@ export const SUBMIT_REVIEW = gql`
     }
   }
 `;
-function Trip({trip, isPast}) {
+function Trip({ trip, isPast }) {
   const hasReviews = trip.locationReview !== null && trip.hostReview !== null;
 
   if (isPast) {
@@ -65,7 +65,7 @@ function Trip({trip, isPast}) {
               checkInDate={trip.checkInDate}
               checkOutDate={trip.checkOutDate}
               hasReviews={hasReviews}
-              wrapperProps={{w: '355px'}}
+              wrapperProps={{ w: "355px" }}
             />
           </VStack>
           <ListingReviews
@@ -76,12 +76,12 @@ function Trip({trip, isPast}) {
               mutation: SUBMIT_REVIEW,
               mutationOptions: {
                 variables: {
-                  bookingId: trip.id
+                  bookingId: trip.id,
                 },
                 // NOTE: for the scope of this project, we've opted for the simpler refetch approach
                 // another, more optimized option is to update the cache directly -- https://www.apollographql.com/docs/react/data/mutations/#updating-the-cache-directly
-                refetchQueries: [{query: PAST_GUEST_TRIPS}]
-              }
+                refetchQueries: [{ query: PAST_GUEST_TRIPS }],
+              },
             }}
           />
         </InnerContainer>
@@ -102,9 +102,9 @@ function Trip({trip, isPast}) {
               title={trip.listing.title}
               checkInDate={trip.checkInDate}
               checkOutDate={trip.checkOutDate}
-              wrapperProps={{ml: '4'}}
+              wrapperProps={{ ml: "4" }}
             >
-              {trip.status === 'CURRENT' ? (
+              {trip.status === "CURRENT" ? (
                 <Tag
                   h="18px"
                   w="300px"
@@ -126,11 +126,11 @@ function Trip({trip, isPast}) {
 
 Trip.propTypes = {
   trip: PropTypes.object,
-  isPast: PropTypes.bool
+  isPast: PropTypes.bool,
 };
 
-export default function Trips({trips, isPast = false}) {
-  const {pathname} = useLocation();
+export default function Trips({ trips, isPast = false }) {
+  const { pathname } = useLocation();
 
   return (
     <>
@@ -149,16 +149,16 @@ export default function Trips({trips, isPast = false}) {
           as={RouterLink}
           to="/trips"
           mr="8"
-          fontWeight={pathname === '/trips' ? 'bold' : 'normal'}
-          color={pathname === '/trips' ? 'indigo.dark' : 'gray.dark'}
+          fontWeight={pathname === "/trips" ? "bold" : "normal"}
+          color={pathname === "/trips" ? "indigo.dark" : "gray.dark"}
         >
           Upcoming
         </Link>
         <Link
           as={RouterLink}
           to="/past-trips"
-          fontWeight={pathname === '/past-trips' ? 'bold' : 'normal'}
-          color={pathname === '/past-trips' ? 'indigo.dark' : 'gray.dark'}
+          fontWeight={pathname === "/past-trips" ? "bold" : "normal"}
+          color={pathname === "/past-trips" ? "indigo.dark" : "gray.dark"}
         >
           Past trips
         </Link>
@@ -181,5 +181,5 @@ export default function Trips({trips, isPast = false}) {
 
 Trips.propTypes = {
   trips: PropTypes.array.isRequired,
-  isPast: PropTypes.bool
+  isPast: PropTypes.bool,
 };
