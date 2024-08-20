@@ -1,9 +1,18 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import Stars from './Stars';
-import {Box, Divider, Flex, Heading, Image, Text} from '@chakra-ui/react';
-import {IoBed} from 'react-icons/io5';
-import {Link} from 'react-router-dom';
+import Stars from "./Stars";
+import { Box, Divider, Flex, Heading, Image, Text } from "@chakra-ui/react";
+import { IoBed } from "react-icons/io5";
+import { Link } from "react-router-dom";
+
+interface ListingCellProps {
+  title: string;
+  description?: string;
+  photoThumbnail?: string;
+  costPerNight?: number;
+  numOfBeds: number;
+  overallRating?: number;
+  locationType?: string;
+  to: string;
+}
 
 export default function ListingCell({
   title,
@@ -13,8 +22,8 @@ export default function ListingCell({
   costPerNight,
   overallRating,
   locationType,
-  to
-}) {
+  to,
+}: ListingCellProps) {
   return (
     <>
       <Box
@@ -23,9 +32,9 @@ export default function ListingCell({
         transition="0.3s all ease-in-out"
         opacity="95%"
         _hover={{
-          cursor: 'pointer',
-          transform: 'scale(1.1)',
-          opacity: '100%'
+          cursor: "pointer",
+          transform: "scale(1.1)",
+          opacity: "100%",
         }}
         as={Link}
         to={to}
@@ -46,7 +55,7 @@ export default function ListingCell({
             justify="space-around"
             minH="120px"
             width="100%"
-            sx={{gap: '24px'}}
+            sx={{ gap: "24px" }}
           >
             <Text
               fontSize="sm"
@@ -96,14 +105,3 @@ export default function ListingCell({
     </>
   );
 }
-
-ListingCell.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string,
-  photoThumbnail: PropTypes.string,
-  costPerNight: PropTypes.number,
-  numOfBeds: PropTypes.number.isRequired,
-  overallRating: PropTypes.number,
-  locationType: PropTypes.string,
-  to: PropTypes.string.isRequired
-};
