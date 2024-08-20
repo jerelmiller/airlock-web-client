@@ -2,6 +2,7 @@
   "name": "airlock-frontend",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@apollo/client": "^3.11.4",
     "@apollo/space-kit": "^9.11.0",
