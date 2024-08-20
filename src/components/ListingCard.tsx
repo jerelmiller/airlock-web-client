@@ -1,9 +1,18 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import Stars from './Stars';
-import {Flex, Heading, Image, Text, Wrap} from '@chakra-ui/react';
-import {IoBed} from 'react-icons/io5';
-import {Link} from 'react-router-dom';
+import Stars from "./Stars";
+import { Flex, Heading, Image, Text, Wrap } from "@chakra-ui/react";
+import { IoBed } from "react-icons/io5";
+import { Link } from "react-router-dom";
+
+interface ListingCardProps {
+  id: string;
+  title: string;
+  photoThumbnail?: string;
+  numOfBeds: number;
+  overallRating?: number;
+  locationType: string;
+  costPerNight: number;
+}
+
 export default function ListingCard({
   id,
   title,
@@ -11,8 +20,8 @@ export default function ListingCard({
   numOfBeds,
   overallRating,
   locationType,
-  costPerNight
-}) {
+  costPerNight,
+}: ListingCardProps) {
   return (
     <Flex
       direction="column"
@@ -20,9 +29,9 @@ export default function ListingCard({
       transition="0.3s all ease-in-out"
       opacity="95%"
       _hover={{
-        cursor: 'pointer',
-        transform: 'scale(1.1)',
-        opacity: '100%'
+        cursor: "pointer",
+        transform: "scale(1.1)",
+        opacity: "100%",
       }}
       as={Link}
       to={`/listing/${id}`}
@@ -71,13 +80,3 @@ export default function ListingCard({
     </Flex>
   );
 }
-
-ListingCard.propTypes = {
-  id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  photoThumbnail: PropTypes.string,
-  numOfBeds: PropTypes.number.isRequired,
-  overallRating: PropTypes.number,
-  locationType: PropTypes.string.isRequired,
-  costPerNight: PropTypes.number.isRequired
-};
