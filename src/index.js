@@ -1,56 +1,43 @@
-import App from './App';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import App from "./App";
+import React from "react";
+import ReactDOM from "react-dom";
 import {
   ApolloClient,
   ApolloProvider,
   InMemoryCache,
-  createHttpLink
-} from '@apollo/client';
-import {setContext} from '@apollo/client/link/context';
-
-import * as Sentry from '@sentry/react';
-import { BrowserTracing } from '@sentry/tracing';
-
-Sentry.init({
-  dsn: 'https://83743324e3cf4ba4aae102ad42cc3a76@o53943.ingest.sentry.io/4504050684592128',
-  integrations: [new BrowserTracing()],
-
-  // Set tracesSampleRate to 1.0 to capture 100%
-  // of transactions for performance monitoring.
-  // We recommend adjusting this value in production
-  tracesSampleRate: 1.0,
-});
+  createHttpLink,
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 
 const httpLink = createHttpLink({
   uri:
-    process.env.NODE_ENV !== 'production'
-      ? 'http://localhost:4000'
-      : process.env.REACT_APP_GQL_SERVER
+    process.env.NODE_ENV !== "production"
+      ? "http://localhost:4000"
+      : process.env.REACT_APP_GQL_SERVER,
   // uri: 'https://rt-airlock-gateway-managed.herokuapp.com/'
 });
 
-import theme from './theme.js';
-import {ChakraProvider} from '@chakra-ui/react';
+import theme from "./theme.js";
+import { ChakraProvider } from "@chakra-ui/react";
 
-const authLink = setContext((_, {headers}) => {
+const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
 
   // return the headers to the context so httpLink can read them
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : ''
-    }
+      authorization: token ? `Bearer ${token}` : "",
+    },
   };
 });
 
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
-  name: 'web-client',
-  version: '0.9'
+  name: "web-client",
+  version: "0.9",
 });
 
 ReactDOM.render(
@@ -59,5 +46,5 @@ ReactDOM.render(
       <App />
     </ApolloProvider>
   </ChakraProvider>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
