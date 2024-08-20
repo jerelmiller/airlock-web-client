@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import {
   CreateListing,
   EditListing,
@@ -22,6 +21,7 @@ import {
   BrowserRouter as Router,
   Routes,
 } from "react-router-dom";
+import { ReactNode } from "react";
 
 export default function App() {
   const { user } = useUser();
@@ -73,7 +73,12 @@ export default function App() {
   );
 }
 
-function PrivateRoute({ children, user, ...rest }) {
+interface PrivateRouteProps {
+  children: ReactNode;
+  user?: unknown;
+}
+
+function PrivateRoute({ children, user, ...rest }: PrivateRouteProps) {
   return (
     <Route
       {...rest}
@@ -92,7 +97,3 @@ function PrivateRoute({ children, user, ...rest }) {
     />
   );
 }
-PrivateRoute.propTypes = {
-  children: PropTypes.node.isRequired,
-  user: PropTypes.object,
-};
