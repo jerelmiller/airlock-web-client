@@ -1,13 +1,22 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import {Flex, Heading, Text} from '@chakra-ui/react';
+import { Flex, FlexProps, Heading, Text } from "@chakra-ui/react";
+import { ReactNode } from "react";
+
+interface ContentProps {
+  title: string;
+  checkInDate: string;
+  checkOutDate: string;
+  hasReviews?: boolean;
+  children?: ReactNode;
+  wrapperProps?: FlexProps;
+}
+
 export function Content({
   title,
   checkInDate,
   checkOutDate,
   children,
-  wrapperProps
-}) {
+  wrapperProps,
+}: ContentProps) {
   return (
     <>
       <Flex direction="column" alignItems="flex-start" {...wrapperProps}>
@@ -22,12 +31,3 @@ export function Content({
     </>
   );
 }
-
-Content.propTypes = {
-  title: PropTypes.string.isRequired,
-  checkInDate: PropTypes.string.isRequired,
-  checkOutDate: PropTypes.string.isRequired,
-  hasReviews: PropTypes.bool,
-  children: PropTypes.node,
-  wrapperProps: PropTypes.object
-};
