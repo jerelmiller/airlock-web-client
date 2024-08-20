@@ -1,5 +1,5 @@
-import Logo from '../assets/airlock-logo.svg';
-import React, {useState} from 'react';
+import Logo from "../assets/airlock-logo.svg";
+import { useState } from "react";
 import {
   Accordion,
   AccordionButton,
@@ -16,31 +16,31 @@ import {
   Select,
   Spacer,
   Stack,
-  Text
-} from '@chakra-ui/react';
-import {IoCheckmark, IoChevronDown, IoChevronUp} from 'react-icons/io5';
+  Text,
+} from "@chakra-ui/react";
+import { IoCheckmark, IoChevronDown, IoChevronUp } from "react-icons/io5";
 
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const [value, setValue] = useState();
-  const handleChange = event => setValue(event.target.value);
+  const handleChange = (event) => setValue(event.target.value);
   const users = [
-    'Athes - Guest',
-    'Kelle - Host',
-    'Renie - Host',
-    'Flinson - Host',
-    'Cara - Guest',
-    'Wardy - Guest',
-    'Brise - Guest',
-    'Hendav - Guest'
+    "Athes - Guest",
+    "Kelle - Host",
+    "Renie - Host",
+    "Flinson - Host",
+    "Cara - Guest",
+    "Wardy - Guest",
+    "Brise - Guest",
+    "Hendav - Guest",
   ];
-  const HOST_USER = 'user-1';
-  const GUEST_USER = 'user-2';
+  const HOST_USER = "user-1";
+  const GUEST_USER = "user-2";
 
   function login(userId) {
     const id = userId ? userId : value;
-    localStorage.setItem('token', id);
+    localStorage.setItem("token", id);
   }
 
   return (
@@ -90,7 +90,7 @@ export default function Login() {
                       <IoCheckmark /> <Text>Edit your profile</Text>
                     </HStack>
                     <HStack alignItems="center">
-                      <IoCheckmark />{' '}
+                      <IoCheckmark />{" "}
                       <Text>Write reviews about your guests</Text>
                     </HStack>
                   </Stack>
@@ -153,10 +153,10 @@ export default function Login() {
           <Spacer mt={16} />
           <Accordion allowToggle width="500px">
             <AccordionItem borderTop={0} borderBottom={0}>
-              {({isExpanded}) => (
+              {({ isExpanded }) => (
                 <>
                   <AccordionButton
-                    _hover={{bgColor: 'white'}}
+                    _hover={{ bgColor: "white" }}
                     color="indigo.dark"
                   >
                     <Flex flex="1" alignItems="center" justifyContent="center">
@@ -185,7 +185,7 @@ export default function Login() {
                     <Button
                       as={Link}
                       to="/"
-                      onClick={e => {
+                      onClick={(e) => {
                         value ? login() : e.preventDefault();
                       }}
                       isDisabled={!value}
