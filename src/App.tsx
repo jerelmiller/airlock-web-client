@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import PropTypes from "prop-types";
 import {
   CreateListing,
   EditListing,
@@ -13,19 +12,19 @@ import {
   Profile,
   Search,
   Trips,
-  Wallet
-} from './pages';
-import {useUser} from './utils';
+  Wallet,
+} from "./pages";
+import { useUser } from "./utils";
 
 import {
   Redirect,
   Route,
   BrowserRouter as Router,
-  Switch
-} from 'react-router-dom';
+  Switch,
+} from "react-router-dom";
 
 export default function App() {
-  const {user} = useUser();
+  const { user } = useUser();
 
   return (
     <Router>
@@ -74,18 +73,18 @@ export default function App() {
   );
 }
 
-function PrivateRoute({children, user, ...rest}) {
+function PrivateRoute({ children, user, ...rest }) {
   return (
     <Route
       {...rest}
-      render={({location}) =>
+      render={({ location }) =>
         user ? (
           children
         ) : (
           <Redirect
             to={{
-              pathname: '/login',
-              state: {from: location}
+              pathname: "/login",
+              state: { from: location },
             }}
           />
         )
@@ -95,5 +94,5 @@ function PrivateRoute({children, user, ...rest}) {
 }
 PrivateRoute.propTypes = {
   children: PropTypes.node.isRequired,
-  user: PropTypes.object
+  user: PropTypes.object,
 };
