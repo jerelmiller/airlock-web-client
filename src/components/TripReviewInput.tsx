@@ -1,26 +1,31 @@
-import PropTypes from 'prop-types';
-import React, {useState} from 'react';
-import ReactStars from 'react-rating-stars-component';
-import {Flex, Text, Textarea} from '@chakra-ui/react';
-import {IoStar, IoStarOutline} from 'react-icons/io5';
+import { useState } from "react";
+import ReactStars from "react-rating-stars-component";
+import { Flex, Text, Textarea } from "@chakra-ui/react";
+import { IoStar, IoStarOutline } from "react-icons/io5";
+
+interface ReviewRatingProps {
+  setReviewsInput?: (state: Record<string, Record<string, unknown>>) => void;
+  reviewType?: string;
+  rating?: number | null;
+}
 
 // https://www.npmjs.com/package/react-rating-stars-component
 export function ReviewRating({
   setReviewsInput = () => {},
-  reviewType = '',
-  rating = null
-}) {
+  reviewType = "",
+  rating = null,
+}: ReviewRatingProps) {
   const [, setRating] = useState(0);
 
-  const updateState = newRating => {
+  const updateState = (newRating: number) => {
     setRating(newRating);
-    setReviewsInput(prevState => {
+    setReviewsInput((prevState) => {
       return {
         ...prevState,
         [`${reviewType}Review`]: {
           ...prevState[`${reviewType}Review`],
-          rating: newRating
-        }
+          rating: newRating,
+        },
       };
     });
   };
@@ -28,10 +33,10 @@ export function ReviewRating({
   const starConfig = {
     size: 16,
     isHalf: false,
-    color: 'black',
-    activeColor: 'black',
+    color: "black",
+    activeColor: "black",
     emptyIcon: <IoStarOutline />,
-    filledIcon: <IoStar />
+    filledIcon: <IoStar />,
   };
 
   return (
@@ -45,22 +50,26 @@ export function ReviewRating({
   );
 }
 
-ReviewRating.propTypes = {
-  setReviewsInput: PropTypes.func,
-  reviewType: PropTypes.string,
-  rating: PropTypes.number
-};
+ReviewRating.propTypes = {};
 
-export default function ReviewInput({reviewType, setReviewsInput}) {
-  const [textVal, setTextVal] = useState('');
-  const updateState = e => {
-    setReviewsInput(prevState => {
+interface ReviewInputProps {
+  reviewType: string;
+  setReviewsInput: (state: Record<string, Record<string, unknown>>) => void;
+}
+
+export default function ReviewInput({
+  reviewType,
+  setReviewsInput,
+}: ReviewInputProps) {
+  const [textVal, setTextVal] = useState("");
+  const updateState = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setReviewsInput((prevState) => {
       return {
         ...prevState,
         [`${reviewType}Review`]: {
           ...prevState[`${reviewType}Review`],
-          text: e.target.value
-        }
+          text: e.target.value,
+        },
       };
     });
   };
@@ -78,7 +87,7 @@ export default function ReviewInput({reviewType, setReviewsInput}) {
       <Textarea
         placeholder="Leave your review"
         value={textVal}
-        onChange={e => {
+        onChange={(e) => {
           setTextVal(e.target.value);
           updateState(e);
         }}
@@ -87,8 +96,3 @@ export default function ReviewInput({reviewType, setReviewsInput}) {
     </>
   );
 }
-
-ReviewInput.propTypes = {
-  reviewType: PropTypes.string.isRequired,
-  setReviewsInput: PropTypes.func.isRequired
-};
