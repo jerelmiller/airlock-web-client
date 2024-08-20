@@ -1,12 +1,9 @@
-import PropTypes from 'prop-types';
-
-import BookStay from '../components/BookStay';
-import Layout from '../layouts/Layout';
-import LocationType from '../components/LocationType';
-import QueryResult from '../components/QueryResult';
-import React from 'react';
-import Stars from '../components/Stars';
-import startCase from 'lodash/startCase';
+import BookStay from "../components/BookStay";
+import Layout from "../layouts/Layout";
+import LocationType from "../components/LocationType";
+import QueryResult from "../components/QueryResult";
+import Stars from "../components/Stars";
+import startCase from "lodash/startCase";
 
 import {
   Avatar,
@@ -19,13 +16,13 @@ import {
   Image,
   Stack,
   Text,
-  Wrap
-} from '@chakra-ui/react';
-import {GUEST_TRIPS} from './trips';
-import {IoBedOutline, IoCreate} from 'react-icons/io5';
-import {Link, useParams} from 'react-router-dom';
-import {gql, useQuery} from '@apollo/client';
-import {useUser} from '../utils';
+  Wrap,
+} from "@chakra-ui/react";
+import { GUEST_TRIPS } from "./trips";
+import { IoBedOutline, IoCreate } from "react-icons/io5";
+import { Link, useParams } from "react-router-dom";
+import { gql, useQuery } from "@apollo/client";
+import { useUser } from "../utils";
 
 export const LISTING = gql`
   query GetListing($id: ID!) {
@@ -66,13 +63,18 @@ export const LISTING = gql`
   }
 `;
 
-function AmenityList({amenities, category}) {
+interface AmenityListProps {
+  category?: string;
+  amenities?: unknown[];
+}
+
+function AmenityList({ amenities, category }: AmenityListProps) {
   const title = startCase(category.toLowerCase());
   return (
     <Stack spacing="3">
       <Text fontWeight="semibold">{title}</Text>
       <Wrap spacing="2">
-        {amenities.map(amenity => (
+        {amenities.map((amenity) => (
           <Text
             key={amenity}
             border="1px"
@@ -89,20 +91,15 @@ function AmenityList({amenities, category}) {
   );
 }
 
-AmenityList.propTypes = {
-  category: PropTypes.string,
-  amenities: PropTypes.array
-};
-
 export default function Listings() {
-  const {id} = useParams();
-  const {user} = useUser();
-  const {loading, error, data} = useQuery(LISTING, {variables: {id}});
+  const { id } = useParams();
+  const { user } = useUser();
+  const { loading, error, data } = useQuery(LISTING, { variables: { id } });
 
   return (
     <Layout>
       <QueryResult loading={loading} error={error} data={data}>
-        {data => {
+        {(data) => {
           const {
             id,
             title,
@@ -115,7 +112,7 @@ export default function Listings() {
             reviews,
             overallRating,
             costPerNight,
-            bookings
+            bookings,
           } = data?.listing;
 
           const amenitiesByCategory = amenities.reduce((acc, amenity) => {
@@ -205,7 +202,7 @@ export default function Listings() {
                             amenities={value}
                             key={key}
                           />
-                        )
+                        ),
                       )}
                     </Stack>
                   </Box>
@@ -244,7 +241,7 @@ export default function Listings() {
                       {reviews.length === 0 ? (
                         <Text>Uh-oh, this place has no reviews yet!</Text>
                       ) : (
-                        reviews.map(({text, author, rating}) => (
+                        reviews.map(({ text, author, rating }) => (
                           <Flex align="flex-start" key={author.id}>
                             <Stack>
                               <Avatar
@@ -274,7 +271,7 @@ export default function Listings() {
                   costPerNight={costPerNight}
                   bookings={bookings}
                   listingId={id}
-                  refetchQueries={[LISTING, {query: GUEST_TRIPS}]}
+                  refetchQueries={[LISTING, { query: GUEST_TRIPS }]}
                   userRole={user?.__typename}
                 />
               </Flex>
