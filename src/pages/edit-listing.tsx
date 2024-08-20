@@ -1,12 +1,11 @@
-import Layout from '../layouts/Layout';
-import ListingForm from '../components/ListingForm';
-import QueryResult from '../components/QueryResult';
-import React from 'react';
-import {Button} from '@chakra-ui/react';
-import {IoArrowBackOutline} from 'react-icons/io5';
-import {LISTING_FRAGMENT} from '../utils';
-import {gql, useQuery} from '@apollo/client';
-import {useHistory, useParams} from 'react-router-dom';
+import Layout from "../layouts/Layout";
+import ListingForm from "../components/ListingForm";
+import QueryResult from "../components/QueryResult";
+import { Button } from "@chakra-ui/react";
+import { IoArrowBackOutline } from "react-icons/io5";
+import { LISTING_FRAGMENT } from "../utils";
+import { gql, useQuery } from "@apollo/client";
+import { useHistory, useParams } from "react-router-dom";
 
 export const EDIT_LISTING = gql`
   mutation UpdateListingMutation(
@@ -45,8 +44,8 @@ export const LISTING = gql`
 
 export default function EditListing() {
   const history = useHistory();
-  const {id} = useParams();
-  const {loading, error, data} = useQuery(LISTING, {variables: {id}});
+  const { id } = useParams();
+  const { loading, error, data } = useQuery(LISTING, { variables: { id } });
 
   return (
     <Layout>
@@ -60,7 +59,7 @@ export default function EditListing() {
         Back
       </Button>
       <QueryResult loading={loading} error={error} data={data}>
-        {data => {
+        {(data) => {
           const {
             id: listingId,
             title,
@@ -69,7 +68,7 @@ export default function EditListing() {
             locationType,
             photoThumbnail,
             amenities,
-            costPerNight
+            costPerNight,
           } = data.listing;
 
           const listingData = {
@@ -79,7 +78,7 @@ export default function EditListing() {
             locationType,
             photoThumbnail,
             amenities,
-            costPerNight
+            costPerNight,
           };
 
           return (
@@ -90,7 +89,7 @@ export default function EditListing() {
               mutationOptions={{
                 onCompleted: () => {
                   history.push(`/listing/${listingId}`);
-                }
+                },
               }}
             />
           );
