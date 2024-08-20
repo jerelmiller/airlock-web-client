@@ -15,13 +15,7 @@ import {
 } from "./pages";
 import { useUser } from "./utils";
 
-import {
-  Navigate,
-  Route,
-  BrowserRouter as Router,
-  Routes,
-} from "react-router-dom";
-import { ReactNode } from "react";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 export default function App() {
   const { user } = useUser();
@@ -70,30 +64,5 @@ export default function App() {
         </Route>
       </Routes>
     </Router>
-  );
-}
-
-interface PrivateRouteProps {
-  children: ReactNode;
-  user?: unknown;
-}
-
-function PrivateRoute({ children, user, ...rest }: PrivateRouteProps) {
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        user ? (
-          children
-        ) : (
-          <Navigate
-            to={{
-              pathname: "/login",
-              state: { from: location },
-            }}
-          />
-        )
-      }
-    />
   );
 }
