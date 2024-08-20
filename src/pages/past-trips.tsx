@@ -1,9 +1,8 @@
-import Layout from '../layouts/Layout';
-import QueryResult from '../components/QueryResult';
-import React from 'react';
-import Trips from '../components/Trips';
-import {Center, Spinner} from '@chakra-ui/react';
-import {gql, useQuery} from '@apollo/client';
+import Layout from "../layouts/Layout";
+import QueryResult from "../components/QueryResult";
+import Trips from "../components/Trips";
+import { Center, Spinner } from "@chakra-ui/react";
+import { gql, useQuery } from "@apollo/client";
 
 export const PAST_GUEST_TRIPS = gql`
   query GetPastTrips {
@@ -42,7 +41,7 @@ export const PAST_GUEST_TRIPS = gql`
 `;
 
 export default function PastTrips() {
-  const {loading, error, data} = useQuery(PAST_GUEST_TRIPS);
+  const { loading, error, data } = useQuery(PAST_GUEST_TRIPS);
 
   if (loading) {
     return (
@@ -58,7 +57,7 @@ export default function PastTrips() {
   return (
     <Layout>
       <QueryResult loading={loading} error={error} data={data}>
-        {({pastGuestBookings}) => <Trips trips={pastGuestBookings} isPast />}
+        {({ pastGuestBookings }) => <Trips trips={pastGuestBookings} isPast />}
       </QueryResult>
     </Layout>
   );
