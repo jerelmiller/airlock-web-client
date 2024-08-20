@@ -1,8 +1,12 @@
-import Background from '../assets/homepage-bg.png';
-import PropTypes from 'prop-types';
-import React from 'react';
-import {Box} from '@chakra-ui/react';
-export default function Hero({children}) {
+import { ReactNode } from "react";
+import Background from "../assets/homepage-bg.png";
+import { Box } from "@chakra-ui/react";
+
+interface HeroProps {
+  children?: ReactNode;
+}
+
+export default function Hero({ children }: HeroProps) {
   return (
     <Box bgColor="brand.midnight">
       <Box
@@ -18,7 +22,3 @@ export default function Hero({children}) {
     </Box>
   );
 }
-
-Hero.propTypes = {
-  children: PropTypes.node
-};
