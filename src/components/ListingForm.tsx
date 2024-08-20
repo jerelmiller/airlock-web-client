@@ -1,10 +1,9 @@
-import PropTypes from 'prop-types';
-import QueryResult from './QueryResult';
-import React, {useState} from 'react';
-import intersection from 'lodash/intersection';
-import isEqual from 'lodash/isEqual';
-import startCase from 'lodash/startCase';
-import union from 'lodash/union';
+import QueryResult from "./QueryResult";
+import { useState } from "react";
+import intersection from "lodash/intersection";
+import isEqual from "lodash/isEqual";
+import startCase from "lodash/startCase";
+import union from "lodash/union";
 import {
   Button,
   Checkbox,
@@ -25,9 +24,15 @@ import {
   Select,
   Stack,
   Textarea,
-  Wrap
-} from '@chakra-ui/react';
-import {gql, useMutation, useQuery} from '@apollo/client';
+  Wrap,
+} from "@chakra-ui/react";
+import {
+  DocumentNode,
+  MutationOptions,
+  gql,
+  useMutation,
+  useQuery,
+} from "@apollo/client";
 
 export const AMENITIES = gql`
   query GetAllAmenities {
@@ -39,17 +44,24 @@ export const AMENITIES = gql`
   }
 `;
 
+interface ListingFormProps {
+  mutation: DocumentNode;
+  mutationOptions: MutationOptions;
+  listingId?: string;
+  listingData: unknown;
+}
+
 export default function ListingForm({
   mutation,
   mutationOptions,
   listingId,
-  listingData
-}) {
-  const {loading, error, data} = useQuery(AMENITIES);
+  listingData,
+}: ListingFormProps) {
+  const { loading, error, data } = useQuery(AMENITIES);
 
   return (
     <QueryResult loading={loading} error={error} data={data}>
-      {({listingAmenities}) => (
+      {({ listingAmenities }) => (
         <ListingFormBody
           listingId={listingId}
           listingData={listingData}
@@ -62,53 +74,54 @@ export default function ListingForm({
   );
 }
 
-ListingForm.propTypes = {
-  listingData: PropTypes.object.isRequired,
-  listingId: PropTypes.string,
-  mutation: PropTypes.object.isRequired,
-  mutationOptions: PropTypes.object.isRequired
-};
+interface ListingFormBodyProps {
+  listingData: unknown;
+  amenities?: unknown;
+  listingId?: string;
+  mutation: DocumentNode;
+  mutationOptions: MutationOptions;
+}
 
 function ListingFormBody({
   listingData,
   amenities,
   listingId,
   mutation,
-  mutationOptions
-}) {
-  const listingAmenities = listingData.amenities.map(amenity => amenity.id);
+  mutationOptions,
+}: ListingFormBodyProps) {
+  const listingAmenities = listingData.amenities.map((amenity) => amenity.id);
   const allAmenities = amenities.reduce((acc, curr) => {
     return {
       ...acc,
       [curr.category]: acc[curr.category]
         ? [...acc[curr.category], curr]
-        : [curr]
+        : [curr],
     };
   }, {});
 
   const [formValues, setFormValues] = useState({
-    amenities: listingAmenities
+    amenities: listingAmenities,
   });
 
-  const [submitListing, {loading}] = useMutation(mutation, mutationOptions);
+  const [submitListing, { loading }] = useMutation(mutation, mutationOptions);
 
   const handleAmenitiesChange = (e, allAmenitiesInCategory) => {
-    if (e.target.type === 'checkbox') {
-      if (e.target.id.includes('select-all')) {
-        setFormValues(prevState => {
+    if (e.target.type === "checkbox") {
+      if (e.target.id.includes("select-all")) {
+        setFormValues((prevState) => {
           return {
             ...prevState,
-            amenities: union(prevState.amenities, allAmenitiesInCategory) // union merges and deduplicates arrays
+            amenities: union(prevState.amenities, allAmenitiesInCategory), // union merges and deduplicates arrays
           };
         });
       } else {
         if (e.target.checked) {
           setFormValues({
             ...formValues,
-            amenities: [...formValues.amenities, e.target.id]
+            amenities: [...formValues.amenities, e.target.id],
           });
         } else {
-          setFormValues(prevState => {
+          setFormValues((prevState) => {
             let updatedAmenities = [...prevState.amenities];
             const indexToRemove = prevState.amenities.indexOf(e.target.id);
 
@@ -118,56 +131,56 @@ function ListingFormBody({
                 .concat(
                   prevState.amenities.slice(
                     indexToRemove + 1,
-                    prevState.amenities.length
-                  )
+                    prevState.amenities.length,
+                  ),
                 );
             }
 
-            return {...formValues, amenities: updatedAmenities};
+            return { ...formValues, amenities: updatedAmenities };
           });
         }
       }
     }
   };
 
-  const handleSelectAll = allAmenitiesInCategory => {
-    setFormValues(prevState => {
+  const handleSelectAll = (allAmenitiesInCategory) => {
+    setFormValues((prevState) => {
       return {
         ...prevState,
-        amenities: union(prevState.amenities, allAmenitiesInCategory) // union merges and deduplicates arrays
+        amenities: union(prevState.amenities, allAmenitiesInCategory), // union merges and deduplicates arrays
       };
     });
   };
 
-  const handleDeselectAll = allAmenitiesInCategory => {
-    setFormValues(prevState => {
+  const handleDeselectAll = (allAmenitiesInCategory) => {
+    setFormValues((prevState) => {
       const newAmenities = prevState.amenities.filter(
-        a => !allAmenitiesInCategory.includes(a)
+        (a) => !allAmenitiesInCategory.includes(a),
       );
       return {
         ...prevState,
-        amenities: newAmenities
+        amenities: newAmenities,
       };
     });
   };
   return (
     <Stack
       as="form"
-      onSubmit={e => {
+      onSubmit={(e) => {
         e.preventDefault();
 
         const formData = new FormData(e.target);
         const uncontrolledInputs = Object.fromEntries(formData);
         uncontrolledInputs.costPerNight = Number(
-          uncontrolledInputs.costPerNight
+          uncontrolledInputs.costPerNight,
         );
         uncontrolledInputs.numOfBeds = Number(uncontrolledInputs.numOfBeds);
 
         submitListing({
           variables: {
             listingId,
-            listing: {...uncontrolledInputs, ...formValues}
-          }
+            listing: { ...uncontrolledInputs, ...formValues },
+          },
         });
       }}
       spacing="8"
@@ -292,13 +305,14 @@ function ListingFormBody({
   );
 }
 
-ListingFormBody.propTypes = {
-  listingData: PropTypes.object.isRequired,
-  amenities: PropTypes.array,
-  mutation: PropTypes.object.isRequired,
-  listingId: PropTypes.string,
-  mutationOptions: PropTypes.object.isRequired
-};
+interface AmenitiesSelectionProps {
+  category?: string;
+  amenities?: unknown[];
+  formValues?: unknown[];
+  onChange: (...args: unknown[]) => void;
+  onSelectAll: (...args: unknown[]) => void;
+  onDeselectAll: (...args: unknown[]) => void;
+}
 
 function AmenitiesSelection({
   formValues,
@@ -306,12 +320,12 @@ function AmenitiesSelection({
   amenities,
   onChange,
   onSelectAll,
-  onDeselectAll
-}) {
+  onDeselectAll,
+}: AmenitiesSelectionProps) {
   // example value for `category` -- 'ACCOMMODATION_DETAILS'
   const title = startCase(category.toLowerCase());
 
-  const allAmenitiesInCategory = amenities.map(amenity => amenity.id);
+  const allAmenitiesInCategory = amenities.map((amenity) => amenity.id);
   const overlappingAmenities = intersection(allAmenitiesInCategory, formValues);
   return (
     <Stack>
@@ -335,14 +349,14 @@ function AmenitiesSelection({
       </HStack>
       <CheckboxGroup>
         <Grid templateColumns="repeat(3, 1fr)" gap="4">
-          {amenities.map(({id, name}) => {
+          {amenities.map(({ id, name }) => {
             const isChecked = formValues.includes(id);
             return (
               <Checkbox
                 key={id}
                 isChecked={isChecked}
                 id={id}
-                onChange={e => onChange(e, allAmenitiesInCategory)}
+                onChange={(e) => onChange(e, allAmenitiesInCategory)}
               >
                 {name}
               </Checkbox>
@@ -353,12 +367,3 @@ function AmenitiesSelection({
     </Stack>
   );
 }
-
-AmenitiesSelection.propTypes = {
-  category: PropTypes.string,
-  amenities: PropTypes.array,
-  formValues: PropTypes.array,
-  onChange: PropTypes.func.isRequired,
-  onSelectAll: PropTypes.func.isRequired,
-  onDeselectAll: PropTypes.func.isRequired
-};
