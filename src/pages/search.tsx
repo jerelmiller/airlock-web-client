@@ -1,9 +1,9 @@
-import BedroomInput from '../components/BedroomInput';
-import Layout from '../layouts/Layout';
-import ListingCell from '../components/ListingCell';
-import QueryResult from '../components/QueryResult';
-import React, {useEffect, useState} from 'react';
-import format from 'date-fns/format';
+import BedroomInput from "../components/BedroomInput";
+import Layout from "../layouts/Layout";
+import ListingCell from "../components/ListingCell";
+import QueryResult from "../components/QueryResult";
+import { useEffect, useState } from "react";
+import format from "date-fns/format";
 import {
   Box,
   Button,
@@ -15,13 +15,13 @@ import {
   Select,
   Stack,
   Text,
-  VStack
-} from '@chakra-ui/react';
-import {getDatePickerProps} from '../utils';
-import {gql, useQuery} from '@apollo/client';
-import {useLocation} from 'react-router-dom';
+  VStack,
+} from "@chakra-ui/react";
+import { getDatePickerProps } from "../utils";
+import { gql, useQuery } from "@apollo/client";
+import { useLocation } from "react-router-dom";
 
-import 'react-datepicker/dist/react-datepicker.css';
+import "react-datepicker/dist/react-datepicker.css";
 
 export const SEARCH_LISTINGS = gql`
   query SearchListings($searchListingsInput: SearchListingsInput!) {
@@ -43,28 +43,28 @@ export default function Search() {
   }
 
   const query = useSearchQuery();
-  const checkInDateFromUrl = query.get('startDate');
-  const checkOutDateFromUrl = query.get('endDate');
-  const numOfBedsFromUrl = parseInt(query.get('numOfBeds')) || 1;
+  const checkInDateFromUrl = query.get("startDate");
+  const checkOutDateFromUrl = query.get("endDate");
+  const numOfBedsFromUrl = parseInt(query.get("numOfBeds")) || 1;
 
   const today = new Date();
   const [checkInDate, setStartDate] = useState(new Date(checkInDateFromUrl));
   const [checkOutDate, setEndDate] = useState(new Date(checkOutDateFromUrl));
   const [numOfBeds, setNumOfBeds] = useState(numOfBedsFromUrl);
-  const [sortBy, setSortBy] = useState('COST_ASC');
+  const [sortBy, setSortBy] = useState("COST_ASC");
   const [page, setPage] = useState(1);
   const [nextPageButtonDisabled, setNextPageButtonDisabled] = useState(false);
 
-  const INPUT_PROPS = {size: 'lg'};
+  const INPUT_PROPS = { size: "lg" };
   const DATEPICKER_PROPS = getDatePickerProps({
     today,
     startDate: checkInDate,
     endDate: checkOutDate,
     setStartDate,
-    setEndDate
+    setEndDate,
   });
 
-  const {loading, error, data, fetchMore} = useQuery(SEARCH_LISTINGS, {
+  const { loading, error, data, fetchMore } = useQuery(SEARCH_LISTINGS, {
     variables: {
       searchListingsInput: {
         checkInDate,
@@ -72,17 +72,17 @@ export default function Search() {
         numOfBeds,
         page,
         limit: 5,
-        sortBy
-      }
-    }
+        sortBy,
+      },
+    },
   });
 
   useEffect(() => {
-    const fetchPreviousPage = async newPage => {
+    const fetchPreviousPage = async (newPage) => {
       await fetchMore({
         variables: {
-          page: newPage
-        }
+          page: newPage,
+        },
       });
     };
 
@@ -108,7 +108,7 @@ export default function Search() {
               mb="4"
               align="flex-end"
               flexWrap="wrap"
-              sx={{gap: '24px'}}
+              sx={{ gap: "24px" }}
             >
               <Stack direction="column" spacing={2}>
                 <Text as="label" fontSize="large" fontWeight="bold">
@@ -130,7 +130,7 @@ export default function Search() {
                   {...INPUT_PROPS}
                   selected={checkOutDate}
                   minDate={today < checkInDate ? checkInDate : today}
-                  onChange={date => setEndDate(date)}
+                  onChange={(date) => setEndDate(date)}
                   width="150px"
                 />
               </Stack>
@@ -149,7 +149,7 @@ export default function Search() {
       </Center>
       <Divider borderWidth="1px" />
       <QueryResult loading={loading} error={error} data={data}>
-        {data => {
+        {(data) => {
           return (
             <Stack mb="8" p={12} pt={9}>
               <Flex
@@ -168,7 +168,7 @@ export default function Search() {
                   <Select
                     width="200px"
                     {...INPUT_PROPS}
-                    onChange={e => {
+                    onChange={(e) => {
                       setSortBy(e.target.value);
                       setPage(1);
                     }}
@@ -182,14 +182,14 @@ export default function Search() {
               </Flex>
               {data.searchListings.length > 0 ? (
                 <VStack spacing="4">
-                  {data.searchListings.map(listingData => (
+                  {data.searchListings.map((listingData) => (
                     <ListingCell
                       key={listingData.title}
                       {...listingData}
                       to={`/listing/${listingData.id}/?startDate=${format(
                         checkInDate,
-                        'MM-dd-yyyy'
-                      )}&endDate=${format(checkOutDate, 'MM-dd-yyyy')}`}
+                        "MM-dd-yyyy",
+                      )}&endDate=${format(checkOutDate, "MM-dd-yyyy")}`}
                     />
                   ))}
                 </VStack>
@@ -203,8 +203,8 @@ export default function Search() {
                     const newPage = page - 1;
                     await fetchMore({
                       variables: {
-                        page: newPage
-                      }
+                        page: newPage,
+                      },
                     });
                     setPage(newPage);
                     setNextPageButtonDisabled(false);
@@ -218,8 +218,8 @@ export default function Search() {
                     const newPage = page + 1;
                     await fetchMore({
                       variables: {
-                        page: newPage
-                      }
+                        page: newPage,
+                      },
                     });
                     setPage(newPage);
                   }}
