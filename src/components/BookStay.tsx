@@ -1,6 +1,5 @@
-import PropTypes from 'prop-types';
-import React, {useMemo, useState} from 'react';
-import differenceInDays from 'date-fns/differenceInDays';
+import { ReactNode, useMemo, useState } from "react";
+import differenceInDays from "date-fns/differenceInDays";
 import {
   Box,
   Button,
@@ -9,20 +8,21 @@ import {
   Input,
   Link,
   Stack,
-  Text
-} from '@chakra-ui/react';
-import {Link as RouterLink, useLocation} from 'react-router-dom';
+  StackProps,
+  Text,
+} from "@chakra-ui/react";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 import {
   areDatesValid,
   getDatePickerProps,
   getDatesToExclude,
   getFirstValidDate,
   getNextDate,
-  isDateValid
-} from '../utils';
-import {gql, useMutation} from '@apollo/client';
+  isDateValid,
+} from "../utils";
+import { gql, useMutation } from "@apollo/client";
 
-import 'react-datepicker/dist/react-datepicker.css';
+import "react-datepicker/dist/react-datepicker.css";
 
 export const BOOK_STAY = gql`
   mutation BookStay($createBookingInput: CreateBookingInput) {
@@ -38,29 +38,37 @@ export const BOOK_STAY = gql`
   }
 `;
 
+interface BookStayProps {
+  costPerNight?: number;
+  bookings: unknown[];
+  listingId: string;
+  refetchQueries?: unknown[];
+  userRole?: string;
+}
+
 export default function BookStay({
   costPerNight,
   bookings,
   listingId,
   refetchQueries,
-  userRole
-}) {
+  userRole,
+}: BookStayProps) {
   // get initial dates from url
   const searchQuery = new URLSearchParams(useLocation().search);
-  const checkInDateStringFromUrl = searchQuery.get('startDate');
-  const checkOutDateStringFromUrl = searchQuery.get('endDate');
+  const checkInDateStringFromUrl = searchQuery.get("startDate");
+  const checkOutDateStringFromUrl = searchQuery.get("endDate");
   const checkInDateFromUrl = new Date(checkInDateStringFromUrl);
   const checkOutDateFromUrl = new Date(checkOutDateStringFromUrl);
 
   //   arrays of dates (in Date and string formats) that are already booked
-  const {datesToExclude, stringDates} = useMemo(
+  const { datesToExclude, stringDates } = useMemo(
     () =>
       bookings.reduce(
         (acc, curr) => {
-          const {checkInDate, checkOutDate} = curr;
-          const {dates, stringDates} = getDatesToExclude(
+          const { checkInDate, checkOutDate } = curr;
+          const { dates, stringDates } = getDatesToExclude(
             checkInDate,
-            checkOutDate
+            checkOutDate,
           );
 
           acc.datesToExclude = [...acc.datesToExclude, ...dates];
@@ -68,21 +76,21 @@ export default function BookStay({
 
           return acc;
         },
-        {datesToExclude: [], stringDates: []}
+        { datesToExclude: [], stringDates: [] },
       ),
-    [bookings]
+    [bookings],
   );
 
   //   if the dates from the url are "invalid" dates, initialize to the first available date
   const [checkInDate, setCheckInDate] = useState(
     checkInDateStringFromUrl && isDateValid(stringDates, checkInDateFromUrl)
       ? new Date(checkInDateFromUrl)
-      : getFirstValidDate(stringDates)
+      : getFirstValidDate(stringDates),
   );
   const [checkOutDate, setCheckOutDate] = useState(
     checkOutDateStringFromUrl && isDateValid(stringDates, checkOutDateFromUrl)
       ? new Date(checkOutDateFromUrl)
-      : getNextDate(checkInDate)
+      : getNextDate(checkInDate),
   );
   const numNights = differenceInDays(checkOutDate, checkInDate);
 
@@ -93,20 +101,20 @@ export default function BookStay({
     endDate: checkOutDate,
     setStartDate: setCheckInDate,
     setEndDate: setCheckOutDate,
-    excludeDates: datesToExclude
+    excludeDates: datesToExclude,
   });
 
-  const [bookStay, {loading, error, data}] = useMutation(BOOK_STAY, {
+  const [bookStay, { loading, error, data }] = useMutation(BOOK_STAY, {
     variables: {
       createBookingInput: {
         listingId,
         checkInDate,
-        checkOutDate
-      }
+        checkOutDate,
+      },
       // NOTE: for the scope of this project, we've opted for the simpler refetch approach to update the listing's bookings
       // another, more optimized option is to update the cache directly -- https://www.apollographql.com/docs/react/data/mutations/#updating-the-cache-directly
     },
-    refetchQueries
+    refetchQueries,
   });
 
   if (error) {
@@ -148,7 +156,7 @@ export default function BookStay({
     );
   }
 
-  if (userRole === 'Host') {
+  if (userRole === "Host") {
     return (
       <Container title="Not bookable as Host">
         <Stack spacing="3">
@@ -190,7 +198,7 @@ export default function BookStay({
             alignSelf="center"
             textDecoration="underline"
             _hover={{
-              textDecoration: 'none'
+              textDecoration: "none",
             }}
             onClick={() => window.location.reload()}
           >
@@ -202,7 +210,7 @@ export default function BookStay({
   }
 
   if (data) {
-    const {checkInDate, checkOutDate} = data.createBooking.booking;
+    const { checkInDate, checkOutDate } = data.createBooking.booking;
 
     return (
       <Container title="Booking successful!">
@@ -225,7 +233,7 @@ export default function BookStay({
             mt="2"
             textDecoration="underline"
             _hover={{
-              textDecoration: 'none'
+              textDecoration: "none",
             }}
             onClick={() => window.location.reload()}
           >
@@ -243,7 +251,7 @@ export default function BookStay({
         <Input
           {...DATEPICKER_PROPS}
           selected={checkInDate}
-          onChange={date => {
+          onChange={(date) => {
             if (isDateValid(stringDates, date)) {
               setCheckInDate(date);
 
@@ -257,10 +265,10 @@ export default function BookStay({
           {...DATEPICKER_PROPS}
           selected={checkOutDate}
           minDate={today < checkInDate ? checkInDate : today}
-          onChange={date => {
+          onChange={(date) => {
             if (
               isDateValid(stringDates, date) &&
-              areDatesValid(bookings, {start: checkInDate, end: date})
+              areDatesValid(bookings, { start: checkInDate, end: date })
             ) {
               setCheckOutDate(date);
             }
@@ -288,15 +296,12 @@ export default function BookStay({
   );
 }
 
-BookStay.propTypes = {
-  costPerNight: PropTypes.number,
-  bookings: PropTypes.array.isRequired,
-  listingId: PropTypes.string.isRequired,
-  refetchQueries: PropTypes.array,
-  userRole: PropTypes.string
-};
+interface ContainerProps extends StackProps {
+  title?: string;
+  children?: ReactNode;
+}
 
-function Container({title, children, ...props}) {
+function Container({ title, children, ...props }: ContainerProps) {
   return (
     <Stack
       p="4"
@@ -305,7 +310,7 @@ function Container({title, children, ...props}) {
       borderWidth="1px"
       borderColor="gray.200"
       borderRadius="8px"
-      css={{height: 'fit-content'}}
+      css={{ height: "fit-content" }}
       {...props}
     >
       <Heading as="h2" size="md" fontWeight="bold" mb="4">
@@ -315,8 +320,3 @@ function Container({title, children, ...props}) {
     </Stack>
   );
 }
-
-Container.propTypes = {
-  title: PropTypes.string,
-  children: PropTypes.node
-};
