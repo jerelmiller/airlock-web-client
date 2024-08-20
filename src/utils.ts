@@ -1,8 +1,9 @@
-import DatePicker from 'react-datepicker';
-import areIntervalsOverlapping from 'date-fns/areIntervalsOverlapping';
-import format from 'date-fns/format';
-import {gql, useQuery} from '@apollo/client';
-import {useState} from 'react';
+import DatePicker, { DatePickerProps } from "react-datepicker";
+import areIntervalsOverlapping from "date-fns/areIntervalsOverlapping";
+import format from "date-fns/format";
+import { gql, useQuery } from "@apollo/client";
+import { useState } from "react";
+import { Interval } from "date-fns";
 
 export const GET_USER = gql`
   query GetMyProfile {
@@ -23,18 +24,18 @@ export const GET_USER = gql`
 export function useUser() {
   const [user, setUser] = useState();
 
-  const {loading, error} = useQuery(GET_USER, {
-    fetchPolicy: 'no-cache',
-    onCompleted: ({me}) => {
-      setUser({...me});
-    }
+  const { loading, error } = useQuery(GET_USER, {
+    fetchPolicy: "no-cache",
+    onCompleted: ({ me }) => {
+      setUser({ ...me });
+    },
   });
 
   return {
     user,
     setUser,
     loading,
-    error
+    error,
   };
 }
 
@@ -61,7 +62,7 @@ export const HOST_LISTINGS = gql`
   ${LISTING_FRAGMENT}
 `;
 
-export const getNextDate = date => {
+export const getNextDate = (date: Date) => {
   const nextDate = new Date(date).setDate(date.getDate() + 1);
   return new Date(nextDate);
 };
@@ -73,15 +74,21 @@ export const getDatePickerProps = ({
   setStartDate,
   setEndDate,
   ...props
-}) => {
+}: {
+  today: Date;
+  startDate: Date;
+  endDate: Date;
+  setStartDate: (date: Date) => void;
+  setEndDate: (date: Date) => void;
+} & Partial<DatePickerProps>) => {
   return {
-    type: 'date',
+    type: "date",
     as: DatePicker,
-    dateFormat: 'MM-dd-yyyy',
+    dateFormat: "MM-dd-yyyy",
     minDate: today,
     startDate,
     endDate,
-    onChange: date => {
+    onChange: (date: Date) => {
       setStartDate(date);
 
       // match end date with start date if start date was changed to be farther in the future than the current end date
@@ -89,18 +96,18 @@ export const getDatePickerProps = ({
         setEndDate(new Date(getNextDate(date)));
       }
     },
-    ...props
+    ...props,
   };
 };
 
 // need to normalize Date time (data from getDatesToExclude times are all 00:00:00)
 // from Fri Nov 05 2021 11:38:24 GMT-0600 (Mountain Daylight Time)
 // to Fri Nov 05 2021 00:00:00 GMT-0600 (Mountain Daylight Time)
-const normalizeDate = date => {
-  return new Date(format(date, 'MMM d yyyy'));
+const normalizeDate = (date: Date) => {
+  return new Date(format(date, "MMM d yyyy"));
 };
 
-export const getDatesToExclude = (startDate, endDate) => {
+export const getDatesToExclude = (startDate: string, endDate: string) => {
   const datesArr = [];
   const stringDatesArr = [];
   const end = new Date(endDate);
@@ -118,17 +125,20 @@ export const getDatesToExclude = (startDate, endDate) => {
   // that should be excluded
   return {
     dates: [...datesArr, end],
-    stringDates: [...stringDatesArr, end.toString()]
+    stringDates: [...stringDatesArr, end.toString()],
   };
 };
 
-export const isDateValid = (invalidDates, dateToCheck) => {
+export const isDateValid = (invalidDates: string[], dateToCheck: Date) => {
   const checkDateString = normalizeDate(dateToCheck).toString();
 
   return !invalidDates.includes(checkDateString);
 };
 
-export const getFirstValidDate = (invalidDates, checkInDate) => {
+export const getFirstValidDate = (
+  invalidDates: string[],
+  checkInDate?: Date
+) => {
   const today = checkInDate || new Date();
   const currDate = normalizeDate(today);
 
@@ -140,12 +150,12 @@ export const getFirstValidDate = (invalidDates, checkInDate) => {
 };
 
 // check if rangeToCheck (check in and check out dates) overlaps with an existing booking
-export const areDatesValid = (bookings, rangeToCheck) => {
-  return bookings.find(booking =>
+export const areDatesValid = (bookings: unknown[], rangeToCheck: Interval) => {
+  return bookings.find((booking) =>
     areIntervalsOverlapping(
       {
         start: new Date(booking.checkInDate),
-        end: new Date(booking.checkOutDate)
+        end: new Date(booking.checkOutDate),
       },
       rangeToCheck
     )
