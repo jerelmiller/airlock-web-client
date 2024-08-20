@@ -1,5 +1,5 @@
-import Layout from '../layouts/Layout';
-import React, {useState} from 'react';
+import Layout from "../layouts/Layout";
+import { useState } from "react";
 import {
   Box,
   Button,
@@ -14,10 +14,10 @@ import {
   NumberInputField,
   NumberInputStepper,
   Stack,
-  Text
-} from '@chakra-ui/react';
-import {gql, useMutation} from '@apollo/client';
-import {useUser} from '../utils';
+  Text,
+} from "@chakra-ui/react";
+import { gql, useMutation } from "@apollo/client";
+import { useUser } from "../utils";
 
 export const ADD_FUNDS = gql`
   mutation AddFunds($amount: Float!) {
@@ -32,11 +32,11 @@ export const ADD_FUNDS = gql`
 
 export default function Wallet() {
   const [funds, setFunds] = useState(100);
-  const {user, setUser} = useUser();
+  const { user, setUser } = useUser();
   const [addFundsToWallet] = useMutation(ADD_FUNDS, {
-    onCompleted: data => {
-      setUser({...user, funds: data.addFundsToWallet.amount});
-    }
+    onCompleted: (data) => {
+      setUser({ ...user, funds: data.addFundsToWallet.amount });
+    },
   });
 
   return (
@@ -96,8 +96,8 @@ export default function Wallet() {
               onClick={() =>
                 addFundsToWallet({
                   variables: {
-                    amount: funds
-                  }
+                    amount: funds,
+                  },
                 })
               }
             >
