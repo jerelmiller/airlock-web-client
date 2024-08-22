@@ -65,7 +65,9 @@ export default function Wallet() {
               borderRadius={4}
               textAlign="center"
             >
-              <Heading size="2xl">@{user.funds}</Heading>
+              <Heading size="2xl">
+                @{user.__typename === "Guest" ? user.funds : "-"}
+              </Heading>
               <Text>credit balance</Text>
             </Box>
           )}
