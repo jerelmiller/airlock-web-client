@@ -20,11 +20,24 @@ import {
   getNextDate,
   isDateValid,
 } from "../utils";
-import { gql, useMutation } from "@apollo/client";
+import {
+  gql,
+  useMutation,
+  TypedDocumentNode,
+  MutationHookOptions,
+} from "@apollo/client";
 
 import "react-datepicker/dist/react-datepicker.css";
+import {
+  BookStayMutation,
+  BookStayMutationVariables,
+} from "./__generated__/BookStay.types";
+import * as GraphQLTypes from "../__generated__/types";
 
-export const BOOK_STAY = gql`
+export const BOOK_STAY: TypedDocumentNode<
+  BookStayMutation,
+  BookStayMutationVariables
+> = gql`
   mutation BookStay($createBookingInput: CreateBookingInput) {
     createBooking(createBookingInput: $createBookingInput) {
       success
@@ -39,10 +52,10 @@ export const BOOK_STAY = gql`
 `;
 
 interface BookStayProps {
-  costPerNight?: number;
-  bookings: unknown[];
+  costPerNight: number;
+  bookings: GraphQLTypes.Booking[];
   listingId: string;
-  refetchQueries?: unknown[];
+  refetchQueries?: MutationHookOptions["refetchQueries"];
   userRole?: string;
 }
 
@@ -55,8 +68,8 @@ export default function BookStay({
 }: BookStayProps) {
   // get initial dates from url
   const searchQuery = new URLSearchParams(useLocation().search);
-  const checkInDateStringFromUrl = searchQuery.get("startDate");
-  const checkOutDateStringFromUrl = searchQuery.get("endDate");
+  const checkInDateStringFromUrl = searchQuery.get("startDate")!;
+  const checkOutDateStringFromUrl = searchQuery.get("endDate")!;
   const checkInDateFromUrl = new Date(checkInDateStringFromUrl);
   const checkOutDateFromUrl = new Date(checkOutDateStringFromUrl);
 
@@ -76,7 +89,10 @@ export default function BookStay({
 
           return acc;
         },
-        { datesToExclude: [], stringDates: [] },
+        { datesToExclude: [], stringDates: [] } as {
+          datesToExclude: Date[];
+          stringDates: string[];
+        },
       ),
     [bookings],
   );
@@ -108,8 +124,8 @@ export default function BookStay({
     variables: {
       createBookingInput: {
         listingId,
-        checkInDate,
-        checkOutDate,
+        checkInDate: checkInDate.toISOString(),
+        checkOutDate: checkOutDate.toISOString(),
       },
       // NOTE: for the scope of this project, we've opted for the simpler refetch approach to update the listing's bookings
       // another, more optimized option is to update the cache directly -- https://www.apollographql.com/docs/react/data/mutations/#updating-the-cache-directly
@@ -210,7 +226,7 @@ export default function BookStay({
   }
 
   if (data) {
-    const { checkInDate, checkOutDate } = data.createBooking.booking;
+    const { checkInDate, checkOutDate } = data.createBooking.booking!;
 
     return (
       <Container title="Booking successful!">
@@ -285,7 +301,7 @@ export default function BookStay({
         </Flex>
         <Button
           colorScheme="blue"
-          onClick={bookStay}
+          onClick={() => bookStay()}
           disabled={numNights < 1}
           isLoading={loading}
         >
