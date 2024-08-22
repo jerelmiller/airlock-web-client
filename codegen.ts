@@ -17,10 +17,7 @@ const config: CodegenConfig = {
           object: false,
           defaultValue: false,
         },
-        dedupeOperationSuffix: true,
         defaultScalarType: "unknown",
-        omitOperationSuffix: true,
-        skipTypeNameForRoot: true,
         namingConvention: {
           typeNames: "keep",
         },
