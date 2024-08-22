@@ -5,7 +5,7 @@ import { gql, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 
 export const SUBMIT_REVIEW = gql`
-  mutation SubmitReview($bookingId: ID!, $guestReview: ReviewInput!) {
+  mutation SubmitGuestReview($bookingId: ID!, $guestReview: ReviewInput!) {
     submitGuestReview(bookingId: $bookingId, guestReview: $guestReview) {
       success
       message

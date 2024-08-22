@@ -20,7 +20,7 @@ import { Link as RouterLink, useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 
 export const SUBMIT_REVIEW = gql`
-  mutation SubmitReview(
+  mutation SubmitHostAndLocationReviews(
     $bookingId: ID!
     $hostReview: ReviewInput!
     $locationReview: ReviewInput!
