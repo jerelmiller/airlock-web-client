@@ -25,7 +25,7 @@ import { gql, useQuery } from "@apollo/client";
 import { useUser } from "../utils";
 
 export const LISTING = gql`
-  query GetListing($id: ID!) {
+  query GetListingDetails($id: ID!) {
     listing(id: $id) {
       id
       title
