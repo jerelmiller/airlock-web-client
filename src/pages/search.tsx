@@ -185,7 +185,7 @@ export default function Search() {
                   {data.searchListings.filter(Boolean).map((listingData) => (
                     <ListingCell
                       key={listingData.title}
-                      {...listingData}
+                      listing={listingData}
                       to={`/listing/${listingData.id}/?startDate=${format(
                         checkInDate,
                         "MM-dd-yyyy",
