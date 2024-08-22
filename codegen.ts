@@ -9,7 +9,7 @@ const config: CodegenConfig = {
   },
   generates: {
     "./src/__generated__/types.ts": {
-      plugins: ["typescript", "typescript-operations"],
+      plugins: ["typescript"],
       config: {
         avoidOptionals: {
           field: true,
@@ -24,6 +24,15 @@ const config: CodegenConfig = {
         namingConvention: {
           typeNames: "keep",
         },
+      },
+    },
+    "./": {
+      preset: "near-operation-file",
+      plugins: ["typescript-operations"],
+      presetConfig: {
+        baseTypesPath: "./src/__generated__/types.ts",
+        extension: ".types.ts",
+        folder: "__generated__",
       },
     },
   },
