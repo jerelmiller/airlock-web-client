@@ -19,9 +19,10 @@ import { IoChevronBack } from "react-icons/io5";
 
 import { HOST_BOOKINGS, SUBMIT_REVIEW } from "../pages/past-bookings";
 import { Link as RouterLink, useLocation, useParams } from "react-router-dom";
+import * as GraphQLTypes from "../__generated__/types";
 
 interface BookingProps {
-  booking: unknown;
+  booking: GraphQLTypes.Booking;
   listingTitle?: string;
   isPast?: boolean;
 }
