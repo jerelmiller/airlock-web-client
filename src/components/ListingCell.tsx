@@ -2,26 +2,31 @@ import Stars from "./Stars";
 import { Box, Divider, Flex, Heading, Image, Text } from "@chakra-ui/react";
 import { IoBed } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { LocationType, Maybe } from "../__generated__/types.ts";
 
 interface ListingCellProps {
-  title: string;
-  description?: string;
-  photoThumbnail?: string;
-  costPerNight?: number;
-  numOfBeds: number;
-  overallRating?: number;
-  locationType?: string;
+  listing: {
+    title: string;
+    description: string;
+    photoThumbnail: string;
+    costPerNight: number;
+    numOfBeds: number;
+    overallRating: Maybe<number>;
+    locationType: LocationType;
+  };
   to: string;
 }
 
 export default function ListingCell({
-  title,
-  photoThumbnail,
-  description,
-  numOfBeds,
-  costPerNight,
-  overallRating,
-  locationType,
+  listing: {
+    title,
+    photoThumbnail,
+    description,
+    numOfBeds,
+    costPerNight,
+    overallRating,
+    locationType,
+  },
   to,
 }: ListingCellProps) {
   return (
