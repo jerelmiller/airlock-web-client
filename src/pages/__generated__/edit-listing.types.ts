@@ -1,11 +1,11 @@
 import * as GraphQLTypes from "../../__generated__/types";
 
-export type UpdateListingMutationMutationVariables = GraphQLTypes.Exact<{
+export type UpdateListingMutationVariables = GraphQLTypes.Exact<{
   listingId: GraphQLTypes.Scalars["ID"]["input"];
   listing: GraphQLTypes.UpdateListingInput;
 }>;
 
-export type UpdateListingMutationMutation = {
+export type UpdateListingMutation = {
   __typename?: "Mutation";
   updateListing: {
     __typename?: "UpdateListingResponse";

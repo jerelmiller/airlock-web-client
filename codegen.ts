@@ -35,6 +35,9 @@ const config: CodegenConfig = {
         folder: "__generated__",
         importTypesNamespace: "GraphQLTypes",
       },
+      config: {
+        dedupeOperationSuffix: true,
+      },
     },
   },
 };

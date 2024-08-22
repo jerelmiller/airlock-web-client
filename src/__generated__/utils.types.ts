@@ -23,7 +23,7 @@ export type GetMyProfileQuery = {
       };
 };
 
-export type ListingFragmentFragment = {
+export type ListingFragment = {
   __typename?: "Listing";
   id: string;
   title: string;
