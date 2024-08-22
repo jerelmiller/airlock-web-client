@@ -182,7 +182,7 @@ export default function Search() {
               </Flex>
               {data.searchListings.length > 0 ? (
                 <VStack spacing="4">
-                  {data.searchListings.map((listingData) => (
+                  {data.searchListings.filter(Boolean).map((listingData) => (
                     <ListingCell
                       key={listingData.title}
                       {...listingData}
