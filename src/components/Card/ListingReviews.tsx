@@ -7,9 +7,9 @@ interface ReviewType {
 }
 
 interface Trip {
-  locationReview: ReviewType;
-  hostReview: ReviewType;
-  guestReview: ReviewType;
+  locationReview: ReviewType | null;
+  hostReview: ReviewType | null;
+  guestReview: ReviewType | null;
   listing: {
     host: {
       id: string;
