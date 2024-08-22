@@ -5,7 +5,6 @@ export type CreateListingMutationVariables = GraphQLTypes.Exact<{
 }>;
 
 export type CreateListingMutation = {
-  __typename?: "Mutation";
   createListing: {
     __typename?: "CreateListingResponse";
     success: boolean;

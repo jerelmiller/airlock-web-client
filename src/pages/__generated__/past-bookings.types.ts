@@ -6,7 +6,6 @@ export type SubmitGuestReviewMutationVariables = GraphQLTypes.Exact<{
 }>;
 
 export type SubmitGuestReviewMutation = {
-  __typename?: "Mutation";
   submitGuestReview: {
     __typename?: "SubmitGuestReviewResponse";
     success: boolean;
@@ -26,7 +25,6 @@ export type GetPastBookingsForHostListingQueryVariables = GraphQLTypes.Exact<{
 }>;
 
 export type GetPastBookingsForHostListingQuery = {
-  __typename?: "Query";
   listing: { __typename?: "Listing"; id: string; title: string } | null;
   bookingsForListing: Array<{
     __typename?: "Booking";

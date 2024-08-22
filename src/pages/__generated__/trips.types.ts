@@ -5,7 +5,6 @@ export type GetGuestTripsQueryVariables = GraphQLTypes.Exact<{
 }>;
 
 export type GetGuestTripsQuery = {
-  __typename?: "Query";
   upcomingGuestBookings: Array<{
     __typename?: "Booking";
     checkInDate: string;

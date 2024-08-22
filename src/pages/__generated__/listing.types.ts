@@ -5,7 +5,6 @@ export type GetListingDetailsQueryVariables = GraphQLTypes.Exact<{
 }>;
 
 export type GetListingDetailsQuery = {
-  __typename?: "Query";
   listing: {
     __typename?: "Listing";
     id: string;

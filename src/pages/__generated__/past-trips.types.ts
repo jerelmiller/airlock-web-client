@@ -5,7 +5,6 @@ export type GetPastTripsQueryVariables = GraphQLTypes.Exact<{
 }>;
 
 export type GetPastTripsQuery = {
-  __typename?: "Query";
   pastGuestBookings: Array<{
     __typename?: "Booking";
     id: string;

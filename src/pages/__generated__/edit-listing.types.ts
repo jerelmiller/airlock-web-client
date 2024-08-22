@@ -6,7 +6,6 @@ export type UpdateListingMutationVariables = GraphQLTypes.Exact<{
 }>;
 
 export type UpdateListingMutation = {
-  __typename?: "Mutation";
   updateListing: {
     __typename?: "UpdateListingResponse";
     success: boolean;
@@ -36,7 +35,6 @@ export type GetListingQueryVariables = GraphQLTypes.Exact<{
 }>;
 
 export type GetListingQuery = {
-  __typename?: "Query";
   listing: {
     __typename?: "Listing";
     id: string;

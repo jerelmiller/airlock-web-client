@@ -5,7 +5,6 @@ export type GetMyProfileQueryVariables = GraphQLTypes.Exact<{
 }>;
 
 export type GetMyProfileQuery = {
-  __typename?: "Query";
   me:
     | {
         __typename?: "Guest";
@@ -40,7 +39,6 @@ export type GetHostListingsQueryVariables = GraphQLTypes.Exact<{
 }>;
 
 export type GetHostListingsQuery = {
-  __typename?: "Query";
   hostListings: Array<{
     __typename?: "Listing";
     numberOfUpcomingBookings: number;

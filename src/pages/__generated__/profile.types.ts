@@ -5,7 +5,6 @@ export type UpdateUserProfileMutationVariables = GraphQLTypes.Exact<{
 }>;
 
 export type UpdateUserProfileMutation = {
-  __typename?: "Mutation";
   updateProfile: {
     __typename?: "UpdateProfileResponse";
     code: number;
