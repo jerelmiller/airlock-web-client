@@ -13,10 +13,17 @@ import {
 } from "@chakra-ui/react";
 import { IoCheckmark, IoExit, IoWallet } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { gql, useMutation } from "@apollo/client";
+import { gql, TypedDocumentNode, useMutation } from "@apollo/client";
 import { useUser } from "../utils";
+import {
+  UpdateUserProfileMutation,
+  UpdateUserProfileMutationVariables,
+} from "./__generated__/profile.types";
 
-export const UPDATE_PROFILE = gql`
+export const UPDATE_PROFILE: TypedDocumentNode<
+  UpdateUserProfileMutation,
+  UpdateUserProfileMutationVariables
+> = gql`
   mutation UpdateUserProfile($updateProfileInput: UpdateProfileInput) {
     updateProfile(updateProfileInput: $updateProfileInput) {
       code
@@ -36,16 +43,19 @@ export const UPDATE_PROFILE = gql`
 
 export default function Profile() {
   const { user, setUser } = useUser();
-  const txtProfileDescRef = useRef();
+  const txtProfileDescRef = useRef<HTMLTextAreaElement>(null);
   const [updateProfileData, { loading, error, client }] = useMutation(
     UPDATE_PROFILE,
     {
-      onCompleted: (data) => {
-        setUser({ ...data.updateProfile.user });
-        const { profileDescription } = data.updateProfile.user;
+      onCompleted: ({ updateProfile: { user } }) => {
+        if (user?.__typename !== "Host") {
+          return;
+        }
 
-        if (user.__typename === "Host") {
-          txtProfileDescRef.current.value = profileDescription;
+        setUser({ ...user });
+
+        if (txtProfileDescRef.current) {
+          txtProfileDescRef.current.value = user.profileDescription;
         }
       },
     },
@@ -97,7 +107,7 @@ export default function Profile() {
                   rightIcon={<IoCheckmark />}
                   onClick={() => {
                     const updateProfileInput = {
-                      profileDescription: txtProfileDescRef?.current.value,
+                      profileDescription: txtProfileDescRef.current?.value,
                     };
                     return updateProfileData({
                       variables: {
@@ -122,7 +132,7 @@ export default function Profile() {
                 to="login"
                 onClick={() => {
                   localStorage.removeItem("token");
-                  setUser({ user: null });
+                  setUser(undefined);
                   client.clearStore();
                 }}
                 rightIcon={<IoExit />}
