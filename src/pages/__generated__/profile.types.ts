@@ -11,7 +11,7 @@ export type UpdateUserProfileMutation = {
     code: number;
     success: boolean;
     message: string;
-    user?:
+    user:
       | {
           __typename?: "Guest";
           id: string;

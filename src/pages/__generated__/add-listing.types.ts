@@ -10,14 +10,14 @@ export type CreateListingMutation = {
     __typename?: "CreateListingResponse";
     success: boolean;
     message: string;
-    listing?: {
+    listing: {
       __typename?: "Listing";
       id: string;
       title: string;
       photoThumbnail: string;
       numOfBeds: number;
       description: string;
-      overallRating?: number | null;
+      overallRating: number | null;
       costPerNight: number;
       locationType: GraphQLTypes.LocationType;
       amenities: Array<{

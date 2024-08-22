@@ -30,7 +30,7 @@ export type ListingFragment = {
   photoThumbnail: string;
   numOfBeds: number;
   description: string;
-  overallRating?: number | null;
+  overallRating: number | null;
   costPerNight: number;
   locationType: GraphQLTypes.LocationType;
 };
@@ -49,7 +49,7 @@ export type GetHostListingsQuery = {
     photoThumbnail: string;
     numOfBeds: number;
     description: string;
-    overallRating?: number | null;
+    overallRating: number | null;
     costPerNight: number;
     locationType: GraphQLTypes.LocationType;
   } | null>;

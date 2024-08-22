@@ -34,6 +34,12 @@ const config: CodegenConfig = {
       },
       config: {
         dedupeOperationSuffix: true,
+        avoidOptionals: {
+          field: true,
+          inputValue: false,
+          object: false,
+          defaultValue: false,
+        },
       },
     },
   },

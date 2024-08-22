@@ -11,14 +11,14 @@ export type UpdateListingMutation = {
     __typename?: "UpdateListingResponse";
     success: boolean;
     message: string;
-    listing?: {
+    listing: {
       __typename?: "Listing";
       id: string;
       title: string;
       photoThumbnail: string;
       numOfBeds: number;
       description: string;
-      overallRating?: number | null;
+      overallRating: number | null;
       costPerNight: number;
       locationType: GraphQLTypes.LocationType;
       amenities: Array<{
@@ -37,14 +37,14 @@ export type GetListingQueryVariables = GraphQLTypes.Exact<{
 
 export type GetListingQuery = {
   __typename?: "Query";
-  listing?: {
+  listing: {
     __typename?: "Listing";
     id: string;
     title: string;
     photoThumbnail: string;
     numOfBeds: number;
     description: string;
-    overallRating?: number | null;
+    overallRating: number | null;
     costPerNight: number;
     locationType: GraphQLTypes.LocationType;
     amenities: Array<{

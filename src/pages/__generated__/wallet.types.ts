@@ -11,6 +11,6 @@ export type AddFundsMutation = {
     code: number;
     success: boolean;
     message: string;
-    amount?: number | null;
+    amount: number | null;
   };
 };

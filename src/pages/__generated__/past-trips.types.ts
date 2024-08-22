@@ -19,19 +19,19 @@ export type GetPastTripsQuery = {
       host: { __typename?: "Host"; id: string };
     };
     guest: { __typename?: "Guest"; id: string };
-    locationReview?: {
+    locationReview: {
       __typename?: "Review";
       id: string;
       text: string;
       rating: number;
     } | null;
-    hostReview?: {
+    hostReview: {
       __typename?: "Review";
       id: string;
       text: string;
       rating: number;
     } | null;
-    guestReview?: {
+    guestReview: {
       __typename?: "Review";
       id: string;
       text: string;

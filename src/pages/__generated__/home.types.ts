@@ -12,7 +12,7 @@ export type GetFeaturedListingsQuery = {
     title: string;
     photoThumbnail: string;
     numOfBeds: number;
-    overallRating?: number | null;
+    overallRating: number | null;
     locationType: GraphQLTypes.LocationType;
     costPerNight: number;
   }>;

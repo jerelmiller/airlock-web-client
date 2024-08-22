@@ -6,7 +6,7 @@ export type GetListingDetailsQueryVariables = GraphQLTypes.Exact<{
 
 export type GetListingDetailsQuery = {
   __typename?: "Query";
-  listing?: {
+  listing: {
     __typename?: "Listing";
     id: string;
     title: string;
@@ -15,7 +15,7 @@ export type GetListingDetailsQuery = {
     numOfBeds: number;
     costPerNight: number;
     locationType: GraphQLTypes.LocationType;
-    overallRating?: number | null;
+    overallRating: number | null;
     amenities: Array<{
       __typename?: "Amenity";
       name: string;
@@ -45,7 +45,7 @@ export type GetListingDetailsQuery = {
       name: string;
       profilePicture: string;
       profileDescription: string;
-      overallRating?: number | null;
+      overallRating: number | null;
     };
     bookings: Array<{
       __typename?: "Booking";

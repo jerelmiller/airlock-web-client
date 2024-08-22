@@ -13,7 +13,7 @@ export type SearchListingsQuery = {
     photoThumbnail: string;
     numOfBeds: number;
     description: string;
-    overallRating?: number | null;
+    overallRating: number | null;
     costPerNight: number;
     locationType: GraphQLTypes.LocationType;
   } | null>;

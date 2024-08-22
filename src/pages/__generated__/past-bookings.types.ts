@@ -11,7 +11,7 @@ export type SubmitGuestReviewMutation = {
     __typename?: "SubmitGuestReviewResponse";
     success: boolean;
     message: string;
-    guestReview?: {
+    guestReview: {
       __typename?: "Review";
       id: string;
       text: string;
@@ -27,7 +27,7 @@ export type GetPastBookingsForHostListingQueryVariables = GraphQLTypes.Exact<{
 
 export type GetPastBookingsForHostListingQuery = {
   __typename?: "Query";
-  listing?: { __typename?: "Listing"; id: string; title: string } | null;
+  listing: { __typename?: "Listing"; id: string; title: string } | null;
   bookingsForListing: Array<{
     __typename?: "Booking";
     id: string;
@@ -45,19 +45,19 @@ export type GetPastBookingsForHostListingQuery = {
       name: string;
       profilePicture: string;
     };
-    locationReview?: {
+    locationReview: {
       __typename?: "Review";
       id: string;
       rating: number;
       text: string;
     } | null;
-    hostReview?: {
+    hostReview: {
       __typename?: "Review";
       id: string;
       rating: number;
       text: string;
     } | null;
-    guestReview?: {
+    guestReview: {
       __typename?: "Review";
       id: string;
       rating: number;

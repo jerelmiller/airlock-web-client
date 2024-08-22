@@ -10,7 +10,7 @@ export type BookStayMutation = {
     __typename?: "CreateBookingResponse";
     success: boolean;
     message: string;
-    booking?: {
+    booking: {
       __typename?: "NewBookingResponse";
       id: string;
       checkInDate: string;

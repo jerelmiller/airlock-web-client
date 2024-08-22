@@ -12,13 +12,13 @@ export type SubmitHostAndLocationReviewsMutation = {
     __typename?: "SubmitHostAndLocationReviewsResponse";
     success: boolean;
     message: string;
-    hostReview?: {
+    hostReview: {
       __typename?: "Review";
       id: string;
       text: string;
       rating: number;
     } | null;
-    locationReview?: {
+    locationReview: {
       __typename?: "Review";
       id: string;
       text: string;
