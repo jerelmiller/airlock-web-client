@@ -9,11 +9,7 @@ import {
 import { setContext } from "@apollo/client/link/context";
 
 const httpLink = createHttpLink({
-  uri:
-    import.meta.env.MODE !== "production"
-      ? "http://localhost:4000"
-      : process.env.VITE_APP_GQL_SERVER,
-  // uri: 'https://rt-airlock-gateway-managed.herokuapp.com/'
+  uri: "https://rt-airlock-router.herokuapp.com/",
 });
 
 import theme from "./theme.js";
