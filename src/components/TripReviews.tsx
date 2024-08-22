@@ -126,24 +126,14 @@ export default function TripReviews({
           What your guest had to say
         </Heading>
         {!locationReview && !hostReview && renderNoReviewMessage("guest")}
-        {locationReview && (
-          <Review ratingKey={ratingKey} review={locationReview}>
-            Location
-          </Review>
-        )}
-        {hostReview && (
-          <Review ratingKey={ratingKey} review={hostReview}>
-            Host
-          </Review>
-        )}
+        {locationReview && <Review review={locationReview}>Location</Review>}
+        {hostReview && <Review review={hostReview}>Host</Review>}
         {guestReview && (
           <>
             <Heading as="h2" fontWeight="semibold" fontSize="lg">
               Your rating and review
             </Heading>
-            <Review ratingKey={ratingKey} review={guestReview}>
-              Guest
-            </Review>
+            <Review review={guestReview}>Guest</Review>
           </>
         )}
         {!guestReview && (
