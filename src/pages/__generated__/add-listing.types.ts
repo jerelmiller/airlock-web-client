@@ -6,11 +6,11 @@ export type CreateListingMutationVariables = GraphQLTypes.Exact<{
 
 export type CreateListingMutation = {
   createListing: {
-    __typename?: "CreateListingResponse";
+    __typename: "CreateListingResponse";
     success: boolean;
     message: string;
     listing: {
-      __typename?: "Listing";
+      __typename: "Listing";
       id: string;
       title: string;
       photoThumbnail: string;
@@ -20,7 +20,7 @@ export type CreateListingMutation = {
       costPerNight: number;
       locationType: GraphQLTypes.LocationType;
       amenities: Array<{
-        __typename?: "Amenity";
+        __typename: "Amenity";
         id: string;
         category: GraphQLTypes.AmenityCategory;
         name: string;

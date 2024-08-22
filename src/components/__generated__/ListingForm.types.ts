@@ -6,7 +6,7 @@ export type GetAllAmenitiesQueryVariables = GraphQLTypes.Exact<{
 
 export type GetAllAmenitiesQuery = {
   listingAmenities: Array<{
-    __typename?: "Amenity";
+    __typename: "Amenity";
     id: string;
     category: GraphQLTypes.AmenityCategory;
     name: string;

@@ -6,7 +6,7 @@ export type AddFundsMutationVariables = GraphQLTypes.Exact<{
 
 export type AddFundsMutation = {
   addFundsToWallet: {
-    __typename?: "AddFundsToWalletResponse";
+    __typename: "AddFundsToWalletResponse";
     code: number;
     success: boolean;
     message: string;

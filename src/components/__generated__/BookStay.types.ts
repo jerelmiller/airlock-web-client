@@ -6,11 +6,11 @@ export type BookStayMutationVariables = GraphQLTypes.Exact<{
 
 export type BookStayMutation = {
   createBooking: {
-    __typename?: "CreateBookingResponse";
+    __typename: "CreateBookingResponse";
     success: boolean;
     message: string;
     booking: {
-      __typename?: "NewBookingResponse";
+      __typename: "NewBookingResponse";
       id: string;
       checkInDate: string;
       checkOutDate: string;

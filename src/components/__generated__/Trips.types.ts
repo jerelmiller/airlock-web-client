@@ -8,17 +8,17 @@ export type SubmitHostAndLocationReviewsMutationVariables = GraphQLTypes.Exact<{
 
 export type SubmitHostAndLocationReviewsMutation = {
   submitHostAndLocationReviews: {
-    __typename?: "SubmitHostAndLocationReviewsResponse";
+    __typename: "SubmitHostAndLocationReviewsResponse";
     success: boolean;
     message: string;
     hostReview: {
-      __typename?: "Review";
+      __typename: "Review";
       id: string;
       text: string;
       rating: number;
     } | null;
     locationReview: {
-      __typename?: "Review";
+      __typename: "Review";
       id: string;
       text: string;
       rating: number;

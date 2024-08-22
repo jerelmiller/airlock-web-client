@@ -40,6 +40,7 @@ const config: CodegenConfig = {
           object: false,
           defaultValue: false,
         },
+        nonOptionalTypename: true,
         skipTypeNameForRoot: true,
       },
     },

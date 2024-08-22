@@ -6,7 +6,7 @@ export type GetFeaturedListingsQueryVariables = GraphQLTypes.Exact<{
 
 export type GetFeaturedListingsQuery = {
   featuredListings: Array<{
-    __typename?: "Listing";
+    __typename: "Listing";
     id: string;
     title: string;
     photoThumbnail: string;

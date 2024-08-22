@@ -8,39 +8,39 @@ export type GetCurrrentAndUpcomingBookingsForHostListingQueryVariables =
   }>;
 
 export type GetCurrrentAndUpcomingBookingsForHostListingQuery = {
-  listing: { __typename?: "Listing"; id: string; title: string } | null;
+  listing: { __typename: "Listing"; id: string; title: string } | null;
   upcomingBookings: Array<{
-    __typename?: "Booking";
+    __typename: "Booking";
     id: string;
     checkInDate: string;
     checkOutDate: string;
     status: GraphQLTypes.BookingStatus;
     listing: {
-      __typename?: "Listing";
+      __typename: "Listing";
       id: string;
-      host: { __typename?: "Host"; id: string };
+      host: { __typename: "Host"; id: string };
     };
     guest: {
-      __typename?: "Guest";
+      __typename: "Guest";
       id: string;
       name: string;
       profilePicture: string;
     };
   } | null>;
   currentBooking: Array<{
-    __typename?: "Booking";
+    __typename: "Booking";
     id: string;
     checkInDate: string;
     checkOutDate: string;
     status: GraphQLTypes.BookingStatus;
     listing: {
-      __typename?: "Listing";
+      __typename: "Listing";
       id: string;
       title: string;
-      host: { __typename?: "Host"; id: string };
+      host: { __typename: "Host"; id: string };
     };
     guest: {
-      __typename?: "Guest";
+      __typename: "Guest";
       id: string;
       name: string;
       profilePicture: string;

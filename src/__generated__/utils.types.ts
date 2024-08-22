@@ -7,14 +7,14 @@ export type GetMyProfileQueryVariables = GraphQLTypes.Exact<{
 export type GetMyProfileQuery = {
   me:
     | {
-        __typename?: "Guest";
+        __typename: "Guest";
         funds: number;
         id: string;
         name: string;
         profilePicture: string;
       }
     | {
-        __typename?: "Host";
+        __typename: "Host";
         profileDescription: string;
         id: string;
         name: string;
@@ -23,7 +23,7 @@ export type GetMyProfileQuery = {
 };
 
 export type ListingFragment = {
-  __typename?: "Listing";
+  __typename: "Listing";
   id: string;
   title: string;
   photoThumbnail: string;
@@ -40,7 +40,7 @@ export type GetHostListingsQueryVariables = GraphQLTypes.Exact<{
 
 export type GetHostListingsQuery = {
   hostListings: Array<{
-    __typename?: "Listing";
+    __typename: "Listing";
     numberOfUpcomingBookings: number;
     id: string;
     title: string;

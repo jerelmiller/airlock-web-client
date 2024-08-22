@@ -6,32 +6,32 @@ export type GetPastTripsQueryVariables = GraphQLTypes.Exact<{
 
 export type GetPastTripsQuery = {
   pastGuestBookings: Array<{
-    __typename?: "Booking";
+    __typename: "Booking";
     id: string;
     checkInDate: string;
     checkOutDate: string;
     status: GraphQLTypes.BookingStatus;
     listing: {
-      __typename?: "Listing";
+      __typename: "Listing";
       title: string;
       photoThumbnail: string;
-      host: { __typename?: "Host"; id: string };
+      host: { __typename: "Host"; id: string };
     };
-    guest: { __typename?: "Guest"; id: string };
+    guest: { __typename: "Guest"; id: string };
     locationReview: {
-      __typename?: "Review";
+      __typename: "Review";
       id: string;
       text: string;
       rating: number;
     } | null;
     hostReview: {
-      __typename?: "Review";
+      __typename: "Review";
       id: string;
       text: string;
       rating: number;
     } | null;
     guestReview: {
-      __typename?: "Review";
+      __typename: "Review";
       id: string;
       text: string;
       rating: number;

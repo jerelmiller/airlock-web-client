@@ -7,11 +7,11 @@ export type UpdateListingMutationVariables = GraphQLTypes.Exact<{
 
 export type UpdateListingMutation = {
   updateListing: {
-    __typename?: "UpdateListingResponse";
+    __typename: "UpdateListingResponse";
     success: boolean;
     message: string;
     listing: {
-      __typename?: "Listing";
+      __typename: "Listing";
       id: string;
       title: string;
       photoThumbnail: string;
@@ -21,7 +21,7 @@ export type UpdateListingMutation = {
       costPerNight: number;
       locationType: GraphQLTypes.LocationType;
       amenities: Array<{
-        __typename?: "Amenity";
+        __typename: "Amenity";
         id: string;
         category: GraphQLTypes.AmenityCategory;
         name: string;
@@ -36,7 +36,7 @@ export type GetListingQueryVariables = GraphQLTypes.Exact<{
 
 export type GetListingQuery = {
   listing: {
-    __typename?: "Listing";
+    __typename: "Listing";
     id: string;
     title: string;
     photoThumbnail: string;
@@ -46,7 +46,7 @@ export type GetListingQuery = {
     costPerNight: number;
     locationType: GraphQLTypes.LocationType;
     amenities: Array<{
-      __typename?: "Amenity";
+      __typename: "Amenity";
       id: string;
       name: string;
       category: GraphQLTypes.AmenityCategory;
