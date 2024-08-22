@@ -11,6 +11,7 @@ import {
   GetMyProfileQueryVariables,
   ListingFragment,
 } from "./__generated__/utils.types";
+import * as GraphQLTypes from "./__generated__/types";
 
 export const GET_USER: TypedDocumentNode<
   GetMyProfileQuery,
@@ -163,7 +164,10 @@ export const getFirstValidDate = (
 };
 
 // check if rangeToCheck (check in and check out dates) overlaps with an existing booking
-export const areDatesValid = (bookings: unknown[], rangeToCheck: Interval) => {
+export const areDatesValid = (
+  bookings: GraphQLTypes.Booking[],
+  rangeToCheck: Interval
+) => {
   return bookings.find((booking) =>
     areIntervalsOverlapping(
       {
