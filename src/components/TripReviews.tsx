@@ -12,7 +12,12 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { IoChevronDown, IoChevronUp } from "react-icons/io5";
-import { DocumentNode, MutationOptions, useMutation } from "@apollo/client";
+import {
+  MutationOptions,
+  OperationVariables,
+  TypedDocumentNode,
+  useMutation,
+} from "@apollo/client";
 
 interface ReviewType {
   rating: number;
@@ -42,17 +47,20 @@ function Review({ review, children }: ReviewProps) {
   );
 }
 
-interface TripReviewsProps {
+interface TripReviewsProps<TData, TVariables extends OperationVariables> {
   locationReview: ReviewType | null;
   hostReview: ReviewType | null;
   guestReview: ReviewType | null;
   ratingKey: string;
-  mutation: DocumentNode;
-  mutationOptions: MutationOptions;
+  mutation: TypedDocumentNode<TData, TVariables>;
+  mutationOptions: Omit<MutationOptions<TData, TVariables>, "mutation">;
   isHost?: boolean;
 }
 
-export default function TripReviews({
+export default function TripReviews<
+  TData = unknown,
+  TVariables extends OperationVariables = OperationVariables,
+>({
   ratingKey,
   locationReview,
   hostReview,
@@ -60,7 +68,7 @@ export default function TripReviews({
   mutation,
   mutationOptions,
   isHost = false,
-}: TripReviewsProps) {
+}: TripReviewsProps<TData, TVariables>) {
   const [reviewsInput, setReviewsInput] = useState<{
     guestReview?: ReviewType;
     locationReview?: ReviewType;
