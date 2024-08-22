@@ -51,9 +51,9 @@ export type Amenity = {
 
 /** The category an amenity belongs to. */
 export enum AmenityCategory {
-  AccommodationDetails = "ACCOMMODATION_DETAILS",
-  Outdoors = "OUTDOORS",
-  SpaceSurvival = "SPACE_SURVIVAL",
+  ACCOMMODATION_DETAILS = "ACCOMMODATION_DETAILS",
+  OUTDOORS = "OUTDOORS",
+  SPACE_SURVIVAL = "SPACE_SURVIVAL",
 }
 
 /** A booking is a reservation for a specific listing */
@@ -82,9 +82,9 @@ export type Booking = {
 
 /** The status of a booking */
 export enum BookingStatus {
-  Completed = "COMPLETED",
-  Current = "CURRENT",
-  Upcoming = "UPCOMING",
+  COMPLETED = "COMPLETED",
+  CURRENT = "CURRENT",
+  UPCOMING = "UPCOMING",
 }
 
 /** Fields for creating a booking */
@@ -209,11 +209,11 @@ export type ListingtotalCostArgs = {
 
 /** A listing can be one of these types. */
 export enum LocationType {
-  Apartment = "APARTMENT",
-  Campsite = "CAMPSITE",
-  House = "HOUSE",
-  Room = "ROOM",
-  Spaceship = "SPACESHIP",
+  APARTMENT = "APARTMENT",
+  CAMPSITE = "CAMPSITE",
+  HOUSE = "HOUSE",
+  ROOM = "ROOM",
+  SPACESHIP = "SPACESHIP",
 }
 
 export type Mutation = {
@@ -367,8 +367,8 @@ export type SearchListingsInput = {
 
 /** Listings can be sorted by these options */
 export enum SortByCriteria {
-  CostAsc = "COST_ASC",
-  CostDesc = "COST_DESC",
+  COST_ASC = "COST_ASC",
+  COST_DESC = "COST_DESC",
 }
 
 /** The response after submitting reviews for a guest. */

@@ -20,6 +20,7 @@ const config: CodegenConfig = {
         defaultScalarType: "unknown",
         namingConvention: {
           typeNames: "keep",
+          enumValues: "change-case-all#upperCase",
         },
       },
     },
