@@ -1,11 +1,21 @@
 import DatePicker, { DatePickerProps } from "react-datepicker";
 import areIntervalsOverlapping from "date-fns/areIntervalsOverlapping";
 import format from "date-fns/format";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery, TypedDocumentNode } from "@apollo/client";
 import { useState } from "react";
 import { Interval } from "date-fns";
+import {
+  GetHostListingsQuery,
+  GetHostListingsQueryVariables,
+  GetMyProfileQuery,
+  GetMyProfileQueryVariables,
+  ListingFragment,
+} from "./__generated__/utils.types";
 
-export const GET_USER = gql`
+export const GET_USER: TypedDocumentNode<
+  GetMyProfileQuery,
+  GetMyProfileQueryVariables
+> = gql`
   query GetMyProfile {
     me {
       id
@@ -39,7 +49,7 @@ export function useUser() {
   };
 }
 
-export const LISTING_FRAGMENT = gql`
+export const LISTING_FRAGMENT: TypedDocumentNode<ListingFragment> = gql`
   fragment ListingFragment on Listing {
     id
     title
@@ -52,7 +62,10 @@ export const LISTING_FRAGMENT = gql`
   }
 `;
 
-export const HOST_LISTINGS = gql`
+export const HOST_LISTINGS: TypedDocumentNode<
+  GetHostListingsQuery,
+  GetHostListingsQueryVariables
+> = gql`
   query GetHostListings {
     hostListings {
       ...ListingFragment
