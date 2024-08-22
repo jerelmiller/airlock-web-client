@@ -32,7 +32,7 @@ export const GET_USER: TypedDocumentNode<
 `;
 
 export function useUser() {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState<GetMyProfileQuery["me"]>();
 
   const { loading, error } = useQuery(GET_USER, {
     fetchPolicy: "no-cache",
