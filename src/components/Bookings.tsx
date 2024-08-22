@@ -23,13 +23,13 @@ import * as GraphQLTypes from "../__generated__/types";
 
 interface BookingProps {
   booking: GraphQLTypes.Booking;
-  listingTitle?: string;
+  listingTitle: string;
   isPast?: boolean;
 }
 
 function Booking({ booking, listingTitle, isPast }: BookingProps) {
   const hasHostReview = booking.guestReview !== null;
-  const title = booking.listing?.title || listingTitle;
+  const title = booking.listing.title || listingTitle;
   const graphqlVariables = {
     listingId: booking.listing.id,
     status: "COMPLETED",
