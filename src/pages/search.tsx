@@ -18,12 +18,20 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { getDatePickerProps } from "../utils";
-import { gql, useQuery } from "@apollo/client";
+import { gql, TypedDocumentNode, useQuery } from "@apollo/client";
 import { useLocation } from "react-router-dom";
 
 import "react-datepicker/dist/react-datepicker.css";
+import {
+  SearchListingsQuery,
+  SearchListingsQueryVariables,
+} from "./__generated__/search.types";
+import { SortByCriteria } from "../__generated__/types";
 
-export const SEARCH_LISTINGS = gql`
+export const SEARCH_LISTINGS: TypedDocumentNode<
+  SearchListingsQuery,
+  SearchListingsQueryVariables
+> = gql`
   query SearchListings($searchListingsInput: SearchListingsInput!) {
     searchListings(criteria: $searchListingsInput) {
       id
@@ -51,7 +59,7 @@ export default function Search() {
   const [checkInDate, setStartDate] = useState(new Date(checkInDateFromUrl));
   const [checkOutDate, setEndDate] = useState(new Date(checkOutDateFromUrl));
   const [numOfBeds, setNumOfBeds] = useState(numOfBedsFromUrl);
-  const [sortBy, setSortBy] = useState("COST_ASC");
+  const [sortBy, setSortBy] = useState(SortByCriteria.COST_ASC);
   const [page, setPage] = useState(1);
   const [nextPageButtonDisabled, setNextPageButtonDisabled] = useState(false);
 
@@ -67,8 +75,8 @@ export default function Search() {
   const { loading, error, data, fetchMore } = useQuery(SEARCH_LISTINGS, {
     variables: {
       searchListingsInput: {
-        checkInDate,
-        checkOutDate,
+        checkInDate: checkInDate.toISOString(),
+        checkOutDate: checkOutDate.toISOString(),
         numOfBeds,
         page,
         limit: 5,
@@ -78,10 +86,12 @@ export default function Search() {
   });
 
   useEffect(() => {
-    const fetchPreviousPage = async (newPage) => {
+    const fetchPreviousPage = async (newPage: number) => {
       await fetchMore({
         variables: {
-          page: newPage,
+          searchListingsInput: {
+            page: newPage,
+          },
         },
       });
     };
@@ -103,7 +113,6 @@ export default function Search() {
           </Heading>
           <Box>
             <Flex
-              spacing="6"
               minWidth="100%"
               mb="4"
               align="flex-end"
@@ -174,7 +183,7 @@ export default function Search() {
                     }}
                     value={sortBy}
                   >
-                    <option disabled="disabled">Sort by</option>
+                    <option disabled>Sort by</option>
                     <option value="COST_ASC">Price (low to high)</option>
                     <option value="COST_DESC">Price (high to low)</option>
                   </Select>
