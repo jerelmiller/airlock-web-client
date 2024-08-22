@@ -39,11 +39,9 @@ export function ListingReviews({
   return (
     <TripReviews
       ratingKey={title}
-      location={title}
       locationReview={locationReview}
       hostReview={hostReview}
       guestReview={guestReview}
-      isPastTrip={isPast}
       isHost={trip.listing.host.id === localStorage.getItem("token")}
       mutation={mutation}
       mutationOptions={mutationOptions}
