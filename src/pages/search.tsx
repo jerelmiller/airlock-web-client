@@ -43,9 +43,9 @@ export default function Search() {
   }
 
   const query = useSearchQuery();
-  const checkInDateFromUrl = query.get("startDate");
-  const checkOutDateFromUrl = query.get("endDate");
-  const numOfBedsFromUrl = parseInt(query.get("numOfBeds")) || 1;
+  const checkInDateFromUrl = query.get("startDate")!;
+  const checkOutDateFromUrl = query.get("endDate")!;
+  const numOfBedsFromUrl = parseInt(query.get("numOfBeds")!) || 1;
 
   const today = new Date();
   const [checkInDate, setStartDate] = useState(new Date(checkInDateFromUrl));
