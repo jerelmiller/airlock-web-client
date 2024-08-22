@@ -2,9 +2,16 @@ import Layout from "../layouts/Layout";
 import QueryResult from "../components/QueryResult";
 import Trips from "../components/Trips";
 import { Center, Spinner } from "@chakra-ui/react";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery, TypedDocumentNode } from "@apollo/client";
+import {
+  GetPastTripsQuery,
+  GetPastTripsQueryVariables,
+} from "./__generated__/past-trips.types";
 
-export const PAST_GUEST_TRIPS = gql`
+export const PAST_GUEST_TRIPS: TypedDocumentNode<
+  GetPastTripsQuery,
+  GetPastTripsQueryVariables
+> = gql`
   query GetPastTrips {
     pastGuestBookings {
       id
