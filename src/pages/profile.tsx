@@ -129,7 +129,7 @@ export default function Profile() {
               )}
               <Button
                 as={Link}
-                to="login"
+                to="/login"
                 onClick={() => {
                   localStorage.removeItem("token");
                   setUser(undefined);
