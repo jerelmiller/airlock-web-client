@@ -5,7 +5,7 @@ interface QueryResultProps<TData> {
   loading: boolean;
   error: ApolloError | undefined;
   data: TData;
-  children: (data: TData) => JSX.Element;
+  children: (data: NonNullable<TData>) => JSX.Element;
 }
 
 export default function QueryResult<TData = unknown>({
