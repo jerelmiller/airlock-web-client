@@ -18,7 +18,6 @@ interface Trip {
 }
 
 interface ListingReviewsProps {
-  isPast?: boolean;
   title: string;
   trip: Trip;
   mutationConfig: {
@@ -29,7 +28,6 @@ interface ListingReviewsProps {
 
 export function ListingReviews({
   title,
-  isPast,
   trip,
   mutationConfig,
 }: ListingReviewsProps) {
