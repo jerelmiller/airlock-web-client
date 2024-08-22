@@ -43,9 +43,9 @@ function Review({ review, children }: ReviewProps) {
 }
 
 interface TripReviewsProps {
-  locationReview?: ReviewType;
-  hostReview?: ReviewType;
-  guestReview?: ReviewType;
+  locationReview: ReviewType | null;
+  hostReview: ReviewType | null;
+  guestReview: ReviewType | null;
   ratingKey: string;
   mutation: DocumentNode;
   mutationOptions: MutationOptions;
