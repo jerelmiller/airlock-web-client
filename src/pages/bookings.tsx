@@ -5,7 +5,7 @@ import { gql, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 
 export const HOST_BOOKINGS = gql`
-  query GetBookingsForHostListing(
+  query GetCurrrentAndUpcomingBookingsForHostListing(
     $listingId: ID!
     $upcomingStatus: BookingStatus
     $currentStatus: BookingStatus

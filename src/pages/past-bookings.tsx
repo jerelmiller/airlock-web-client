@@ -19,7 +19,7 @@ export const SUBMIT_REVIEW = gql`
 `;
 
 export const HOST_BOOKINGS = gql`
-  query GetBookingsForHostListing($listingId: ID!, $status: BookingStatus) {
+  query GetPastBookingsForHostListing($listingId: ID!, $status: BookingStatus) {
     listing(id: $listingId) {
       id
       title
