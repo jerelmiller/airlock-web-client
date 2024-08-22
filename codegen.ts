@@ -33,6 +33,7 @@ const config: CodegenConfig = {
         baseTypesPath: "./src/__generated__/types.ts",
         extension: ".types.ts",
         folder: "__generated__",
+        importTypesNamespace: "GraphQLTypes",
       },
     },
   },

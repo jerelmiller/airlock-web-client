@@ -1,6 +1,6 @@
-import * as Types from "../../__generated__/types";
+import * as GraphQLTypes from "../../__generated__/types";
 
-export type GetFeaturedListingsQueryVariables = Types.Exact<{
+export type GetFeaturedListingsQueryVariables = GraphQLTypes.Exact<{
   [key: string]: never;
 }>;
 
@@ -13,7 +13,7 @@ export type GetFeaturedListingsQuery = {
     photoThumbnail: string;
     numOfBeds: number;
     overallRating?: number | null;
-    locationType: Types.LocationType;
+    locationType: GraphQLTypes.LocationType;
     costPerNight: number;
   }>;
 };

@@ -1,7 +1,7 @@
-import * as Types from "../../__generated__/types";
+import * as GraphQLTypes from "../../__generated__/types";
 
-export type GetListingDetailsQueryVariables = Types.Exact<{
-  id: Types.Scalars["ID"]["input"];
+export type GetListingDetailsQueryVariables = GraphQLTypes.Exact<{
+  id: GraphQLTypes.Scalars["ID"]["input"];
 }>;
 
 export type GetListingDetailsQuery = {
@@ -14,12 +14,12 @@ export type GetListingDetailsQuery = {
     photoThumbnail: string;
     numOfBeds: number;
     costPerNight: number;
-    locationType: Types.LocationType;
+    locationType: GraphQLTypes.LocationType;
     overallRating?: number | null;
     amenities: Array<{
       __typename?: "Amenity";
       name: string;
-      category: Types.AmenityCategory;
+      category: GraphQLTypes.AmenityCategory;
     } | null>;
     reviews: Array<{
       __typename?: "Review";

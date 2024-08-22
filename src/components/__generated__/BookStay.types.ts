@@ -1,7 +1,7 @@
-import * as Types from "../../__generated__/types";
+import * as GraphQLTypes from "../../__generated__/types";
 
-export type BookStayMutationVariables = Types.Exact<{
-  createBookingInput?: Types.InputMaybe<Types.CreateBookingInput>;
+export type BookStayMutationVariables = GraphQLTypes.Exact<{
+  createBookingInput?: GraphQLTypes.InputMaybe<GraphQLTypes.CreateBookingInput>;
 }>;
 
 export type BookStayMutation = {

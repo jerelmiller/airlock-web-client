@@ -1,6 +1,8 @@
-import * as Types from "./types";
+import * as GraphQLTypes from "./types";
 
-export type GetMyProfileQueryVariables = Types.Exact<{ [key: string]: never }>;
+export type GetMyProfileQueryVariables = GraphQLTypes.Exact<{
+  [key: string]: never;
+}>;
 
 export type GetMyProfileQuery = {
   __typename?: "Query";
@@ -30,10 +32,10 @@ export type ListingFragmentFragment = {
   description: string;
   overallRating?: number | null;
   costPerNight: number;
-  locationType: Types.LocationType;
+  locationType: GraphQLTypes.LocationType;
 };
 
-export type GetHostListingsQueryVariables = Types.Exact<{
+export type GetHostListingsQueryVariables = GraphQLTypes.Exact<{
   [key: string]: never;
 }>;
 
@@ -49,6 +51,6 @@ export type GetHostListingsQuery = {
     description: string;
     overallRating?: number | null;
     costPerNight: number;
-    locationType: Types.LocationType;
+    locationType: GraphQLTypes.LocationType;
   } | null>;
 };

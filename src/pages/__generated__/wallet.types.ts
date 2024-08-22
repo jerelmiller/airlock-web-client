@@ -1,7 +1,7 @@
-import * as Types from "../../__generated__/types";
+import * as GraphQLTypes from "../../__generated__/types";
 
-export type AddFundsMutationVariables = Types.Exact<{
-  amount: Types.Scalars["Float"]["input"];
+export type AddFundsMutationVariables = GraphQLTypes.Exact<{
+  amount: GraphQLTypes.Scalars["Float"]["input"];
 }>;
 
 export type AddFundsMutation = {

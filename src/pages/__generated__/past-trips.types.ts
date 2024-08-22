@@ -1,6 +1,8 @@
-import * as Types from "../../__generated__/types";
+import * as GraphQLTypes from "../../__generated__/types";
 
-export type GetPastTripsQueryVariables = Types.Exact<{ [key: string]: never }>;
+export type GetPastTripsQueryVariables = GraphQLTypes.Exact<{
+  [key: string]: never;
+}>;
 
 export type GetPastTripsQuery = {
   __typename?: "Query";
@@ -9,7 +11,7 @@ export type GetPastTripsQuery = {
     id: string;
     checkInDate: string;
     checkOutDate: string;
-    status: Types.BookingStatus;
+    status: GraphQLTypes.BookingStatus;
     listing: {
       __typename?: "Listing";
       title: string;

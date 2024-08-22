@@ -1,7 +1,7 @@
-import * as Types from "../../__generated__/types";
+import * as GraphQLTypes from "../../__generated__/types";
 
-export type SearchListingsQueryVariables = Types.Exact<{
-  searchListingsInput: Types.SearchListingsInput;
+export type SearchListingsQueryVariables = GraphQLTypes.Exact<{
+  searchListingsInput: GraphQLTypes.SearchListingsInput;
 }>;
 
 export type SearchListingsQuery = {
@@ -15,6 +15,6 @@ export type SearchListingsQuery = {
     description: string;
     overallRating?: number | null;
     costPerNight: number;
-    locationType: Types.LocationType;
+    locationType: GraphQLTypes.LocationType;
   } | null>;
 };

@@ -1,8 +1,8 @@
-import * as Types from "../../__generated__/types";
+import * as GraphQLTypes from "../../__generated__/types";
 
-export type SubmitGuestReviewMutationVariables = Types.Exact<{
-  bookingId: Types.Scalars["ID"]["input"];
-  guestReview: Types.ReviewInput;
+export type SubmitGuestReviewMutationVariables = GraphQLTypes.Exact<{
+  bookingId: GraphQLTypes.Scalars["ID"]["input"];
+  guestReview: GraphQLTypes.ReviewInput;
 }>;
 
 export type SubmitGuestReviewMutation = {
@@ -20,9 +20,9 @@ export type SubmitGuestReviewMutation = {
   };
 };
 
-export type GetPastBookingsForHostListingQueryVariables = Types.Exact<{
-  listingId: Types.Scalars["ID"]["input"];
-  status?: Types.InputMaybe<Types.BookingStatus>;
+export type GetPastBookingsForHostListingQueryVariables = GraphQLTypes.Exact<{
+  listingId: GraphQLTypes.Scalars["ID"]["input"];
+  status?: GraphQLTypes.InputMaybe<GraphQLTypes.BookingStatus>;
 }>;
 
 export type GetPastBookingsForHostListingQuery = {
@@ -33,7 +33,7 @@ export type GetPastBookingsForHostListingQuery = {
     id: string;
     checkInDate: string;
     checkOutDate: string;
-    status: Types.BookingStatus;
+    status: GraphQLTypes.BookingStatus;
     listing: {
       __typename?: "Listing";
       id: string;

@@ -1,7 +1,7 @@
-import * as Types from "../../__generated__/types";
+import * as GraphQLTypes from "../../__generated__/types";
 
-export type CreateListingMutationMutationVariables = Types.Exact<{
-  listing: Types.CreateListingInput;
+export type CreateListingMutationMutationVariables = GraphQLTypes.Exact<{
+  listing: GraphQLTypes.CreateListingInput;
 }>;
 
 export type CreateListingMutationMutation = {
@@ -19,11 +19,11 @@ export type CreateListingMutationMutation = {
       description: string;
       overallRating?: number | null;
       costPerNight: number;
-      locationType: Types.LocationType;
+      locationType: GraphQLTypes.LocationType;
       amenities: Array<{
         __typename?: "Amenity";
         id: string;
-        category: Types.AmenityCategory;
+        category: GraphQLTypes.AmenityCategory;
         name: string;
       } | null>;
     } | null;

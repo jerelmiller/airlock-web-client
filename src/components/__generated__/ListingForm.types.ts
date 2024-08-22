@@ -1,6 +1,6 @@
-import * as Types from "../../__generated__/types";
+import * as GraphQLTypes from "../../__generated__/types";
 
-export type GetAllAmenitiesQueryVariables = Types.Exact<{
+export type GetAllAmenitiesQueryVariables = GraphQLTypes.Exact<{
   [key: string]: never;
 }>;
 
@@ -9,7 +9,7 @@ export type GetAllAmenitiesQuery = {
   listingAmenities: Array<{
     __typename?: "Amenity";
     id: string;
-    category: Types.AmenityCategory;
+    category: GraphQLTypes.AmenityCategory;
     name: string;
   }>;
 };

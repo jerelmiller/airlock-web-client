@@ -1,7 +1,7 @@
-import * as Types from "../../__generated__/types";
+import * as GraphQLTypes from "../../__generated__/types";
 
-export type UpdateUserProfileMutationVariables = Types.Exact<{
-  updateProfileInput?: Types.InputMaybe<Types.UpdateProfileInput>;
+export type UpdateUserProfileMutationVariables = GraphQLTypes.Exact<{
+  updateProfileInput?: GraphQLTypes.InputMaybe<GraphQLTypes.UpdateProfileInput>;
 }>;
 
 export type UpdateUserProfileMutation = {

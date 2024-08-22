@@ -1,10 +1,10 @@
-import * as Types from "../../__generated__/types";
+import * as GraphQLTypes from "../../__generated__/types";
 
 export type GetCurrrentAndUpcomingBookingsForHostListingQueryVariables =
-  Types.Exact<{
-    listingId: Types.Scalars["ID"]["input"];
-    upcomingStatus?: Types.InputMaybe<Types.BookingStatus>;
-    currentStatus?: Types.InputMaybe<Types.BookingStatus>;
+  GraphQLTypes.Exact<{
+    listingId: GraphQLTypes.Scalars["ID"]["input"];
+    upcomingStatus?: GraphQLTypes.InputMaybe<GraphQLTypes.BookingStatus>;
+    currentStatus?: GraphQLTypes.InputMaybe<GraphQLTypes.BookingStatus>;
   }>;
 
 export type GetCurrrentAndUpcomingBookingsForHostListingQuery = {
@@ -15,7 +15,7 @@ export type GetCurrrentAndUpcomingBookingsForHostListingQuery = {
     id: string;
     checkInDate: string;
     checkOutDate: string;
-    status: Types.BookingStatus;
+    status: GraphQLTypes.BookingStatus;
     listing: {
       __typename?: "Listing";
       id: string;
@@ -33,7 +33,7 @@ export type GetCurrrentAndUpcomingBookingsForHostListingQuery = {
     id: string;
     checkInDate: string;
     checkOutDate: string;
-    status: Types.BookingStatus;
+    status: GraphQLTypes.BookingStatus;
     listing: {
       __typename?: "Listing";
       id: string;

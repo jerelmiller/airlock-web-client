@@ -1,9 +1,9 @@
-import * as Types from "../../__generated__/types";
+import * as GraphQLTypes from "../../__generated__/types";
 
-export type SubmitHostAndLocationReviewsMutationVariables = Types.Exact<{
-  bookingId: Types.Scalars["ID"]["input"];
-  hostReview: Types.ReviewInput;
-  locationReview: Types.ReviewInput;
+export type SubmitHostAndLocationReviewsMutationVariables = GraphQLTypes.Exact<{
+  bookingId: GraphQLTypes.Scalars["ID"]["input"];
+  hostReview: GraphQLTypes.ReviewInput;
+  locationReview: GraphQLTypes.ReviewInput;
 }>;
 
 export type SubmitHostAndLocationReviewsMutation = {

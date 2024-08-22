@@ -1,8 +1,8 @@
-import * as Types from "../../__generated__/types";
+import * as GraphQLTypes from "../../__generated__/types";
 
-export type UpdateListingMutationMutationVariables = Types.Exact<{
-  listingId: Types.Scalars["ID"]["input"];
-  listing: Types.UpdateListingInput;
+export type UpdateListingMutationMutationVariables = GraphQLTypes.Exact<{
+  listingId: GraphQLTypes.Scalars["ID"]["input"];
+  listing: GraphQLTypes.UpdateListingInput;
 }>;
 
 export type UpdateListingMutationMutation = {
@@ -20,19 +20,19 @@ export type UpdateListingMutationMutation = {
       description: string;
       overallRating?: number | null;
       costPerNight: number;
-      locationType: Types.LocationType;
+      locationType: GraphQLTypes.LocationType;
       amenities: Array<{
         __typename?: "Amenity";
         id: string;
-        category: Types.AmenityCategory;
+        category: GraphQLTypes.AmenityCategory;
         name: string;
       } | null>;
     } | null;
   };
 };
 
-export type GetListingQueryVariables = Types.Exact<{
-  id: Types.Scalars["ID"]["input"];
+export type GetListingQueryVariables = GraphQLTypes.Exact<{
+  id: GraphQLTypes.Scalars["ID"]["input"];
 }>;
 
 export type GetListingQuery = {
@@ -46,12 +46,12 @@ export type GetListingQuery = {
     description: string;
     overallRating?: number | null;
     costPerNight: number;
-    locationType: Types.LocationType;
+    locationType: GraphQLTypes.LocationType;
     amenities: Array<{
       __typename?: "Amenity";
       id: string;
       name: string;
-      category: Types.AmenityCategory;
+      category: GraphQLTypes.AmenityCategory;
     } | null>;
   } | null;
 };
