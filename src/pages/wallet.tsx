@@ -16,10 +16,17 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, TypedDocumentNode } from "@apollo/client";
 import { useUser } from "../utils";
+import {
+  AddFundsMutation,
+  AddFundsMutationVariables,
+} from "./__generated__/wallet.types";
 
-export const ADD_FUNDS = gql`
+export const ADD_FUNDS: TypedDocumentNode<
+  AddFundsMutation,
+  AddFundsMutationVariables
+> = gql`
   mutation AddFunds($amount: Float!) {
     addFundsToWallet(amount: $amount) {
       code
@@ -35,7 +42,9 @@ export default function Wallet() {
   const { user, setUser } = useUser();
   const [addFundsToWallet] = useMutation(ADD_FUNDS, {
     onCompleted: (data) => {
-      setUser({ ...user, funds: data.addFundsToWallet.amount });
+      if (user?.__typename === "Guest") {
+        setUser({ ...user, funds: data.addFundsToWallet.amount || 0 });
+      }
     },
   });
 
@@ -63,7 +72,7 @@ export default function Wallet() {
           <Text fontWeight="semibold" textAlign="left">
             Add funds to your account
           </Text>
-          <Flex isFullWidth>
+          <Flex w="100%">
             <Box>
               <InputGroup alignSelf="center">
                 <InputLeftAddon bg="transparent" paddingRight="0">
