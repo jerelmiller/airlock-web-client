@@ -169,7 +169,7 @@ export default function Search() {
                     width="200px"
                     {...INPUT_PROPS}
                     onChange={(e) => {
-                      setSortBy(e.target.value);
+                      setSortBy(e.target.value as SortByCriteria);
                       setPage(1);
                     }}
                     value={sortBy}
