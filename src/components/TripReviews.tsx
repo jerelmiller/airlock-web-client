@@ -108,7 +108,7 @@ export default function TripReviews({
     },
   });
 
-  const renderNoReviewMessage = (author) => {
+  const renderNoReviewMessage = (author: string) => {
     return (
       <Text>
         Your {author} hasn&apos;t reviewed their stay yet. We&apos;ve reached
