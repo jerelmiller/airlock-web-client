@@ -23,8 +23,9 @@ import { IoCheckmark, IoChevronDown, IoChevronUp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
 export default function Login() {
-  const [value, setValue] = useState();
-  const handleChange = (event) => setValue(event.target.value);
+  const [value, setValue] = useState<string>();
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) =>
+    setValue(event.target.value);
   const users = [
     "Athes - Guest",
     "Kelle - Host",
@@ -38,9 +39,8 @@ export default function Login() {
   const HOST_USER = "user-1";
   const GUEST_USER = "user-2";
 
-  function login(userId) {
-    const id = userId ? userId : value;
-    localStorage.setItem("token", id);
+  function login(userId: string) {
+    localStorage.setItem("token", userId);
   }
 
   return (
@@ -102,7 +102,7 @@ export default function Login() {
                     onClick={() => {
                       login(HOST_USER);
                     }}
-                    isFullWidth
+                    w="100%"
                   >
                     Log in as host
                   </Button>
@@ -142,7 +142,7 @@ export default function Login() {
                       login(GUEST_USER);
                     }}
                     mt="8"
-                    isFullWidth
+                    w="100%"
                   >
                     Log in as guest
                   </Button>
@@ -186,11 +186,15 @@ export default function Login() {
                       as={Link}
                       to="/"
                       onClick={(e) => {
-                        value ? login() : e.preventDefault();
+                        if (value) {
+                          return login(value);
+                        }
+
+                        e.preventDefault();
                       }}
                       isDisabled={!value}
                       mt={4}
-                      isFullWidth
+                      w="100%"
                     >
                       Log in
                     </Button>
