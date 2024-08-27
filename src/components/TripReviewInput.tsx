@@ -29,14 +29,14 @@ export function ReviewRating({
 }
 
 interface ReviewType {
-  rating: number;
+  rating: number | null;
   text: string;
 }
 
 interface ReviewInputProps {
-  review: Partial<ReviewType> | undefined;
+  review: ReviewType;
   label: string;
-  onChange: (review: Partial<ReviewType>) => void;
+  onChange: (review: ReviewType) => void;
 }
 
 export default function ReviewInput({
