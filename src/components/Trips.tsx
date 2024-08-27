@@ -21,6 +21,7 @@ import {
   SubmitHostAndLocationReviewsMutation,
   SubmitHostAndLocationReviewsMutationVariables,
 } from "./__generated__/Trips.types";
+import { Booking } from "../__generated__/types";
 
 export const SUBMIT_REVIEW: TypedDocumentNode<
   SubmitHostAndLocationReviewsMutation,
@@ -53,7 +54,7 @@ export const SUBMIT_REVIEW: TypedDocumentNode<
 `;
 
 interface TripProps {
-  trip: unknown;
+  trip: Booking;
   isPast: boolean;
 }
 
@@ -81,7 +82,6 @@ function Trip({ trip, isPast }: TripProps) {
           </VStack>
           <ListingReviews
             title={trip.listing.title}
-            isPast={isPast}
             trip={trip}
             mutationConfig={{
               mutation: SUBMIT_REVIEW,
@@ -136,7 +136,7 @@ function Trip({ trip, isPast }: TripProps) {
 }
 
 interface TripsProps {
-  trips: unknown[];
+  trips: Booking[];
   isPast?: boolean;
 }
 
