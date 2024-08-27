@@ -29,35 +29,35 @@ export function ReviewRating({
 }
 
 interface ReviewType {
-  rating: number | null;
-  text: string | null;
+  rating: number;
+  text: string;
 }
 
 interface ReviewInputProps {
-  review: ReviewType;
-  reviewType: string;
-  onChange: (review: ReviewType) => void;
+  review: Partial<ReviewType> | undefined;
+  label: string;
+  onChange: (review: Partial<ReviewType>) => void;
 }
 
 export default function ReviewInput({
   review,
-  reviewType,
+  label,
   onChange,
 }: ReviewInputProps) {
   return (
     <>
       <Flex alignItems="center">
-        <Text fontWeight="semibold" textTransform="capitalize" mr={2}>
-          {reviewType}
+        <Text fontWeight="semibold" mr={2}>
+          {label}
         </Text>
         <ReviewRating
-          rating={review.rating}
+          rating={review?.rating}
           onChange={(rating) => onChange({ ...review, rating })}
         />
       </Flex>
       <Textarea
         placeholder="Leave your review"
-        value={review.text ?? ""}
+        value={review?.text ?? ""}
         onChange={(e) => {
           onChange({ ...review, text: e.target.value });
         }}
