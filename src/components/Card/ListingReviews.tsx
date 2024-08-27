@@ -1,5 +1,5 @@
 import TripReviews from "../TripReviews";
-import { DocumentNode, MutationOptions } from "@apollo/client";
+import { DocumentNode, MutationHookOptions } from "@apollo/client";
 import { Review as ReviewType } from "../../__generated__/types";
 
 interface Trip {
@@ -18,7 +18,7 @@ interface ListingReviewsProps {
   trip: Trip;
   mutationConfig: {
     mutation: DocumentNode;
-    mutationOptions: MutationOptions;
+    mutationOptions: MutationHookOptions;
   };
 }
 
