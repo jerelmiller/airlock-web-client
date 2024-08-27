@@ -25,18 +25,7 @@ const listingCellFragment: TypedDocumentNode<ListingCell_listingFragment> = gql`
 
 fragments.register(listingCellFragment);
 
-export default function ListingCell({
-  listing: {
-    title,
-    photoThumbnail,
-    description,
-    numOfBeds,
-    costPerNight,
-    overallRating,
-    locationType,
-  },
-  to,
-}: ListingCellProps) {
+export default function ListingCell({ listing, to }: ListingCellProps) {
   return (
     <>
       <Box
@@ -55,8 +44,8 @@ export default function ListingCell({
       >
         <Flex direction="row" justify="space-between" minH="120px" maxH="200px">
           <Image
-            src={photoThumbnail}
-            alt={title}
+            src={listing.photoThumbnail}
+            alt={listing.title}
             objectFit="cover"
             width="320px"
             maxW="320px"
@@ -77,11 +66,11 @@ export default function ListingCell({
               color="grey.dark"
               fontFamily="Source Code Pro"
             >
-              {locationType}
+              {listing.locationType}
             </Text>
             <Flex direction="row" justify="space-between">
               <Heading as="h2" size="md">
-                {title}
+                {listing.title}
               </Heading>
             </Flex>
             <Text
@@ -91,23 +80,24 @@ export default function ListingCell({
               maxWidth="650px"
               noOfLines={2}
             >
-              {description}
+              {listing.description}
             </Text>
             <Flex direction="row" justify="space-between">
               <Flex direction="row" align="center">
-                {overallRating ? (
-                  <Stars size={20} rating={overallRating} />
+                {listing.overallRating ? (
+                  <Stars size={20} rating={listing.overallRating} />
                 ) : (
                   <Text>No reviews yet</Text>
                 )}
                 <Flex ml={6} align="center">
                   <IoBed size={22} />
                   <Text fontSize="lg" ml={1}>
-                    {numOfBeds}
+                    {listing.numOfBeds}
                   </Text>
                 </Flex>
                 <Flex fontSize="lg" ml={6}>
-                  <Text fontWeight="bold"> ¤ {costPerNight}</Text> / night
+                  <Text fontWeight="bold"> ¤ {listing.costPerNight}</Text> /
+                  night
                 </Flex>
               </Flex>
             </Flex>
