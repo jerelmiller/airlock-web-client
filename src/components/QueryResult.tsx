@@ -1,6 +1,7 @@
 import { Center } from "@chakra-ui/react";
 import { ApolloError } from "@apollo/client";
 import { PageSpinner } from "./PageSpinner";
+import { PageError } from "./PageError";
 
 interface QueryResultProps<TData> {
   loading: boolean;
@@ -20,7 +21,7 @@ export default function QueryResult<TData = unknown>({
   }
 
   if (error) {
-    return <Center>uhoh error! {error.message}</Center>;
+    return <PageError error={error} />;
   }
 
   if (data) {
