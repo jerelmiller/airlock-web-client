@@ -1,10 +1,19 @@
 import Bookings from "../components/Bookings";
 import Layout from "../layouts/Layout";
 import QueryResult from "../components/QueryResult";
-import { gql, useQuery } from "@apollo/client";
+import { gql, TypedDocumentNode, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
+import {
+  GetPastBookingsForHostListingQuery,
+  GetPastBookingsForHostListingQueryVariables,
+  SubmitGuestReviewMutation,
+  SubmitGuestReviewMutationVariables,
+} from "./__generated__/past-bookings.types";
 
-export const SUBMIT_REVIEW = gql`
+export const SUBMIT_REVIEW: TypedDocumentNode<
+  SubmitGuestReviewMutation,
+  SubmitGuestReviewMutationVariables
+> = gql`
   mutation SubmitGuestReview($bookingId: ID!, $guestReview: ReviewInput!) {
     submitGuestReview(bookingId: $bookingId, guestReview: $guestReview) {
       success
@@ -18,7 +27,10 @@ export const SUBMIT_REVIEW = gql`
   }
 `;
 
-export const HOST_BOOKINGS = gql`
+export const HOST_BOOKINGS: TypedDocumentNode<
+  GetPastBookingsForHostListingQuery,
+  GetPastBookingsForHostListingQueryVariables
+> = gql`
   query GetPastBookingsForHostListing($listingId: ID!, $status: BookingStatus) {
     listing(id: $listingId) {
       id
