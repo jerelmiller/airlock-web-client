@@ -29,12 +29,21 @@ import {
 import {
   DocumentNode,
   MutationOptions,
+  TypedDocumentNode,
   gql,
   useMutation,
   useQuery,
 } from "@apollo/client";
+import {
+  GetAllAmenitiesQuery,
+  GetAllAmenitiesQueryVariables,
+} from "./__generated__/ListingForm.types";
+import { Amenity } from "../__generated__/types";
 
-export const AMENITIES = gql`
+export const AMENITIES: TypedDocumentNode<
+  GetAllAmenitiesQuery,
+  GetAllAmenitiesQueryVariables
+> = gql`
   query GetAllAmenities {
     listingAmenities {
       id
@@ -76,7 +85,7 @@ export default function ListingForm({
 
 interface ListingFormBodyProps {
   listingData: unknown;
-  amenities?: unknown;
+  amenities: Amenity[];
   listingId?: string;
   mutation: DocumentNode;
   mutationOptions: MutationOptions;
@@ -90,14 +99,17 @@ function ListingFormBody({
   mutationOptions,
 }: ListingFormBodyProps) {
   const listingAmenities = listingData.amenities.map((amenity) => amenity.id);
-  const allAmenities = amenities.reduce((acc, curr) => {
-    return {
-      ...acc,
-      [curr.category]: acc[curr.category]
-        ? [...acc[curr.category], curr]
-        : [curr],
-    };
-  }, {});
+  const allAmenities = amenities.reduce<Record<string, Amenity[]>>(
+    (acc, curr) => {
+      return {
+        ...acc,
+        [curr.category]: acc[curr.category]
+          ? [...acc[curr.category], curr]
+          : [curr],
+      };
+    },
+    {},
+  );
 
   const [formValues, setFormValues] = useState({
     amenities: listingAmenities,
@@ -306,9 +318,9 @@ function ListingFormBody({
 }
 
 interface AmenitiesSelectionProps {
-  category?: string;
-  amenities?: unknown[];
-  formValues?: unknown[];
+  category: string;
+  amenities: Amenity[];
+  formValues: unknown[];
   onChange: (...args: unknown[]) => void;
   onSelectAll: (...args: unknown[]) => void;
   onDeselectAll: (...args: unknown[]) => void;
