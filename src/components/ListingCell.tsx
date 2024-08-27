@@ -2,20 +2,28 @@ import Stars from "./Stars";
 import { Box, Divider, Flex, Heading, Image, Text } from "@chakra-ui/react";
 import { IoBed } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { LocationType, Maybe } from "../__generated__/types.ts";
+import { fragments } from "../fragments.ts";
+import { gql, TypedDocumentNode } from "@apollo/client";
+import { ListingCell_listingFragment } from "./__generated__/ListingCell.types.ts";
 
 interface ListingCellProps {
-  listing: {
-    title: string;
-    description: string;
-    photoThumbnail: string;
-    costPerNight: number;
-    numOfBeds: number;
-    overallRating: Maybe<number>;
-    locationType: LocationType;
-  };
+  listing: ListingCell_listingFragment;
   to: string;
 }
+
+const listingCellFragment: TypedDocumentNode<ListingCell_listingFragment> = gql`
+  fragment ListingCell_listing on Listing {
+    title
+    description
+    photoThumbnail
+    numOfBeds
+    costPerNight
+    overallRating
+    locationType
+  }
+`;
+
+fragments.register(listingCellFragment);
 
 export default function ListingCell({
   listing: {

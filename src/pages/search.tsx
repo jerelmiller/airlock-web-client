@@ -49,6 +49,7 @@ export const SEARCH_LISTINGS: TypedDocumentNode<
       overallRating
       costPerNight
       locationType
+      ...ListingCell_listing
     }
   }
 `;
