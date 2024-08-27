@@ -12,14 +12,13 @@ import {
   Container,
   Flex,
   Heading,
-  Input,
   SimpleGrid,
   Stack,
   Text,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
-import { getDatePickerProps, getNextDate } from "../utils";
+import { getNextDate } from "../utils";
 import { gql, TypedDocumentNode, useQuery } from "@apollo/client";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -27,6 +26,7 @@ import {
   GetFeaturedListingsQuery,
   GetFeaturedListingsQueryVariables,
 } from "./__generated__/home.types";
+import { DatePickerInput } from "../components/DatePickerInput";
 
 export const FEATURED_LISTINGS: TypedDocumentNode<
   GetFeaturedListingsQuery,
@@ -58,14 +58,6 @@ export default function Home() {
   const [endDate, setEndDate] = useState(getNextDate(today));
   const [numOfBeds, setNumOfBeds] = useState(1);
 
-  const DATEPICKER_PROPS = getDatePickerProps({
-    today,
-    startDate,
-    endDate,
-    setStartDate,
-    setEndDate,
-  });
-
   const { loading, error, data } = useQuery(FEATURED_LISTINGS);
 
   return (
@@ -96,17 +88,25 @@ export default function Home() {
                 bgColor="white"
               >
                 <InputContainer label="Check-in Date">
-                  <Input
-                    {...DATEPICKER_PROPS}
+                  <DatePickerInput
                     {...INPUT_PROPS}
+                    today={today}
+                    startDate={startDate}
+                    endDate={endDate}
+                    setStartDate={setStartDate}
+                    setEndDate={setEndDate}
                     selected={startDate}
                     width="150px"
                   />
                 </InputContainer>
                 <InputContainer label="Check-out Date">
-                  <Input
-                    {...DATEPICKER_PROPS}
+                  <DatePickerInput
                     {...INPUT_PROPS}
+                    today={today}
+                    startDate={startDate}
+                    endDate={endDate}
+                    setStartDate={setStartDate}
+                    setEndDate={setEndDate}
                     minDate={today < startDate ? startDate : today}
                     selected={endDate}
                     onChange={(date) => setEndDate(date)}
