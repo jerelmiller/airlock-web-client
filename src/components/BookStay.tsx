@@ -52,7 +52,7 @@ export const BOOK_STAY: TypedDocumentNode<
 
 interface BookStayProps {
   costPerNight: number;
-  bookings: GraphQLTypes.Booking[];
+  bookings: Array<Pick<GraphQLTypes.Booking, "checkInDate" | "checkOutDate">>;
   listingId: string;
   refetchQueries?: MutationHookOptions["refetchQueries"];
   userRole?: string;
