@@ -11,7 +11,6 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { IoChevronDown, IoChevronUp } from "react-icons/io5";
-import * as GraphQLTypes from "../__generated__/types";
 import { gql } from "@apollo/client";
 import { fragments } from "../fragments";
 import {
