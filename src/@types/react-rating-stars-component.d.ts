@@ -15,6 +15,7 @@ declare module "react-rating-stars-component" {
     halfIcon?: ReactElement;
     filledIcon?: ReactElement;
     a11y?: boolean;
+    isHalf?: boolean;
     onChange?: (rating: number) => void;
   }
 
