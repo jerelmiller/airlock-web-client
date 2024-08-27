@@ -1,10 +1,6 @@
 import TripReviews from "../TripReviews";
 import { DocumentNode, MutationOptions } from "@apollo/client";
-
-interface ReviewType {
-  rating: number;
-  text: string;
-}
+import { Review as ReviewType } from "../../__generated__/types";
 
 interface Trip {
   locationReview: ReviewType | null;
