@@ -1,5 +1,6 @@
-import { Center, Spinner } from "@chakra-ui/react";
+import { Center } from "@chakra-ui/react";
 import { ApolloError } from "@apollo/client";
+import { PageSpinner } from "./PageSpinner";
 
 interface QueryResultProps<TData> {
   loading: boolean;
@@ -15,11 +16,7 @@ export default function QueryResult<TData = unknown>({
   children,
 }: QueryResultProps<TData>) {
   if (loading) {
-    return (
-      <Center minH="100vh">
-        <Spinner size="lg" />
-      </Center>
-    );
+    return <PageSpinner />;
   }
 
   if (error) {
