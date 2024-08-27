@@ -1,10 +1,7 @@
 import BedroomInput from "../components/BedroomInput";
 import Hero from "../components/Hero";
-import Layout from "../layouts/Layout";
-import ListingCard from "../components/ListingCard";
 import Nav from "../components/Nav";
 import PropTypes from "prop-types";
-import QueryResult from "../components/QueryResult";
 import { ReactNode, useState } from "react";
 import {
   Button,
@@ -12,7 +9,6 @@ import {
   Container,
   Flex,
   Heading,
-  SimpleGrid,
   Stack,
   Text,
 } from "@chakra-ui/react";
@@ -27,6 +23,7 @@ import {
   GetFeaturedListingsQueryVariables,
 } from "./__generated__/home.types";
 import { DatePickerInput } from "../components/DatePickerInput";
+import { FeaturedListings } from "../components/FeaturedListings";
 
 export const FEATURED_LISTINGS: TypedDocumentNode<
   GetFeaturedListingsQuery,
@@ -58,7 +55,7 @@ export default function Home() {
   const [endDate, setEndDate] = useState(getNextDate(today));
   const [numOfBeds, setNumOfBeds] = useState(1);
 
-  const { loading, error, data } = useQuery(FEATURED_LISTINGS);
+  const queryResult = useQuery(FEATURED_LISTINGS);
 
   return (
     <>
@@ -135,20 +132,7 @@ export default function Home() {
           </Container>
         </Center>
       </Hero>
-      <QueryResult loading={loading} error={error} data={data}>
-        {(data) => (
-          <Layout noNav p={12} pt={8}>
-            <Heading as="h1" fontSize="3xl" fontWeight="bold" mb={6}>
-              Ideas for your next stellar trip
-            </Heading>
-            <SimpleGrid minChildWidth="255px" spacing={6}>
-              {data.featuredListings.map((listing) => (
-                <ListingCard key={listing.title} {...listing} />
-              ))}
-            </SimpleGrid>
-          </Layout>
-        )}
-      </QueryResult>
+      <FeaturedListings queryResult={queryResult} />
     </>
   );
 }
