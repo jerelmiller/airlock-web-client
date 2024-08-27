@@ -9,10 +9,8 @@ import {
   Stack,
   Text,
   VStack,
-  useToast,
 } from "@chakra-ui/react";
 import { IoChevronDown, IoChevronUp } from "react-icons/io5";
-import { useMutation } from "@apollo/client";
 
 interface ReviewType {
   rating: number | null;
@@ -75,38 +73,6 @@ export default function TripReviews({
         reviewsInput?.hostReview?.rating &&
         reviewsInput?.hostReview?.text
       );
-
-  const toast = useToast();
-  const successfulToast = {
-    title: "Your review has been submitted.",
-    description: "Thank you!",
-    status: "success",
-    duration: 9000,
-    isClosable: true,
-  };
-  const errorToast = {
-    title: "Something went wrong.",
-    description: "Try again later.",
-    status: "error",
-    duration: 9000,
-    isClosable: true,
-  };
-
-  const [submitReviews] = useMutation(mutation, {
-    ...mutationOptions,
-    variables: { ...mutationOptions.variables, ...reviewsInput },
-    onCompleted: (data) => {
-      if (isHost) {
-        data.submitGuestReview.success
-          ? toast(successfulToast)
-          : toast(errorToast);
-      } else {
-        data.submitHostAndLocationReviews.success
-          ? toast(successfulToast)
-          : toast(errorToast);
-      }
-    },
-  });
 
   const renderNoReviewMessage = (author: string) => {
     return (
