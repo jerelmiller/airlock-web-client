@@ -8,13 +8,20 @@ import {
   Container,
   Flex,
   Heading,
+  SimpleGrid,
   Stack,
   Text,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
 import { getNextDate } from "../utils";
-import { gql, TypedDocumentNode, useBackgroundQuery } from "@apollo/client";
+import {
+  gql,
+  QueryRef,
+  TypedDocumentNode,
+  useBackgroundQuery,
+  useReadQuery,
+} from "@apollo/client";
 
 import "react-datepicker/dist/react-datepicker.css";
 import {
@@ -22,10 +29,11 @@ import {
   GetFeaturedListingsQueryVariables,
 } from "./__generated__/home.types";
 import { DatePickerInput } from "../components/DatePickerInput";
-import { FeaturedListings } from "../components/FeaturedListings";
 import { PageSpinner } from "../components/PageSpinner";
 import { ErrorBoundary } from "react-error-boundary";
 import { PageError } from "../components/PageError";
+import Layout from "../layouts/Layout";
+import ListingCard from "../components/ListingCard";
 
 export const FEATURED_LISTINGS: TypedDocumentNode<
   GetFeaturedListingsQuery,
@@ -158,5 +166,29 @@ function InputContainer({ label, children }: InputContainerProps) {
         {children}
       </Text>
     </Stack>
+  );
+}
+
+interface FeaturedListingsProps {
+  queryRef: QueryRef<
+    GetFeaturedListingsQuery,
+    GetFeaturedListingsQueryVariables
+  >;
+}
+
+function FeaturedListings({ queryRef }: FeaturedListingsProps) {
+  const { data } = useReadQuery(queryRef);
+
+  return (
+    <Layout noNav p={12} pt={8}>
+      <Heading as="h1" fontSize="3xl" fontWeight="bold" mb={6}>
+        Ideas for your next stellar trip
+      </Heading>
+      <SimpleGrid minChildWidth="255px" spacing={6}>
+        {data.featuredListings.map((listing) => (
+          <ListingCard key={listing.title} {...listing} />
+        ))}
+      </SimpleGrid>
+    </Layout>
   );
 }
