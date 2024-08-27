@@ -11,13 +11,11 @@ import {
   Divider,
   Flex,
   Heading,
-  Input,
   Select,
   Stack,
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { getDatePickerProps } from "../utils";
 import { gql, TypedDocumentNode, useQuery } from "@apollo/client";
 import { useLocation } from "react-router-dom";
 
@@ -27,6 +25,7 @@ import {
   SearchListingsQueryVariables,
 } from "./__generated__/search.types";
 import { SortByCriteria } from "../__generated__/types";
+import { DatePickerInput } from "../components/DatePickerInput";
 
 export const SEARCH_LISTINGS: TypedDocumentNode<
   SearchListingsQuery,
@@ -64,13 +63,6 @@ export default function Search() {
   const [nextPageButtonDisabled, setNextPageButtonDisabled] = useState(false);
 
   const INPUT_PROPS = { size: "lg" };
-  const DATEPICKER_PROPS = getDatePickerProps({
-    today,
-    startDate: checkInDate,
-    endDate: checkOutDate,
-    setStartDate,
-    setEndDate,
-  });
 
   const { loading, error, data, fetchMore } = useQuery(SEARCH_LISTINGS, {
     variables: {
@@ -123,9 +115,13 @@ export default function Search() {
                 <Text as="label" fontSize="large" fontWeight="bold">
                   Check-in Date
                 </Text>
-                <Input
-                  {...DATEPICKER_PROPS}
+                <DatePickerInput
                   {...INPUT_PROPS}
+                  today={today}
+                  startDate={checkInDate}
+                  endDate={checkOutDate}
+                  setStartDate={setStartDate}
+                  setEndDate={setEndDate}
                   selected={checkInDate}
                   width="150px"
                 />
@@ -134,9 +130,13 @@ export default function Search() {
                 <Text as="label" fontSize="large" fontWeight="bold">
                   Check-out Date
                 </Text>
-                <Input
-                  {...DATEPICKER_PROPS}
+                <DatePickerInput
                   {...INPUT_PROPS}
+                  today={today}
+                  startDate={checkInDate}
+                  endDate={checkOutDate}
+                  setStartDate={setStartDate}
+                  setEndDate={setEndDate}
                   selected={checkOutDate}
                   minDate={today < checkInDate ? checkInDate : today}
                   onChange={(date) => setEndDate(date)}
