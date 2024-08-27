@@ -57,6 +57,7 @@ export default function TripReviews({
   locationReview,
   hostReview,
   guestReview,
+  onSubmitReview,
   isHost = false,
 }: TripReviewsProps) {
   const [reviewsInput, setReviewsInput] = useState<{
@@ -130,7 +131,7 @@ export default function TripReviews({
                   }
                 />
                 <Button
-                  onClick={() => submitReviews()}
+                  onClick={() => onSubmitReview(reviewsInput)}
                   disabled={isSubmitDisabled}
                   w="fit-content"
                 >
@@ -197,7 +198,7 @@ export default function TripReviews({
                   }
                 />
                 <Button
-                  onClick={() => submitReviews()}
+                  onClick={() => onSubmitReview(reviewsInput)}
                   disabled={isSubmitDisabled}
                   w="fit-content"
                 >
