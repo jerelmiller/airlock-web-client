@@ -14,27 +14,47 @@ import { IoChevronBack } from "react-icons/io5";
 
 import { HOST_BOOKINGS, SUBMIT_REVIEW } from "../pages/past-bookings";
 import { Link as RouterLink, useLocation, useParams } from "react-router-dom";
-import * as GraphQLTypes from "../__generated__/types";
 import { GuestReview } from "./TripReviews";
-import { useMutation } from "@apollo/client";
-
-type Booking = Pick<
-  GraphQLTypes.Booking,
-  | "id"
-  | "guestReview"
-  | "guest"
-  | "checkInDate"
-  | "checkOutDate"
-  | "status"
-  | "locationReview"
-  | "hostReview"
-  | "listing"
->;
+import { gql, useMutation } from "@apollo/client";
+import { fragments } from "../fragments";
+import {
+  Booking_bookingFragment,
+  Bookings_bookingsFragment,
+} from "./__generated__/Bookings.types";
 
 interface BookingProps {
-  booking: Booking;
+  booking: Booking_bookingFragment;
   isPast?: boolean;
 }
+
+fragments.register(gql`
+  fragment Booking_booking on Booking {
+    id
+    checkInDate
+    checkOutDate
+    status
+    listing {
+      id
+    }
+    locationReview {
+      id
+      ...GuestReview_locationReview
+    }
+    hostReview {
+      id
+      ...GuestReview_hostReview
+    }
+    guest {
+      id
+      profilePicture
+      name
+    }
+    guestReview {
+      id
+      ...GuestReview_guestReview
+    }
+  }
+`);
 
 function Booking({ booking, isPast }: BookingProps) {
   const hasHostReview = booking.guestReview !== null;
@@ -148,9 +168,16 @@ function Booking({ booking, isPast }: BookingProps) {
 
 interface BookingsProps {
   title: string;
-  bookings: Booking[];
+  bookings: Bookings_bookingsFragment[];
   isPast?: boolean;
 }
+
+fragments.register(gql`
+  fragment Bookings_bookings on Booking {
+    id
+    ...Booking_booking
+  }
+`);
 
 export default function Bookings({
   title,
@@ -215,13 +242,9 @@ export default function Bookings({
 
       {bookings.length ? (
         <VStack spacing="4" divider={<StackDivider />}>
-          {bookings.map((booking, i) => {
+          {bookings.map((booking) => {
             return (
-              <Booking
-                key={`${title}-${i}`}
-                booking={booking}
-                isPast={isPast}
-              />
+              <Booking key={booking.id} booking={booking} isPast={isPast} />
             );
           })}
         </VStack>
