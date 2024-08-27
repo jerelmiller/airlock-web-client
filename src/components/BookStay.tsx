@@ -303,7 +303,7 @@ export default function BookStay({
         <Button
           colorScheme="blue"
           onClick={() => bookStay()}
-          disabled={numNights < 1}
+          isDisabled={numNights < 1}
           isLoading={loading}
         >
           Book trip

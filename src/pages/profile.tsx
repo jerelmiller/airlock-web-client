@@ -115,7 +115,7 @@ export default function Profile() {
                       },
                     });
                   }}
-                  disabled={loading}
+                  isDisabled={loading}
                 >
                   {loading ? "Updating..." : "Update Profile"}
                 </Button>

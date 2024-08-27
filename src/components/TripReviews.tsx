@@ -113,7 +113,7 @@ export function HostAndLocationReview({
                     onSubmitReview({ hostReview, locationReview });
                   }
                 }}
-                disabled={
+                isDisabled={
                   !isFullReview(locationReview) || !isFullReview(hostReview)
                 }
                 w="fit-content"
@@ -189,7 +189,7 @@ export function GuestReview({
                     onSubmitReview(review);
                   }
                 }}
-                disabled={!isFullReview(review)}
+                isDisabled={!isFullReview(review)}
                 w="fit-content"
               >
                 Submit Review

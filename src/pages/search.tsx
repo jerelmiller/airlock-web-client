@@ -218,7 +218,7 @@ export default function Search() {
                     setPage(newPage);
                     setNextPageButtonDisabled(false);
                   }}
-                  disabled={page === 1}
+                  isDisabled={page === 1}
                 >
                   Previous page
                 </Button>
@@ -232,7 +232,7 @@ export default function Search() {
                     });
                     setPage(newPage);
                   }}
-                  disabled={nextPageButtonDisabled}
+                  isDisabled={nextPageButtonDisabled}
                 >
                   Next page
                 </Button>
