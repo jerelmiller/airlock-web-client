@@ -23,5 +23,3 @@ export default function Layout({
     </>
   );
 }
-
-Layout.propTypes = {};

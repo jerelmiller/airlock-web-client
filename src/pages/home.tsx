@@ -1,7 +1,6 @@
 import BedroomInput from "../components/BedroomInput";
 import Hero from "../components/Hero";
 import Nav from "../components/Nav";
-import PropTypes from "prop-types";
 import { ReactNode, useState } from "react";
 import {
   Button,
@@ -152,8 +151,3 @@ function InputContainer({ label, children }: InputContainerProps) {
     </Stack>
   );
 }
-
-InputContainer.propTypes = {
-  label: PropTypes.string,
-  children: PropTypes.node,
-};
