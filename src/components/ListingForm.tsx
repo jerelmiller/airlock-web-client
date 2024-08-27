@@ -28,7 +28,7 @@ import {
 } from "@chakra-ui/react";
 import {
   DocumentNode,
-  MutationOptions,
+  MutationHookOptions,
   TypedDocumentNode,
   gql,
   useMutation,
@@ -55,7 +55,7 @@ export const AMENITIES: TypedDocumentNode<
 
 interface ListingFormProps {
   mutation: DocumentNode;
-  mutationOptions: MutationOptions;
+  mutationOptions: MutationHookOptions;
   listingId?: string;
   listingData: unknown;
 }
@@ -88,7 +88,7 @@ interface ListingFormBodyProps {
   amenities: Amenity[];
   listingId?: string;
   mutation: DocumentNode;
-  mutationOptions: MutationOptions;
+  mutationOptions: MutationHookOptions;
 }
 
 function ListingFormBody({
