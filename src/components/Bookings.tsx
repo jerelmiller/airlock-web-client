@@ -64,7 +64,6 @@ function Booking({ booking, listingTitle, isPast }: BookingProps) {
           </VStack>
           <ListingReviews
             title={title}
-            isPast={isPast}
             trip={booking}
             mutationConfig={{
               mutation: SUBMIT_REVIEW,
