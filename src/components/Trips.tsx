@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import {
   Box,
   Heading,
@@ -17,9 +16,16 @@ import {
 } from "./Card";
 import { PAST_GUEST_TRIPS } from "../pages/past-trips";
 import { Link as RouterLink, useLocation } from "react-router-dom";
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
+import {
+  SubmitHostAndLocationReviewsMutation,
+  SubmitHostAndLocationReviewsMutationVariables,
+} from "./__generated__/Trips.types";
 
-export const SUBMIT_REVIEW = gql`
+export const SUBMIT_REVIEW: TypedDocumentNode<
+  SubmitHostAndLocationReviewsMutation,
+  SubmitHostAndLocationReviewsMutationVariables
+> = gql`
   mutation SubmitHostAndLocationReviews(
     $bookingId: ID!
     $hostReview: ReviewInput!
@@ -45,7 +51,13 @@ export const SUBMIT_REVIEW = gql`
     }
   }
 `;
-function Trip({ trip, isPast }) {
+
+interface TripProps {
+  trip: unknown;
+  isPast: boolean;
+}
+
+function Trip({ trip, isPast }: TripProps) {
   const hasReviews = trip.locationReview !== null && trip.hostReview !== null;
 
   if (isPast) {
@@ -123,12 +135,12 @@ function Trip({ trip, isPast }) {
   }
 }
 
-Trip.propTypes = {
-  trip: PropTypes.object,
-  isPast: PropTypes.bool,
-};
+interface TripsProps {
+  trips: unknown[];
+  isPast?: boolean;
+}
 
-export default function Trips({ trips, isPast = false }) {
+export default function Trips({ trips, isPast = false }: TripsProps) {
   const { pathname } = useLocation();
 
   return (
@@ -177,8 +189,3 @@ export default function Trips({ trips, isPast = false }) {
     </>
   );
 }
-
-Trips.propTypes = {
-  trips: PropTypes.array.isRequired,
-  isPast: PropTypes.bool,
-};
