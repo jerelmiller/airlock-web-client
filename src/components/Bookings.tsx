@@ -90,7 +90,6 @@ function Booking({ booking, listingTitle, isPast }: BookingProps) {
             <Image
               isAvatar
               src={booking.guest.profilePicture}
-              name={booking.guest.name}
               w="100px"
               h="auto"
               alt={booking.guest.name}
