@@ -64,7 +64,7 @@ interface ListingData {
   title: string;
   description: string;
   amenities: Amenity[];
-  locationType: LocationType;
+  locationType: string;
   numOfBeds: number;
   costPerNight: number;
   photoThumbnail: string;
