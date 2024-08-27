@@ -87,7 +87,7 @@ export default function HostBookings() {
         {({ bookingsForListing, listing }) => (
           <Bookings
             title={listing?.title ?? ""}
-            bookings={bookingsForListing}
+            bookings={bookingsForListing.filter(Boolean)}
             isPast
           />
         )}

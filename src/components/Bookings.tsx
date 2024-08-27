@@ -18,8 +18,21 @@ import * as GraphQLTypes from "../__generated__/types";
 import { GuestReview } from "./TripReviews";
 import { useMutation } from "@apollo/client";
 
+type Booking = Pick<
+  GraphQLTypes.Booking,
+  | "id"
+  | "guestReview"
+  | "guest"
+  | "checkInDate"
+  | "checkOutDate"
+  | "status"
+  | "locationReview"
+  | "hostReview"
+  | "listing"
+>;
+
 interface BookingProps {
-  booking: GraphQLTypes.Booking;
+  booking: Booking;
   isPast?: boolean;
 }
 
@@ -135,7 +148,7 @@ function Booking({ booking, isPast }: BookingProps) {
 
 interface BookingsProps {
   title: string;
-  bookings: GraphQLTypes.Booking[];
+  bookings: Booking[];
   isPast?: boolean;
 }
 
