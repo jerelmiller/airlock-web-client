@@ -17,7 +17,7 @@ import {
   SubmitHostAndLocationReviewsMutationVariables,
 } from "./__generated__/Trips.types";
 import { Booking } from "../__generated__/types";
-import { TripReviews } from "./TripReviews";
+import { HostAndLocationReview } from "./TripReviews";
 
 export const SUBMIT_REVIEW: TypedDocumentNode<
   SubmitHostAndLocationReviewsMutation,
@@ -96,7 +96,7 @@ function Trip({ trip, isPast }: TripProps) {
               wrapperProps={{ w: "355px" }}
             />
           </VStack>
-          <TripReviews
+          <HostAndLocationReview
             locationReview={trip.locationReview}
             hostReview={trip.hostReview}
             guestReview={trip.guestReview}
