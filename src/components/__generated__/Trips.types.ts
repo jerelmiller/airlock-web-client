@@ -25,3 +25,36 @@ export type SubmitHostAndLocationReviewsMutation = {
     } | null;
   };
 };
+
+export type Trip_tripFragment = {
+  __typename: "Booking";
+  checkInDate: string;
+  checkOutDate: string;
+  status: GraphQLTypes.BookingStatus;
+  listing: {
+    __typename: "Listing";
+    id: string;
+    photoThumbnail: string;
+    title: string;
+  };
+  locationReview: { __typename: "Review"; rating: number; text: string } | null;
+  hostReview: { __typename: "Review"; rating: number; text: string } | null;
+  guestReview: { __typename: "Review"; rating: number; text: string } | null;
+};
+
+export type Trips_tripsFragment = {
+  __typename: "Booking";
+  id: string;
+  checkInDate: string;
+  checkOutDate: string;
+  status: GraphQLTypes.BookingStatus;
+  listing: {
+    __typename: "Listing";
+    id: string;
+    photoThumbnail: string;
+    title: string;
+  };
+  locationReview: { __typename: "Review"; rating: number; text: string } | null;
+  hostReview: { __typename: "Review"; rating: number; text: string } | null;
+  guestReview: { __typename: "Review"; rating: number; text: string } | null;
+};

@@ -15,9 +15,11 @@ import { gql, TypedDocumentNode, useMutation } from "@apollo/client";
 import {
   SubmitHostAndLocationReviewsMutation,
   SubmitHostAndLocationReviewsMutationVariables,
+  Trip_tripFragment,
+  Trips_tripsFragment,
 } from "./__generated__/Trips.types";
-import { Booking } from "../__generated__/types";
 import { HostAndLocationReview } from "./TripReviews";
+import { fragments } from "../fragments";
 
 export const SUBMIT_REVIEW: TypedDocumentNode<
   SubmitHostAndLocationReviewsMutation,
@@ -50,9 +52,31 @@ export const SUBMIT_REVIEW: TypedDocumentNode<
 `;
 
 interface TripProps {
-  trip: Booking;
+  trip: Trip_tripFragment;
   isPast: boolean;
 }
+
+fragments.register(gql`
+  fragment Trip_trip on Booking {
+    checkInDate
+    checkOutDate
+    status
+    listing {
+      id
+      photoThumbnail
+      title
+    }
+    locationReview {
+      ...HostAndLocationReviewFragment_locationReview
+    }
+    hostReview {
+      ...HostAndLocationReviewFragment_hostReview
+    }
+    guestReview {
+      ...HostAndLocationReviewFragment_guestReview
+    }
+  }
+`);
 
 function Trip({ trip, isPast }: TripProps) {
   const hasReviews = trip.locationReview !== null && trip.hostReview !== null;
@@ -153,9 +177,16 @@ function Trip({ trip, isPast }: TripProps) {
 }
 
 interface TripsProps {
-  trips: Booking[];
+  trips: Trips_tripsFragment[];
   isPast?: boolean;
 }
+
+fragments.register(gql`
+  fragment Trips_trips on Booking {
+    id
+    ...Trip_trip
+  }
+`);
 
 export default function Trips({ trips, isPast = false }: TripsProps) {
   const { pathname } = useLocation();
@@ -193,14 +224,8 @@ export default function Trips({ trips, isPast = false }: TripsProps) {
       </Box>
 
       <VStack spacing="6" divider={<StackDivider />}>
-        {trips.map((trip, i) => {
-          return (
-            <Trip
-              key={`${trip.listing.title}-${i}`}
-              trip={trip}
-              isPast={isPast}
-            />
-          );
+        {trips.map((trip) => {
+          return <Trip key={trip.id} trip={trip} isPast={isPast} />;
         })}
       </VStack>
     </>
