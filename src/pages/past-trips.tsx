@@ -1,7 +1,6 @@
 import Layout from "../layouts/Layout";
 import QueryResult from "../components/QueryResult";
 import Trips from "../components/Trips";
-import { Center, Spinner } from "@chakra-ui/react";
 import { gql, useQuery, TypedDocumentNode } from "@apollo/client";
 import {
   GetPastTripsQuery,
@@ -22,17 +21,6 @@ export const PAST_GUEST_TRIPS: TypedDocumentNode<
 
 export default function PastTrips() {
   const { loading, error, data } = useQuery(PAST_GUEST_TRIPS);
-
-  if (loading) {
-    return (
-      <Center minH="100vh">
-        <Spinner size="lg" />
-      </Center>
-    );
-  }
-  if (error) {
-    return <div>uhoh error! {error.message}</div>;
-  }
 
   return (
     <Layout>
