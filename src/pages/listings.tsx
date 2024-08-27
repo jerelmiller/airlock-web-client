@@ -51,7 +51,7 @@ export default function Listings() {
               spacing="4"
               divider={<StackDivider borderColor="gray.200" />}
             >
-              {hostListings.map((listingData, index) => {
+              {hostListings.filter(Boolean).map((listingData, index) => {
                 const {
                   id,
                   title,
