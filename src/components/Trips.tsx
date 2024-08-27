@@ -7,13 +7,7 @@ import {
   VStack,
   Wrap,
 } from "@chakra-ui/react";
-import {
-  Content,
-  Image,
-  InnerContainer,
-  ListingReviews,
-  OuterContainer,
-} from "./Card";
+import { Content, Image, InnerContainer, OuterContainer } from "./Card";
 import { PAST_GUEST_TRIPS } from "../pages/past-trips";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { gql, TypedDocumentNode } from "@apollo/client";
@@ -22,6 +16,7 @@ import {
   SubmitHostAndLocationReviewsMutationVariables,
 } from "./__generated__/Trips.types";
 import { Booking } from "../__generated__/types";
+import TripReviews from "./TripReviews";
 
 export const SUBMIT_REVIEW: TypedDocumentNode<
   SubmitHostAndLocationReviewsMutation,
@@ -80,19 +75,20 @@ function Trip({ trip, isPast }: TripProps) {
               wrapperProps={{ w: "355px" }}
             />
           </VStack>
-          <ListingReviews
-            title={trip.listing.title}
-            trip={trip}
-            mutationConfig={{
-              mutation: SUBMIT_REVIEW,
-              mutationOptions: {
-                variables: {
-                  bookingId: trip.id,
-                },
-                // NOTE: for the scope of this project, we've opted for the simpler refetch approach
-                // another, more optimized option is to update the cache directly -- https://www.apollographql.com/docs/react/data/mutations/#updating-the-cache-directly
-                refetchQueries: [{ query: PAST_GUEST_TRIPS }],
+          <TripReviews
+            ratingKey={trip.listing.title}
+            locationReview={trip.locationReview}
+            hostReview={trip.hostReview}
+            guestReview={trip.guestReview}
+            isHost={trip.listing.host.id === localStorage.getItem("token")}
+            mutation={SUBMIT_REVIEW}
+            mutationOptions={{
+              variables: {
+                bookingId: trip.id,
               },
+              // NOTE: for the scope of this project, we've opted for the simpler refetch approach
+              // another, more optimized option is to update the cache directly -- https://www.apollographql.com/docs/react/data/mutations/#updating-the-cache-directly
+              refetchQueries: [{ query: PAST_GUEST_TRIPS }],
             }}
           />
         </InnerContainer>
