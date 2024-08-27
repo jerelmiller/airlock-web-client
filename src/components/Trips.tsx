@@ -4,13 +4,14 @@ import {
   Link,
   StackDivider,
   Tag,
+  useToast,
   VStack,
   Wrap,
 } from "@chakra-ui/react";
 import { Content, Image, InnerContainer, OuterContainer } from "./Card";
 import { PAST_GUEST_TRIPS } from "../pages/past-trips";
 import { Link as RouterLink, useLocation } from "react-router-dom";
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, TypedDocumentNode, useMutation } from "@apollo/client";
 import {
   SubmitHostAndLocationReviewsMutation,
   SubmitHostAndLocationReviewsMutationVariables,
@@ -55,6 +56,26 @@ interface TripProps {
 
 function Trip({ trip, isPast }: TripProps) {
   const hasReviews = trip.locationReview !== null && trip.hostReview !== null;
+  const toast = useToast();
+  const [submitReview] = useMutation(SUBMIT_REVIEW, {
+    onCompleted: ({ submitHostAndLocationReviews }) => {
+      submitHostAndLocationReviews.success
+        ? toast({
+            title: "Your review has been submitted.",
+            description: "Thank you!",
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+          })
+        : toast({
+            title: "Something went wrong.",
+            description: "Try again later.",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+    },
+  });
 
   if (isPast) {
     return (
@@ -81,14 +102,16 @@ function Trip({ trip, isPast }: TripProps) {
             hostReview={trip.hostReview}
             guestReview={trip.guestReview}
             isHost={trip.listing.host.id === localStorage.getItem("token")}
-            mutation={SUBMIT_REVIEW}
-            mutationOptions={{
-              variables: {
-                bookingId: trip.id,
-              },
-              // NOTE: for the scope of this project, we've opted for the simpler refetch approach
-              // another, more optimized option is to update the cache directly -- https://www.apollographql.com/docs/react/data/mutations/#updating-the-cache-directly
-              refetchQueries: [{ query: PAST_GUEST_TRIPS }],
+            onSubmitReview={(reviews) => {
+              submitReview({
+                variables: {
+                  ...reviews,
+                  bookingId: trip.id,
+                },
+                // NOTE: for the scope of this project, we've opted for the simpler refetch approach
+                // another, more optimized option is to update the cache directly -- https://www.apollographql.com/docs/react/data/mutations/#updating-the-cache-directly
+                refetchQueries: [{ query: PAST_GUEST_TRIPS }],
+              });
             }}
           />
         </InnerContainer>
