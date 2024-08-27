@@ -97,7 +97,6 @@ function Trip({ trip, isPast }: TripProps) {
             />
           </VStack>
           <TripReviews
-            ratingKey={trip.listing.title}
             locationReview={trip.locationReview}
             hostReview={trip.hostReview}
             guestReview={trip.guestReview}
