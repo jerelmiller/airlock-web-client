@@ -5,7 +5,6 @@ import {
   Button,
   Flex,
   Heading,
-  Input,
   Link,
   Stack,
   StackProps,
@@ -14,7 +13,6 @@ import {
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import {
   areDatesValid,
-  getDatePickerProps,
   getDatesToExclude,
   getFirstValidDate,
   getNextDate,
@@ -33,6 +31,7 @@ import {
   BookStayMutationVariables,
 } from "./__generated__/BookStay.types";
 import * as GraphQLTypes from "../__generated__/types";
+import { DatePickerInput } from "./DatePickerInput";
 
 export const BOOK_STAY: TypedDocumentNode<
   BookStayMutation,
@@ -111,14 +110,6 @@ export default function BookStay({
   const numNights = differenceInDays(checkOutDate, checkInDate);
 
   const today = new Date();
-  const DATEPICKER_PROPS = getDatePickerProps({
-    today,
-    startDate: checkInDate,
-    endDate: checkOutDate,
-    setStartDate: setCheckInDate,
-    setEndDate: setCheckOutDate,
-    excludeDates: datesToExclude,
-  });
 
   const [bookStay, { loading, error, data }] = useMutation(BOOK_STAY, {
     variables: {
@@ -264,8 +255,13 @@ export default function BookStay({
     <Container pos="relative" h="initial" title="Book your stay">
       <Stack spacing="3">
         <Text fontWeight="semibold">Check-in Date</Text>
-        <Input
-          {...DATEPICKER_PROPS}
+        <DatePickerInput
+          today={today}
+          startDate={checkInDate}
+          endDate={checkOutDate}
+          setStartDate={setCheckInDate}
+          setEndDate={setCheckOutDate}
+          excludeDates={datesToExclude}
           selected={checkInDate}
           onChange={(date) => {
             if (isDateValid(stringDates, date)) {
@@ -277,8 +273,13 @@ export default function BookStay({
           }}
         />
         <Text fontWeight="semibold">Check-out Date</Text>
-        <Input
-          {...DATEPICKER_PROPS}
+        <DatePickerInput
+          today={today}
+          startDate={checkInDate}
+          endDate={checkOutDate}
+          setStartDate={setCheckInDate}
+          setEndDate={setCheckOutDate}
+          excludeDates={datesToExclude}
           selected={checkOutDate}
           minDate={today < checkInDate ? checkInDate : today}
           onChange={(date) => {
