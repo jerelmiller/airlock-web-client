@@ -43,6 +43,10 @@ const config: CodegenConfig = {
         },
         nonOptionalTypename: true,
         skipTypeNameForRoot: true,
+        namingConvention: {
+          typeNames: "keep",
+          enumValues: "change-case-all#upperCase",
+        },
       },
     },
   },
