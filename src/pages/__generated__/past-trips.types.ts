@@ -13,28 +13,16 @@ export type GetPastTripsQuery = {
     status: GraphQLTypes.BookingStatus;
     listing: {
       __typename: "Listing";
-      title: string;
+      id: string;
       photoThumbnail: string;
-      host: { __typename: "Host"; id: string };
+      title: string;
     };
-    guest: { __typename: "Guest"; id: string };
     locationReview: {
       __typename: "Review";
-      id: string;
-      text: string;
       rating: number;
-    } | null;
-    hostReview: {
-      __typename: "Review";
-      id: string;
       text: string;
-      rating: number;
     } | null;
-    guestReview: {
-      __typename: "Review";
-      id: string;
-      text: string;
-      rating: number;
-    } | null;
+    hostReview: { __typename: "Review"; rating: number; text: string } | null;
+    guestReview: { __typename: "Review"; rating: number; text: string } | null;
   } | null>;
 };

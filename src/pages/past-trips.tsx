@@ -15,34 +15,7 @@ export const PAST_GUEST_TRIPS: TypedDocumentNode<
   query GetPastTrips {
     pastGuestBookings {
       id
-      checkInDate
-      checkOutDate
-      status
-      listing {
-        title
-        photoThumbnail
-        host {
-          id
-        }
-      }
-      guest {
-        id
-      }
-      locationReview {
-        id
-        text
-        rating
-      }
-      hostReview {
-        id
-        text
-        rating
-      }
-      guestReview {
-        id
-        text
-        rating
-      }
+      ...Trips_trips
     }
   }
 `;
@@ -64,7 +37,9 @@ export default function PastTrips() {
   return (
     <Layout>
       <QueryResult loading={loading} error={error} data={data}>
-        {({ pastGuestBookings }) => <Trips trips={pastGuestBookings} isPast />}
+        {({ pastGuestBookings }) => (
+          <Trips trips={pastGuestBookings.filter(Boolean)} isPast />
+        )}
       </QueryResult>
     </Layout>
   );
