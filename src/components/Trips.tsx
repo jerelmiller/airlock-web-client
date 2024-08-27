@@ -17,7 +17,7 @@ import {
   SubmitHostAndLocationReviewsMutationVariables,
 } from "./__generated__/Trips.types";
 import { Booking } from "../__generated__/types";
-import TripReviews from "./TripReviews";
+import { TripReviews } from "./TripReviews";
 
 export const SUBMIT_REVIEW: TypedDocumentNode<
   SubmitHostAndLocationReviewsMutation,

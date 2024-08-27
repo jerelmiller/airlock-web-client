@@ -53,7 +53,7 @@ interface TripReviewsProps {
   }) => void;
 }
 
-export default function TripReviews({
+export function TripReviews({
   locationReview,
   hostReview,
   guestReview,
