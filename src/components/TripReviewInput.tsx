@@ -1,78 +1,49 @@
-import { useState } from "react";
 import ReactStars from "react-rating-stars-component";
 import { Flex, Text, Textarea } from "@chakra-ui/react";
 import { IoStar, IoStarOutline } from "react-icons/io5";
 
 interface ReviewRatingProps {
-  setReviewsInput?: (state: Record<string, Record<string, unknown>>) => void;
-  reviewType?: string;
   rating?: number | null;
+  onChange?: (rating: number) => void;
 }
 
 // https://www.npmjs.com/package/react-rating-stars-component
 export function ReviewRating({
-  setReviewsInput = () => {},
-  reviewType = "",
   rating = null,
+  onChange = () => {},
 }: ReviewRatingProps) {
-  const [, setRating] = useState(0);
-
-  const updateState = (newRating: number) => {
-    setRating(newRating);
-    setReviewsInput((prevState) => {
-      return {
-        ...prevState,
-        [`${reviewType}Review`]: {
-          ...prevState[`${reviewType}Review`],
-          rating: newRating,
-        },
-      };
-    });
-  };
-
-  const starConfig = {
-    size: 16,
-    isHalf: false,
-    color: "black",
-    activeColor: "black",
-    emptyIcon: <IoStarOutline />,
-    filledIcon: <IoStar />,
-  };
-
   return (
     <ReactStars
       count={5}
       edit={rating !== null ? false : true}
       value={rating !== null ? rating : 0}
-      onChange={updateState}
-      {...starConfig}
+      onChange={onChange}
+      size={16}
+      isHalf={false}
+      color="black"
+      activeColor="black"
+      emptyIcon={<IoStarOutline />}
+      filledIcon={<IoStar />}
     />
   );
 }
 
-ReviewRating.propTypes = {};
+interface ReviewType {
+  rating: number | null;
+  text: string | null;
+}
 
 interface ReviewInputProps {
+  review: ReviewType;
   reviewType: string;
-  setReviewsInput: (state: Record<string, Record<string, unknown>>) => void;
+  onChange: (review: ReviewType) => void;
 }
 
 export default function ReviewInput({
+  review,
   reviewType,
-  setReviewsInput,
+  onChange,
 }: ReviewInputProps) {
-  const [textVal, setTextVal] = useState("");
-  const updateState = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setReviewsInput((prevState) => {
-      return {
-        ...prevState,
-        [`${reviewType}Review`]: {
-          ...prevState[`${reviewType}Review`],
-          text: e.target.value,
-        },
-      };
-    });
-  };
   return (
     <>
       <Flex alignItems="center">
@@ -80,16 +51,15 @@ export default function ReviewInput({
           {reviewType}
         </Text>
         <ReviewRating
-          setReviewsInput={setReviewsInput}
-          reviewType={reviewType}
+          rating={review.rating}
+          onChange={(rating) => onChange({ ...review, rating })}
         />
       </Flex>
       <Textarea
         placeholder="Leave your review"
-        value={textVal}
+        value={review.text ?? ""}
         onChange={(e) => {
-          setTextVal(e.target.value);
-          updateState(e);
+          onChange({ ...review, text: e.target.value });
         }}
         w="400px"
       />
