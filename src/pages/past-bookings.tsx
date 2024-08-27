@@ -9,6 +9,7 @@ import {
   SubmitGuestReviewMutation,
   SubmitGuestReviewMutationVariables,
 } from "./__generated__/past-bookings.types";
+import { BookingStatus } from "../__generated__/types";
 
 export const SUBMIT_REVIEW: TypedDocumentNode<
   SubmitGuestReviewMutation,
@@ -75,8 +76,8 @@ export default function HostBookings() {
   const { id } = useParams();
   const { loading, error, data } = useQuery(HOST_BOOKINGS, {
     variables: {
-      listingId: id,
-      status: "COMPLETED",
+      listingId: id!,
+      status: BookingStatus.COMPLETED,
     },
   });
 
@@ -85,7 +86,7 @@ export default function HostBookings() {
       <QueryResult loading={loading} error={error} data={data}>
         {({ bookingsForListing, listing }) => (
           <Bookings
-            title={listing.title}
+            title={listing?.title ?? ""}
             bookings={bookingsForListing}
             isPast
           />
