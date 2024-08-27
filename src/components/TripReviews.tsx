@@ -18,11 +18,7 @@ import {
   TypedDocumentNode,
   useMutation,
 } from "@apollo/client";
-
-interface ReviewType {
-  rating: number;
-  text: string;
-}
+import { Review as ReviewType } from "../__generated__/types";
 
 interface ReviewProps {
   review: ReviewType;
@@ -61,7 +57,6 @@ export default function TripReviews<
   TData = unknown,
   TVariables extends OperationVariables = OperationVariables,
 >({
-  ratingKey,
   locationReview,
   hostReview,
   guestReview,
@@ -164,10 +159,9 @@ export default function TripReviews<
                 <ReviewInput
                   reviewType="guest"
                   setReviewsInput={setReviewsInput}
-                  isHost
                 />
                 <Button
-                  onClick={submitReviews}
+                  onClick={() => submitReviews()}
                   disabled={isSubmitDisabled}
                   w="fit-content"
                 >
@@ -189,22 +183,14 @@ export default function TripReviews<
           What your host had to say
         </Heading>
         {!guestReview && renderNoReviewMessage("host")}
-        {guestReview && (
-          <Review ratingKey={ratingKey} review={guestReview}>
-            Guest
-          </Review>
-        )}
+        {guestReview && <Review review={guestReview}>Guest</Review>}
         {locationReview && hostReview && (
           <>
             <Heading as="h2" fontWeight="semibold" fontSize="lg">
               Your rating and review
             </Heading>
-            <Review ratingKey={ratingKey} review={locationReview}>
-              Location
-            </Review>
-            <Review ratingKey={ratingKey} review={hostReview}>
-              Host
-            </Review>
+            <Review review={locationReview}>Location</Review>
+            <Review review={hostReview}>Host</Review>
           </>
         )}
         {!locationReview && !hostReview && (
@@ -227,15 +213,13 @@ export default function TripReviews<
                 <ReviewInput
                   reviewType="location"
                   setReviewsInput={setReviewsInput}
-                  isHost
                 />
                 <ReviewInput
                   reviewType="host"
                   setReviewsInput={setReviewsInput}
-                  isHost
                 />
                 <Button
-                  onClick={submitReviews}
+                  onClick={() => submitReviews()}
                   disabled={isSubmitDisabled}
                   w="fit-content"
                 >
