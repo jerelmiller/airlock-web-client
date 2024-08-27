@@ -2,20 +2,21 @@
 import DatePicker, {
   DatePickerProps as ReactDatePickerProps,
 } from "react-datepicker";
-import { Input } from "@chakra-ui/react";
+import { Input, InputProps } from "@chakra-ui/react";
 import { getNextDate } from "../utils";
 
-type DatePickerProps = Omit<
-  ReactDatePickerProps,
-  "startDate" | "endDate" | "onSelect" | "onChange"
-> & {
-  today: Date;
-  startDate: Date;
-  endDate: Date;
-  setStartDate: (date: Date) => void;
-  setEndDate: (date: Date) => void;
-  onChange?: (date: Date) => void;
-};
+type DatePickerProps = Omit<InputProps, keyof ReactDatePickerProps> &
+  Omit<
+    ReactDatePickerProps,
+    "startDate" | "endDate" | "onSelect" | "onChange"
+  > & {
+    today: Date;
+    startDate: Date;
+    endDate: Date;
+    setStartDate: (date: Date) => void;
+    setEndDate: (date: Date) => void;
+    onChange?: (date: Date) => void;
+  };
 
 export function DatePickerInput({
   today,
