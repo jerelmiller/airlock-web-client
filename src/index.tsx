@@ -14,6 +14,7 @@ const httpLink = createHttpLink({
 
 import theme from "./theme.js";
 import { ChakraProvider } from "@chakra-ui/react";
+import { fragments } from "./fragments";
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
@@ -30,7 +31,7 @@ const authLink = setContext((_, { headers }) => {
 
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({ fragments }),
   name: "web-client",
   version: "0.9",
 });
