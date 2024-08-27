@@ -1,4 +1,3 @@
-import DatePicker, { DatePickerProps } from "react-datepicker";
 import areIntervalsOverlapping from "date-fns/areIntervalsOverlapping";
 import format from "date-fns/format";
 import { gql, useQuery, TypedDocumentNode } from "@apollo/client";
@@ -79,39 +78,6 @@ export const HOST_LISTINGS: TypedDocumentNode<
 export const getNextDate = (date: Date) => {
   const nextDate = new Date(date).setDate(date.getDate() + 1);
   return new Date(nextDate);
-};
-
-export const getDatePickerProps = ({
-  today,
-  startDate,
-  endDate,
-  setStartDate,
-  setEndDate,
-  ...props
-}: {
-  today: Date;
-  startDate: Date;
-  endDate: Date;
-  setStartDate: (date: Date) => void;
-  setEndDate: (date: Date) => void;
-} & Partial<DatePickerProps>) => {
-  return {
-    type: "date",
-    as: DatePicker,
-    dateFormat: "MM-dd-yyyy",
-    minDate: today,
-    startDate,
-    endDate,
-    onChange: (date: Date) => {
-      setStartDate(date);
-
-      // match end date with start date if start date was changed to be farther in the future than the current end date
-      if (endDate < date) {
-        setEndDate(new Date(getNextDate(date)));
-      }
-    },
-    ...props,
-  };
 };
 
 // need to normalize Date time (data from getDatesToExclude times are all 00:00:00)
