@@ -15,18 +15,16 @@ import { IoChevronBack } from "react-icons/io5";
 import { HOST_BOOKINGS, SUBMIT_REVIEW } from "../pages/past-bookings";
 import { Link as RouterLink, useLocation, useParams } from "react-router-dom";
 import * as GraphQLTypes from "../__generated__/types";
-import TripReviews from "./TripReviews";
+import { GuestReview } from "./TripReviews";
 import { useMutation } from "@apollo/client";
 
 interface BookingProps {
   booking: GraphQLTypes.Booking;
-  listingTitle: string;
   isPast?: boolean;
 }
 
-function Booking({ booking, listingTitle, isPast }: BookingProps) {
+function Booking({ booking, isPast }: BookingProps) {
   const hasHostReview = booking.guestReview !== null;
-  const title = booking.listing.title || listingTitle;
   const toast = useToast();
 
   const [submitReview] = useMutation(SUBMIT_REVIEW, {
@@ -76,16 +74,14 @@ function Booking({ booking, listingTitle, isPast }: BookingProps) {
               ) : null}
             </Content>
           </VStack>
-          <TripReviews
-            ratingKey={title}
+          <GuestReview
             locationReview={booking.locationReview}
             hostReview={booking.hostReview}
             guestReview={booking.guestReview}
-            isHost={booking.listing.host.id === localStorage.getItem("token")}
-            onSubmitReview={(reviews) => {
+            onSubmitReview={(review) => {
               submitReview({
                 variables: {
-                  guestReview: reviews.guestReview,
+                  guestReview: review,
                   bookingId: booking.id,
                 },
                 // NOTE: for the scope of this project, we've opted for the simpler refetch approach
