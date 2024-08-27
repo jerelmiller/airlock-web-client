@@ -12,13 +12,12 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { IoChevronDown, IoChevronUp } from "react-icons/io5";
-import {
-  MutationOptions,
-  OperationVariables,
-  TypedDocumentNode,
-  useMutation,
-} from "@apollo/client";
-import { Review as ReviewType } from "../__generated__/types";
+import { useMutation } from "@apollo/client";
+
+interface ReviewType {
+  rating: number | null;
+  text: string | null;
+}
 
 interface ReviewProps {
   review: ReviewType;
@@ -43,27 +42,25 @@ function Review({ review, children }: ReviewProps) {
   );
 }
 
-interface TripReviewsProps<TData, TVariables extends OperationVariables> {
+interface TripReviewsProps {
   locationReview: ReviewType | null;
   hostReview: ReviewType | null;
   guestReview: ReviewType | null;
   ratingKey: string;
-  mutation: TypedDocumentNode<TData, TVariables>;
-  mutationOptions: Omit<MutationOptions<TData, TVariables>, "mutation">;
   isHost?: boolean;
+  onSubmitReview: (reviews: {
+    guestReview?: ReviewType;
+    locationReview?: ReviewType;
+    hostReview?: ReviewType;
+  }) => void;
 }
 
-export default function TripReviews<
-  TData = unknown,
-  TVariables extends OperationVariables = OperationVariables,
->({
+export default function TripReviews({
   locationReview,
   hostReview,
   guestReview,
-  mutation,
-  mutationOptions,
   isHost = false,
-}: TripReviewsProps<TData, TVariables>) {
+}: TripReviewsProps) {
   const [reviewsInput, setReviewsInput] = useState<{
     guestReview?: ReviewType;
     locationReview?: ReviewType;
@@ -157,8 +154,14 @@ export default function TripReviews<
                   Your rating and review
                 </Heading>
                 <ReviewInput
-                  reviewType="guest"
-                  setReviewsInput={setReviewsInput}
+                  label="guest"
+                  review={reviewsInput.guestReview}
+                  onChange={(review) =>
+                    setReviewsInput((reviews) => ({
+                      ...reviews,
+                      guestReview: review,
+                    }))
+                  }
                 />
                 <Button
                   onClick={() => submitReviews()}
@@ -211,12 +214,21 @@ export default function TripReviews<
                   Your rating and review
                 </Heading>
                 <ReviewInput
-                  reviewType="location"
-                  setReviewsInput={setReviewsInput}
+                  label="Location"
+                  review={reviewsInput.locationReview}
+                  onChange={(review) => {
+                    setReviewsInput((reviews) => ({ locationReview: review }));
+                  }}
                 />
                 <ReviewInput
-                  reviewType="host"
-                  setReviewsInput={setReviewsInput}
+                  label="Host"
+                  review={reviewsInput.hostReview}
+                  onChange={(review) =>
+                    setReviewsInput((reviews) => ({
+                      ...reviews,
+                      hostReview: review,
+                    }))
+                  }
                 />
                 <Button
                   onClick={() => submitReviews()}
