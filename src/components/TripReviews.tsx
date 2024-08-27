@@ -24,21 +24,17 @@ interface ReviewProps {
 }
 
 function Review({ review, children }: ReviewProps) {
-  return (
-    <>
-      {review ? (
-        <Box>
-          <Flex alignItems="center">
-            <Text fontWeight="semibold" mr="4">
-              {children}
-            </Text>
-            <ReviewRating rating={review.rating} />
-          </Flex>
-          <Text>{review.text}</Text>
-        </Box>
-      ) : null}
-    </>
-  );
+  return review ? (
+    <Box>
+      <Flex alignItems="center">
+        <Text fontWeight="semibold" mr="4">
+          {children}
+        </Text>
+        <ReviewRating rating={review.rating} />
+      </Flex>
+      <Text>{review.text}</Text>
+    </Box>
+  ) : null;
 }
 
 interface TripReviewsProps {
