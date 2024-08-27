@@ -4,10 +4,19 @@ import QueryResult from "../components/QueryResult";
 import { Button } from "@chakra-ui/react";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { LISTING_FRAGMENT } from "../utils";
-import { gql, useQuery } from "@apollo/client";
+import { gql, TypedDocumentNode, useQuery } from "@apollo/client";
 import { useNavigate, useParams } from "react-router-dom";
+import {
+  GetListingQuery,
+  GetListingQueryVariables,
+  UpdateListingMutation,
+  UpdateListingMutationVariables,
+} from "./__generated__/edit-listing.types";
 
-export const EDIT_LISTING = gql`
+export const EDIT_LISTING: TypedDocumentNode<
+  UpdateListingMutation,
+  UpdateListingMutationVariables
+> = gql`
   mutation UpdateListingMutation(
     $listingId: ID!
     $listing: UpdateListingInput!
@@ -28,7 +37,10 @@ export const EDIT_LISTING = gql`
   ${LISTING_FRAGMENT}
 `;
 
-export const LISTING = gql`
+export const LISTING: TypedDocumentNode<
+  GetListingQuery,
+  GetListingQueryVariables
+> = gql`
   query GetListing($id: ID!) {
     listing(id: $id) {
       ...ListingFragment
@@ -45,7 +57,9 @@ export const LISTING = gql`
 export default function EditListing() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { loading, error, data } = useQuery(LISTING, { variables: { id } });
+  const { loading, error, data } = useQuery(LISTING, {
+    variables: { id: id! },
+  });
 
   return (
     <Layout>
@@ -60,6 +74,10 @@ export default function EditListing() {
       </Button>
       <QueryResult loading={loading} error={error} data={data}>
         {(data) => {
+          if (!data.listing) {
+            return null;
+          }
+
           const {
             id: listingId,
             title,
@@ -77,7 +95,7 @@ export default function EditListing() {
             numOfBeds,
             locationType,
             photoThumbnail,
-            amenities,
+            amenities: amenities.filter(Boolean),
             costPerNight,
           };
 
