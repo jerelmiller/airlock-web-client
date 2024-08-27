@@ -4,9 +4,16 @@ import { Button } from "@chakra-ui/react";
 import { HOST_LISTINGS, LISTING_FRAGMENT } from "../utils";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
+import {
+  CreateListingMutation,
+  CreateListingMutationVariables,
+} from "./__generated__/add-listing.types";
 
-export const CREATE_LISTING = gql`
+export const CREATE_LISTING: TypedDocumentNode<
+  CreateListingMutation,
+  CreateListingMutationVariables
+> = gql`
   mutation CreateListingMutation($listing: CreateListingInput!) {
     createListing(listing: $listing) {
       success
