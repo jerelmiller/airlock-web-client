@@ -42,13 +42,6 @@ export const SEARCH_LISTINGS: TypedDocumentNode<
   query SearchListings($searchListingsInput: SearchListingsInput!) {
     searchListings(criteria: $searchListingsInput) {
       id
-      title
-      photoThumbnail
-      numOfBeds
-      description
-      overallRating
-      costPerNight
-      locationType
       ...ListingCell_listing
     }
   }
@@ -222,11 +215,11 @@ function SearchResults({
       </Flex>
       {data.searchListings.length > 0 ? (
         <VStack spacing="4">
-          {data.searchListings.filter(Boolean).map((listingData) => (
+          {data.searchListings.filter(Boolean).map((listing) => (
             <ListingCell
-              key={listingData.title}
-              listing={listingData}
-              to={`/listing/${listingData.id}/?startDate=${format(
+              key={listing.id}
+              listing={listing}
+              to={`/listing/${listing.id}/?startDate=${format(
                 checkInDate,
                 "MM-dd-yyyy",
               )}&endDate=${format(checkOutDate, "MM-dd-yyyy")}`}

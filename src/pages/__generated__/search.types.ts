@@ -9,11 +9,11 @@ export type SearchListingsQuery = {
     __typename: "Listing";
     id: string;
     title: string;
+    description: string;
     photoThumbnail: string;
     numOfBeds: number;
-    description: string;
-    overallRating: number | null;
     costPerNight: number;
+    overallRating: number | null;
     locationType: GraphQLTypes.LocationType;
   } | null>;
 };
