@@ -21,10 +21,17 @@ import {
 import { GUEST_TRIPS } from "./trips";
 import { IoBedOutline, IoCreate } from "react-icons/io5";
 import { Link, useParams } from "react-router-dom";
-import { gql, useQuery } from "@apollo/client";
+import { gql, TypedDocumentNode, useQuery } from "@apollo/client";
 import { useUser } from "../utils";
+import {
+  GetListingDetailsQuery,
+  GetListingDetailsQueryVariables,
+} from "./__generated__/listing.types";
 
-export const LISTING = gql`
+export const LISTING: TypedDocumentNode<
+  GetListingDetailsQuery,
+  GetListingDetailsQueryVariables
+> = gql`
   query GetListingDetails($id: ID!) {
     listing(id: $id) {
       id
@@ -64,8 +71,8 @@ export const LISTING = gql`
 `;
 
 interface AmenityListProps {
-  category?: string;
-  amenities?: unknown[];
+  category: string;
+  amenities: string[];
 }
 
 function AmenityList({ amenities, category }: AmenityListProps) {
@@ -94,12 +101,18 @@ function AmenityList({ amenities, category }: AmenityListProps) {
 export default function Listings() {
   const { id } = useParams();
   const { user } = useUser();
-  const { loading, error, data } = useQuery(LISTING, { variables: { id } });
+  const { loading, error, data } = useQuery(LISTING, {
+    variables: { id: id! },
+  });
 
   return (
     <Layout>
       <QueryResult loading={loading} error={error} data={data}>
         {(data) => {
+          if (!data.listing) {
+            return <></>;
+          }
+
           const {
             id,
             title,
@@ -113,16 +126,21 @@ export default function Listings() {
             overallRating,
             costPerNight,
             bookings,
-          } = data?.listing;
+          } = data.listing;
 
-          const amenitiesByCategory = amenities.reduce((acc, amenity) => {
-            if (acc[amenity.category]) {
-              acc[amenity.category] = [...acc[amenity.category], amenity.name];
-            } else {
-              acc[amenity.category] = [amenity.name];
-            }
-            return acc;
-          }, {});
+          const amenitiesByCategory = amenities
+            .filter(Boolean)
+            .reduce<Record<string, string[]>>((acc, amenity) => {
+              if (acc[amenity.category]) {
+                acc[amenity.category] = [
+                  ...acc[amenity.category],
+                  amenity.name,
+                ];
+              } else {
+                acc[amenity.category] = [amenity.name];
+              }
+              return acc;
+            }, {});
 
           return (
             <Stack direction="column" mb="12" spacing="6">
@@ -217,7 +235,7 @@ export default function Listings() {
                           <Text fontWeight="semibold" mr={4}>
                             {host.name}
                           </Text>
-                          <Stars size={16} rating={host.overallRating} />
+                          <Stars size={16} rating={host.overallRating ?? 0} />
                         </Flex>
                         <Text>{host.profileDescription}</Text>
                       </Stack>
@@ -241,27 +259,32 @@ export default function Listings() {
                       {reviews.length === 0 ? (
                         <Text>Uh-oh, this place has no reviews yet!</Text>
                       ) : (
-                        reviews.map(({ text, author, rating }) => (
-                          <Flex align="flex-start" key={author.id}>
-                            <Stack>
-                              <Avatar
-                                name="profile"
-                                size="md"
-                                borderColor="white"
-                                borderWidth="1px"
-                                src={author.profilePicture}
-                                bg="gray.50"
-                              />
-                            </Stack>
-                            <Stack direction="column" spacing="1" pl={4}>
-                              <HStack align="flex-start">
-                                <Heading size="sm">{author.name}</Heading>
-                                <Stars size={16} rating={rating} />
-                              </HStack>
-                              <Text>{text}</Text>
-                            </Stack>
-                          </Flex>
-                        ))
+                        reviews.map(
+                          (review) =>
+                            review && (
+                              <Flex align="flex-start" key={review.author.id}>
+                                <Stack>
+                                  <Avatar
+                                    name="profile"
+                                    size="md"
+                                    borderColor="white"
+                                    borderWidth="1px"
+                                    src={review.author.profilePicture}
+                                    bg="gray.50"
+                                  />
+                                </Stack>
+                                <Stack direction="column" spacing="1" pl={4}>
+                                  <HStack align="flex-start">
+                                    <Heading size="sm">
+                                      {review.author.name}
+                                    </Heading>
+                                    <Stars size={16} rating={review.rating} />
+                                  </HStack>
+                                  <Text>{review.text}</Text>
+                                </Stack>
+                              </Flex>
+                            ),
+                        )
                       )}
                     </Stack>
                   </Box>
@@ -269,7 +292,7 @@ export default function Listings() {
 
                 <BookStay
                   costPerNight={costPerNight}
-                  bookings={bookings}
+                  bookings={bookings.filter(Boolean)}
                   listingId={id}
                   refetchQueries={[LISTING, { query: GUEST_TRIPS }]}
                   userRole={user?.__typename}
