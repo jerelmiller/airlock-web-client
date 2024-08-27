@@ -8,7 +8,7 @@ interface ListingCardProps {
   title: string;
   photoThumbnail?: string;
   numOfBeds: number;
-  overallRating?: number;
+  overallRating: number | null;
   locationType: string;
   costPerNight: number;
 }

@@ -5,7 +5,7 @@ import ListingCard from "../components/ListingCard";
 import Nav from "../components/Nav";
 import PropTypes from "prop-types";
 import QueryResult from "../components/QueryResult";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import {
   Button,
   Center,
