@@ -100,7 +100,6 @@ function Trip({ trip, isPast }: TripProps) {
             locationReview={trip.locationReview}
             hostReview={trip.hostReview}
             guestReview={trip.guestReview}
-            isHost={trip.listing.host.id === localStorage.getItem("token")}
             onSubmitReview={(reviews) => {
               submitReview({
                 variables: {

@@ -45,7 +45,6 @@ interface TripReviewsProps {
   locationReview: ReviewType | null;
   hostReview: ReviewType | null;
   guestReview: ReviewType | null;
-  isHost?: boolean;
   onSubmitReview: (reviews: {
     locationReview: ReviewType;
     hostReview: ReviewType;
