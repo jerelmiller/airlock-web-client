@@ -78,19 +78,8 @@ export default function Search() {
   });
 
   useEffect(() => {
-    const fetchPreviousPage = async (newPage: number) => {
-      await fetchMore({
-        variables: {
-          searchListingsInput: {
-            page: newPage,
-          },
-        },
-      });
-    };
-
     if (data?.searchListings?.length === 0) {
       const newPage = page - 1;
-      fetchPreviousPage(newPage);
       setPage(newPage);
       setNextPageButtonDisabled(true);
     }
@@ -209,13 +198,7 @@ export default function Search() {
               <Flex justifyContent="space-between">
                 <Button
                   onClick={async () => {
-                    const newPage = page - 1;
-                    await fetchMore({
-                      variables: {
-                        page: newPage,
-                      },
-                    });
-                    setPage(newPage);
+                    setPage(page - 1);
                     setNextPageButtonDisabled(false);
                   }}
                   isDisabled={page === 1}
@@ -223,15 +206,7 @@ export default function Search() {
                   Previous page
                 </Button>
                 <Button
-                  onClick={async () => {
-                    const newPage = page + 1;
-                    await fetchMore({
-                      variables: {
-                        page: newPage,
-                      },
-                    });
-                    setPage(newPage);
-                  }}
+                  onClick={() => setPage(page + 1)}
                   isDisabled={nextPageButtonDisabled}
                 >
                   Next page
