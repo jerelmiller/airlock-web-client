@@ -62,8 +62,6 @@ export default function Search() {
   const [page, setPage] = useState(1);
   const [nextPageButtonDisabled, setNextPageButtonDisabled] = useState(false);
 
-  const INPUT_PROPS = { size: "lg" };
-
   const { loading, error, data, fetchMore } = useQuery(SEARCH_LISTINGS, {
     variables: {
       searchListingsInput: {
@@ -105,7 +103,7 @@ export default function Search() {
                   Check-in Date
                 </Text>
                 <DatePickerInput
-                  {...INPUT_PROPS}
+                  size="lg"
                   today={today}
                   startDate={checkInDate}
                   endDate={checkOutDate}
@@ -120,7 +118,7 @@ export default function Search() {
                   Check-out Date
                 </Text>
                 <DatePickerInput
-                  {...INPUT_PROPS}
+                  size="lg"
                   today={today}
                   startDate={checkInDate}
                   endDate={checkOutDate}
@@ -133,12 +131,12 @@ export default function Search() {
                 />
               </Stack>
               <BedroomInput
-                {...INPUT_PROPS}
+                size="lg"
                 w="150px"
                 numOfBeds={numOfBeds}
                 setNumOfBeds={setNumOfBeds}
               />
-              <Button w="150px" {...INPUT_PROPS}>
+              <Button w="150px" size="lg">
                 Find a place
               </Button>
             </Flex>
@@ -165,7 +163,7 @@ export default function Search() {
                   </Text>
                   <Select
                     width="200px"
-                    {...INPUT_PROPS}
+                    size="lg"
                     onChange={(e) => {
                       setSortBy(e.target.value as SortByCriteria);
                       setPage(1);
