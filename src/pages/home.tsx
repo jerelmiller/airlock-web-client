@@ -1,7 +1,7 @@
 import BedroomInput from "../components/BedroomInput";
 import Hero from "../components/Hero";
 import Nav from "../components/Nav";
-import { ReactNode, useState } from "react";
+import { ReactNode, Suspense, useState } from "react";
 import {
   Button,
   Center,
@@ -14,7 +14,7 @@ import {
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
 import { getNextDate } from "../utils";
-import { gql, TypedDocumentNode, useQuery } from "@apollo/client";
+import { gql, TypedDocumentNode, useBackgroundQuery } from "@apollo/client";
 
 import "react-datepicker/dist/react-datepicker.css";
 import {
@@ -23,6 +23,9 @@ import {
 } from "./__generated__/home.types";
 import { DatePickerInput } from "../components/DatePickerInput";
 import { FeaturedListings } from "../components/FeaturedListings";
+import { PageSpinner } from "../components/PageSpinner";
+import { ErrorBoundary } from "react-error-boundary";
+import { PageError } from "../components/PageError";
 
 export const FEATURED_LISTINGS: TypedDocumentNode<
   GetFeaturedListingsQuery,
@@ -54,7 +57,7 @@ export default function Home() {
   const [endDate, setEndDate] = useState(getNextDate(today));
   const [numOfBeds, setNumOfBeds] = useState(1);
 
-  const queryResult = useQuery(FEATURED_LISTINGS);
+  const [queryRef] = useBackgroundQuery(FEATURED_LISTINGS);
 
   return (
     <>
@@ -131,7 +134,13 @@ export default function Home() {
           </Container>
         </Center>
       </Hero>
-      <FeaturedListings queryResult={queryResult} />
+      <Suspense fallback={<PageSpinner />}>
+        <ErrorBoundary
+          fallbackRender={({ error }) => <PageError error={error} />}
+        >
+          <FeaturedListings queryRef={queryRef} />
+        </ErrorBoundary>
+      </Suspense>
     </>
   );
 }
