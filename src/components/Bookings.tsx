@@ -135,7 +135,7 @@ function Booking({ booking, isPast }: BookingProps) {
 
 interface BookingsProps {
   title: string;
-  bookings: unknown[];
+  bookings: GraphQLTypes.Booking[];
   isPast?: boolean;
 }
 
@@ -207,7 +207,6 @@ export default function Bookings({
               <Booking
                 key={`${title}-${i}`}
                 booking={booking}
-                listingTitle={title}
                 isPast={isPast}
               />
             );
