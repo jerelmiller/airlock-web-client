@@ -47,174 +47,88 @@ interface TripReviewsProps {
   guestReview: ReviewType | null;
   isHost?: boolean;
   onSubmitReview: (reviews: {
-    guestReview?: ReviewType;
-    locationReview?: ReviewType;
-    hostReview?: ReviewType;
+    locationReview: ReviewType;
+    hostReview: ReviewType;
   }) => void;
 }
 
-export function TripReviews({
-  locationReview,
-  hostReview,
+export function HostAndLocationReview({
+  locationReview: submittedLocationReview,
+  hostReview: submittedHostReview,
   guestReview,
   onSubmitReview,
-  isHost = false,
 }: TripReviewsProps) {
-  const [reviewsInput, setReviewsInput] = useState<{
-    guestReview?: ReviewType;
-    locationReview?: ReviewType;
-    hostReview?: ReviewType;
-  }>({});
+  const [hostReview, setHostReview] = useState<ReviewFormType>({
+    rating: null,
+    text: "",
+  });
+  const [locationReview, setLocationReview] = useState<ReviewFormType>({
+    rating: null,
+    text: "",
+  });
   const [isReviewInputOpen, setIsReviewInputOpen] = useState(false);
-  const isSubmitDisabled = isHost
-    ? !(reviewsInput.guestReview?.rating && reviewsInput.guestReview?.text)
-    : !(
-        reviewsInput?.locationReview?.rating &&
-        reviewsInput?.locationReview?.text &&
-        reviewsInput?.hostReview?.rating &&
-        reviewsInput?.hostReview?.text
-      );
-
-  const renderNoReviewMessage = (author: string) => {
-    return (
-      <Text>
-        Your {author} hasn&apos;t reviewed their stay yet. We&apos;ve reached
-        out to them and will report back here once we&apos;ve received their
-        thoughts.
-      </Text>
-    );
-  };
-
-  // what the host sees
-  const renderHostView = () => {
-    return (
-      <>
-        <Heading as="h2" fontWeight="semibold" fontSize="lg">
-          What your guest had to say
-        </Heading>
-        {!locationReview && !hostReview && renderNoReviewMessage("guest")}
-        {locationReview && <Review review={locationReview}>Location</Review>}
-        {hostReview && <Review review={hostReview}>Host</Review>}
-        {guestReview && (
-          <>
-            <Heading as="h2" fontWeight="semibold" fontSize="lg">
-              Your rating and review
-            </Heading>
-            <Review review={guestReview}>Guest</Review>
-          </>
-        )}
-        {!guestReview && (
-          <>
-            <Button
-              mt={4}
-              variant="link"
-              rightIcon={
-                isReviewInputOpen ? <IoChevronUp /> : <IoChevronDown />
-              }
-              onClick={() => setIsReviewInputOpen((prevState) => !prevState)}
-            >
-              Review your guest
-            </Button>
-            <Collapse in={isReviewInputOpen} py="4" w="100%">
-              <Stack spacing={4}>
-                <Heading as="h2" fontWeight="semibold" fontSize="lg">
-                  Your rating and review
-                </Heading>
-                <ReviewInput
-                  label="guest"
-                  review={reviewsInput.guestReview}
-                  onChange={(review) =>
-                    setReviewsInput((reviews) => ({
-                      ...reviews,
-                      guestReview: review,
-                    }))
-                  }
-                />
-                <Button
-                  onClick={() => onSubmitReview(reviewsInput)}
-                  disabled={isSubmitDisabled}
-                  w="fit-content"
-                >
-                  Submit Review
-                </Button>
-              </Stack>
-            </Collapse>
-          </>
-        )}
-      </>
-    );
-  };
-
-  // what the guest sees
-  const renderGuestView = () => {
-    return (
-      <>
-        <Heading as="h2" fontWeight="semibold" fontSize="lg">
-          What your host had to say
-        </Heading>
-        {!guestReview && renderNoReviewMessage("host")}
-        {guestReview && <Review review={guestReview}>Guest</Review>}
-        {locationReview && hostReview && (
-          <>
-            <Heading as="h2" fontWeight="semibold" fontSize="lg">
-              Your rating and review
-            </Heading>
-            <Review review={locationReview}>Location</Review>
-            <Review review={hostReview}>Host</Review>
-          </>
-        )}
-        {!locationReview && !hostReview && (
-          <>
-            <Button
-              mt={4}
-              variant="link"
-              rightIcon={
-                isReviewInputOpen ? <IoChevronUp /> : <IoChevronDown />
-              }
-              onClick={() => setIsReviewInputOpen((prevState) => !prevState)}
-            >
-              Review your stay
-            </Button>
-            <Collapse in={isReviewInputOpen} py="4" w="100%">
-              <Stack spacing={4}>
-                <Heading as="h2" fontWeight="semibold" fontSize="lg">
-                  Your rating and review
-                </Heading>
-                <ReviewInput
-                  label="Location"
-                  review={reviewsInput.locationReview}
-                  onChange={(review) => {
-                    setReviewsInput((reviews) => ({ locationReview: review }));
-                  }}
-                />
-                <ReviewInput
-                  label="Host"
-                  review={reviewsInput.hostReview}
-                  onChange={(review) =>
-                    setReviewsInput((reviews) => ({
-                      ...reviews,
-                      hostReview: review,
-                    }))
-                  }
-                />
-                <Button
-                  onClick={() => onSubmitReview(reviewsInput)}
-                  disabled={isSubmitDisabled}
-                  w="fit-content"
-                >
-                  Submit Review
-                </Button>
-              </Stack>
-            </Collapse>
-          </>
-        )}
-      </>
-    );
-  };
 
   return (
     <VStack w="full" alignItems="flex-start" spacing="3" flex="1">
-      {isHost ? renderHostView() : renderGuestView()}
+      <Heading as="h2" fontWeight="semibold" fontSize="lg">
+        What your host had to say
+      </Heading>
+      {!guestReview && <NoReviews author={"host"} />}
+      {guestReview && <Review review={guestReview}>Guest</Review>}
+      {submittedLocationReview && submittedHostReview && (
+        <>
+          <Heading as="h2" fontWeight="semibold" fontSize="lg">
+            Your rating and review
+          </Heading>
+          <Review review={submittedLocationReview}>Location</Review>
+          <Review review={submittedHostReview}>Host</Review>
+        </>
+      )}
+      {!submittedLocationReview && !submittedHostReview && (
+        <>
+          <Button
+            mt={4}
+            variant="link"
+            rightIcon={isReviewInputOpen ? <IoChevronUp /> : <IoChevronDown />}
+            onClick={() => setIsReviewInputOpen((prevState) => !prevState)}
+          >
+            Review your stay
+          </Button>
+          <Collapse in={isReviewInputOpen} py="4" w="100%">
+            <Stack spacing={4}>
+              <Heading as="h2" fontWeight="semibold" fontSize="lg">
+                Your rating and review
+              </Heading>
+              <ReviewInput
+                label="Location"
+                review={locationReview}
+                onChange={setLocationReview}
+              />
+              <ReviewInput
+                label="Host"
+                review={hostReview}
+                onChange={setHostReview}
+              />
+              <Button
+                onClick={() => {
+                  if (
+                    isFullReview(hostReview) &&
+                    isFullReview(locationReview)
+                  ) {
+                    onSubmitReview({ hostReview, locationReview });
+                  }
+                }}
+                disabled={
+                  !isFullReview(locationReview) || !isFullReview(hostReview)
+                }
+                w="fit-content"
+              >
+                Submit Review
+              </Button>
+            </Stack>
+          </Collapse>
+        </>
+      )}
     </VStack>
   );
 }
