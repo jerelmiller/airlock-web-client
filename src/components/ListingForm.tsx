@@ -38,7 +38,7 @@ import {
   GetAllAmenitiesQuery,
   GetAllAmenitiesQueryVariables,
 } from "./__generated__/ListingForm.types";
-import { Amenity } from "../__generated__/types";
+import { Amenity, LocationType } from "../__generated__/types";
 
 export const AMENITIES: TypedDocumentNode<
   GetAllAmenitiesQuery,
@@ -57,7 +57,17 @@ interface ListingFormProps {
   mutation: DocumentNode;
   mutationOptions: MutationHookOptions;
   listingId?: string;
-  listingData: unknown;
+  listingData: ListingData;
+}
+
+interface ListingData {
+  title: string;
+  description: string;
+  amenities: Amenity[];
+  locationType: LocationType;
+  numOfBeds: number;
+  costPerNight: number;
+  photoThumbnail: string;
 }
 
 export default function ListingForm({
@@ -84,7 +94,7 @@ export default function ListingForm({
 }
 
 interface ListingFormBodyProps {
-  listingData: unknown;
+  listingData: ListingData;
   amenities: Amenity[];
   listingId?: string;
   mutation: DocumentNode;
@@ -117,7 +127,10 @@ function ListingFormBody({
 
   const [submitListing, { loading }] = useMutation(mutation, mutationOptions);
 
-  const handleAmenitiesChange = (e, allAmenitiesInCategory) => {
+  const handleAmenitiesChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    allAmenitiesInCategory: string[],
+  ) => {
     if (e.target.type === "checkbox") {
       if (e.target.id.includes("select-all")) {
         setFormValues((prevState) => {
@@ -155,7 +168,7 @@ function ListingFormBody({
     }
   };
 
-  const handleSelectAll = (allAmenitiesInCategory) => {
+  const handleSelectAll = (allAmenitiesInCategory: string[]) => {
     setFormValues((prevState) => {
       return {
         ...prevState,
@@ -164,7 +177,7 @@ function ListingFormBody({
     });
   };
 
-  const handleDeselectAll = (allAmenitiesInCategory) => {
+  const handleDeselectAll = (allAmenitiesInCategory: string[]) => {
     setFormValues((prevState) => {
       const newAmenities = prevState.amenities.filter(
         (a) => !allAmenitiesInCategory.includes(a),
@@ -181,17 +194,18 @@ function ListingFormBody({
       onSubmit={(e) => {
         e.preventDefault();
 
-        const formData = new FormData(e.target);
+        const formData = new FormData(e.target as HTMLFormElement);
         const uncontrolledInputs = Object.fromEntries(formData);
-        uncontrolledInputs.costPerNight = Number(
-          uncontrolledInputs.costPerNight,
-        );
-        uncontrolledInputs.numOfBeds = Number(uncontrolledInputs.numOfBeds);
 
         submitListing({
           variables: {
             listingId,
-            listing: { ...uncontrolledInputs, ...formValues },
+            listing: {
+              ...uncontrolledInputs,
+              costPerNight: Number(uncontrolledInputs.costPerNight),
+              numOfBeds: Number(uncontrolledInputs.numOfBeds),
+              ...formValues,
+            },
           },
         });
       }}
@@ -321,9 +335,12 @@ interface AmenitiesSelectionProps {
   category: string;
   amenities: Amenity[];
   formValues: unknown[];
-  onChange: (...args: unknown[]) => void;
-  onSelectAll: (...args: unknown[]) => void;
-  onDeselectAll: (...args: unknown[]) => void;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement>,
+    allAmenitiesInCategory: string[],
+  ) => void;
+  onSelectAll: (allAmenitiesInCategory: string[]) => void;
+  onDeselectAll: (allAmenitiesInCategory: string[]) => void;
 }
 
 function AmenitiesSelection({
