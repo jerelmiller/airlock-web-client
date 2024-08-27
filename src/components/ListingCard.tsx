@@ -1,27 +1,30 @@
+import { gql } from "@apollo/client";
 import Stars from "./Stars";
 import { Flex, Heading, Image, Text, Wrap } from "@chakra-ui/react";
 import { IoBed } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { fragments } from "../fragments";
+import { ListingCard_listingFragment } from "./__generated__/ListingCard.types";
 
 interface ListingCardProps {
-  id: string;
-  title: string;
-  photoThumbnail?: string;
-  numOfBeds: number;
-  overallRating: number | null;
-  locationType: string;
-  costPerNight: number;
+  listing: ListingCard_listingFragment;
 }
 
-export default function ListingCard({
-  id,
-  title,
-  photoThumbnail,
-  numOfBeds,
-  overallRating,
-  locationType,
-  costPerNight,
-}: ListingCardProps) {
+const listingCardFragment = gql`
+  fragment ListingCard_listing on Listing {
+    id
+    title
+    photoThumbnail
+    numOfBeds
+    overallRating
+    locationType
+    costPerNight
+  }
+`;
+
+fragments.register(listingCardFragment);
+
+export default function ListingCard({ listing }: ListingCardProps) {
   return (
     <Flex
       direction="column"
@@ -34,12 +37,12 @@ export default function ListingCard({
         opacity: "100%",
       }}
       as={Link}
-      to={`/listing/${id}`}
+      to={`/listing/${listing.id}`}
       borderRadius="8"
     >
       <Image
-        src={photoThumbnail}
-        alt={title}
+        src={listing.photoThumbnail}
+        alt={listing.title}
         boxSize="100%"
         maxH="200px"
         objectFit="cover"
@@ -53,27 +56,27 @@ export default function ListingCard({
           color="grey.dark"
           fontFamily="Source Code Pro"
         >
-          {locationType}
+          {listing.locationType}
         </Text>
         <Heading as="h2" size="md">
-          {title}
+          {listing.title}
         </Heading>
         <Wrap direction="row" justify="space-between" align="center">
           <Wrap spacing={4}>
-            {overallRating ? (
-              <Stars size={20} rating={overallRating} />
+            {listing.overallRating ? (
+              <Stars size={20} rating={listing.overallRating} />
             ) : (
               <Text>No reviews yet</Text>
             )}
             <Flex align="center">
               <IoBed size={22} />
               <Text fontSize="lg" ml={1}>
-                {numOfBeds}
+                {listing.numOfBeds}
               </Text>
             </Flex>
           </Wrap>
           <Flex fontSize="lg" ml={6}>
-            <Text fontWeight="bold"> ¤ {costPerNight}</Text> / night
+            <Text fontWeight="bold"> ¤ {listing.costPerNight}</Text> / night
           </Flex>
         </Wrap>
       </Flex>

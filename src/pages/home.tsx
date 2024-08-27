@@ -42,12 +42,7 @@ export const FEATURED_LISTINGS: TypedDocumentNode<
   query GetFeaturedListings {
     featuredListings {
       id
-      title
-      photoThumbnail
-      numOfBeds
-      overallRating
-      locationType
-      costPerNight
+      ...ListingCard_listing
     }
   }
 `;
@@ -186,7 +181,7 @@ function FeaturedListings({ queryRef }: FeaturedListingsProps) {
       </Heading>
       <SimpleGrid minChildWidth="255px" spacing={6}>
         {data.featuredListings.map((listing) => (
-          <ListingCard key={listing.title} {...listing} />
+          <ListingCard key={listing.id} listing={listing} />
         ))}
       </SimpleGrid>
     </Layout>
