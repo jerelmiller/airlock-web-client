@@ -58,6 +58,7 @@ interface TripProps {
 
 fragments.register(gql`
   fragment Trip_trip on Booking {
+    id
     checkInDate
     checkOutDate
     status

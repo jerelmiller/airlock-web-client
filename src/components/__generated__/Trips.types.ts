@@ -28,6 +28,7 @@ export type SubmitHostAndLocationReviewsMutation = {
 
 export type Trip_tripFragment = {
   __typename: "Booking";
+  id: string;
   checkInDate: string;
   checkOutDate: string;
   status: GraphQLTypes.BookingStatus;
