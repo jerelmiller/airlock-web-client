@@ -38,7 +38,7 @@ import {
   GetAllAmenitiesQuery,
   GetAllAmenitiesQueryVariables,
 } from "./__generated__/ListingForm.types";
-import { Amenity, LocationType } from "../__generated__/types";
+import { Amenity } from "../__generated__/types";
 
 export const AMENITIES: TypedDocumentNode<
   GetAllAmenitiesQuery,
