@@ -54,11 +54,7 @@ export const SEARCH_LISTINGS: TypedDocumentNode<
 `;
 
 export default function Search() {
-  function useSearchQuery() {
-    return new URLSearchParams(useLocation().search);
-  }
-
-  const query = useSearchQuery();
+  const query = new URLSearchParams(useLocation().search);
   const checkInDateFromUrl = query.get("startDate")!;
   const checkOutDateFromUrl = query.get("endDate")!;
   const numOfBedsFromUrl = parseInt(query.get("numOfBeds")!) || 1;
