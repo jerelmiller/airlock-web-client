@@ -20,11 +20,18 @@ import {
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
 import { getDatePickerProps, getNextDate } from "../utils";
-import { gql, useQuery } from "@apollo/client";
+import { gql, TypedDocumentNode, useQuery } from "@apollo/client";
 
 import "react-datepicker/dist/react-datepicker.css";
+import {
+  GetFeaturedListingsQuery,
+  GetFeaturedListingsQueryVariables,
+} from "./__generated__/home.types";
 
-export const FEATURED_LISTINGS = gql`
+export const FEATURED_LISTINGS: TypedDocumentNode<
+  GetFeaturedListingsQuery,
+  GetFeaturedListingsQueryVariables
+> = gql`
   query GetFeaturedListings {
     featuredListings {
       id
@@ -135,10 +142,9 @@ export default function Home() {
               Ideas for your next stellar trip
             </Heading>
             <SimpleGrid minChildWidth="255px" spacing={6}>
-              {data &&
-                data.featuredListings.map((listing) => (
-                  <ListingCard key={listing.title} {...listing} />
-                ))}
+              {data.featuredListings.map((listing) => (
+                <ListingCard key={listing.title} {...listing} />
+              ))}
             </SimpleGrid>
           </Layout>
         )}
@@ -147,7 +153,12 @@ export default function Home() {
   );
 }
 
-function InputContainer({ label, children }) {
+interface InputContainerProps {
+  label: string;
+  children: ReactNode;
+}
+
+function InputContainer({ label, children }: InputContainerProps) {
   return (
     <Stack direction="column" spacing={2}>
       <Text as="label" fontSize="large" fontWeight="bold">
