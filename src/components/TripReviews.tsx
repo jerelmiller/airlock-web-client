@@ -239,5 +239,3 @@ export default function TripReviews<
     </VStack>
   );
 }
-
-TripReviews.propTypes = {};
