@@ -115,41 +115,41 @@ function Trip({ trip, isPast }: TripProps) {
         </InnerContainer>
       </OuterContainer>
     );
-  } else {
-    return (
-      <OuterContainer p={2}>
-        <InnerContainer>
-          <Wrap align="center" spacing="4">
-            <Image
-              src={trip.listing.photoThumbnail}
-              alt={trip.listing.title}
-              w="auto"
-              h="200px"
-            />
-            <Content
-              title={trip.listing.title}
-              checkInDate={trip.checkInDate}
-              checkOutDate={trip.checkOutDate}
-              wrapperProps={{ ml: "4" }}
-            >
-              {trip.status === "CURRENT" ? (
-                <Tag
-                  h="18px"
-                  w="300px"
-                  rounded="xl"
-                  bgColor="#425C0A"
-                  color="white"
-                  justifyContent="center"
-                >
-                  You&apos;re staying here right now!
-                </Tag>
-              ) : null}
-            </Content>
-          </Wrap>
-        </InnerContainer>
-      </OuterContainer>
-    );
   }
+
+  return (
+    <OuterContainer p={2}>
+      <InnerContainer>
+        <Wrap align="center" spacing="4">
+          <Image
+            src={trip.listing.photoThumbnail}
+            alt={trip.listing.title}
+            w="auto"
+            h="200px"
+          />
+          <Content
+            title={trip.listing.title}
+            checkInDate={trip.checkInDate}
+            checkOutDate={trip.checkOutDate}
+            wrapperProps={{ ml: "4" }}
+          >
+            {trip.status === "CURRENT" ? (
+              <Tag
+                h="18px"
+                w="300px"
+                rounded="xl"
+                bgColor="#425C0A"
+                color="white"
+                justifyContent="center"
+              >
+                You&apos;re staying here right now!
+              </Tag>
+            ) : null}
+          </Content>
+        </Wrap>
+      </InnerContainer>
+    </OuterContainer>
+  );
 }
 
 interface TripsProps {
