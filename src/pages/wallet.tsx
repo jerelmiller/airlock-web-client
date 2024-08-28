@@ -21,13 +21,13 @@ import {
   TypedDocumentNode,
   useFragment,
 } from "@apollo/client";
-import { useUser } from "../utils";
 import {
   AddFundsMutation,
   AddFundsMutationVariables,
   WalletUserFragment,
 } from "./__generated__/wallet.types";
-import { Guest, User } from "../__generated__/types";
+import { Guest } from "../__generated__/types";
+import { useNavigate } from "react-router-dom";
 
 export const ADD_FUNDS: TypedDocumentNode<
   AddFundsMutation,
@@ -55,8 +55,8 @@ const fragment: TypedDocumentNode<WalletUserFragment> = gql`
 `;
 
 export default function Wallet() {
-  const { data } = useFragment({ fragment, from: "ROOT_QUERY" });
-  const user = data.me;
+  const navigate = useNavigate();
+  const { data, complete } = useFragment({ fragment, from: "ROOT_QUERY" });
   const [funds, setFunds] = useState(100);
   const [addFundsToWallet] = useMutation(ADD_FUNDS, {
     update(cache, { data }) {
@@ -68,6 +68,12 @@ export default function Wallet() {
       });
     },
   });
+
+  if (complete && data.me.__typename !== "Guest") {
+    return navigate("/");
+  }
+
+  const user = data.me;
 
   return (
     <Center textAlign="center">
