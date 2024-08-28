@@ -48,6 +48,7 @@ export type GetListingDetailsQuery = {
     };
     bookings: Array<{
       __typename: "Booking";
+      id: string;
       checkInDate: string;
       checkOutDate: string;
     } | null>;

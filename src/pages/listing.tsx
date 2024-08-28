@@ -62,8 +62,8 @@ export const LISTING: TypedDocumentNode<
         overallRating
       }
       bookings {
-        checkInDate
-        checkOutDate
+        id
+        ...BookStay_bookings
       }
     }
   }

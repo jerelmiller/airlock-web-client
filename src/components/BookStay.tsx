@@ -27,11 +27,13 @@ import {
 
 import "react-datepicker/dist/react-datepicker.css";
 import {
+  BookStay_bookingsFragment,
   BookStayMutation,
   BookStayMutationVariables,
 } from "./__generated__/BookStay.types";
 import * as GraphQLTypes from "../__generated__/types";
 import { DatePickerInput } from "./DatePickerInput";
+import { fragments } from "../fragments";
 
 export const BOOK_STAY: TypedDocumentNode<
   BookStayMutation,
@@ -52,11 +54,18 @@ export const BOOK_STAY: TypedDocumentNode<
 
 interface BookStayProps {
   costPerNight: number;
-  bookings: Array<Pick<GraphQLTypes.Booking, "checkInDate" | "checkOutDate">>;
+  bookings: BookStay_bookingsFragment[];
   listingId: string;
   refetchQueries?: MutationHookOptions["refetchQueries"];
   userRole?: string;
 }
+
+fragments.register(gql`
+  fragment BookStay_bookings on Booking {
+    checkInDate
+    checkOutDate
+  }
+`);
 
 export default function BookStay({
   costPerNight,

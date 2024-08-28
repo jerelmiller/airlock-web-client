@@ -17,3 +17,9 @@ export type BookStayMutation = {
     } | null;
   };
 };
+
+export type BookStay_bookingsFragment = {
+  __typename: "Booking";
+  checkInDate: string;
+  checkOutDate: string;
+};
