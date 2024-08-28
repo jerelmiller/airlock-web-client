@@ -6,7 +6,13 @@ import {
   InMemoryCache,
   createHttpLink,
 } from "@apollo/client";
+import { loadDevMessages, loadErrorMessages } from "@apollo/client/dev";
 import { setContext } from "@apollo/client/link/context";
+
+if (import.meta.env.DEV) {
+  loadDevMessages();
+  loadErrorMessages();
+}
 
 const httpLink = createHttpLink({
   uri: "https://rt-airlock-router.herokuapp.com/",
