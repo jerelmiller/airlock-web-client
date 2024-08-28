@@ -3,7 +3,7 @@ import { Button } from "@chakra-ui/react";
 import { HOST_LISTINGS, LISTING_FRAGMENT } from "../utils";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
-import { gql, TypedDocumentNode } from "@apollo/client";
+import { gql, TypedDocumentNode, useMutation } from "@apollo/client";
 import {
   CreateListingMutation,
   CreateListingMutationVariables,
@@ -32,6 +32,25 @@ export const CREATE_LISTING: TypedDocumentNode<
 
 export default function CreateListing() {
   const navigate = useNavigate();
+  const [createListing, { loading }] = useMutation(CREATE_LISTING, {
+    onCompleted: () => {
+      navigate("/listings");
+    },
+    update: (cache, { data }) => {
+      // update the cache to add our new listing
+      // https://www.apollographql.com/docs/react/api/react/hooks/#update
+      const query = cache.readQuery({ query: HOST_LISTINGS });
+
+      if (query?.hostListings) {
+        cache.writeQuery({
+          query: HOST_LISTINGS,
+          data: {
+            hostListings: [...query.hostListings, data!.createListing.listing],
+          },
+        });
+      }
+    },
+  });
 
   return (
     <>
@@ -39,6 +58,7 @@ export default function CreateListing() {
         Back to listings
       </Button>
       <ListingForm
+        submitting={loading}
         listingData={{
           title: "",
           description: "",
@@ -48,28 +68,8 @@ export default function CreateListing() {
           amenities: [],
           costPerNight: 100,
         }}
-        mutation={CREATE_LISTING}
-        mutationOptions={{
-          onCompleted: () => {
-            navigate("/listings");
-          },
-          update: (cache, { data }) => {
-            // update the cache to add our new listing
-            // https://www.apollographql.com/docs/react/api/react/hooks/#update
-            const query = cache.readQuery({ query: HOST_LISTINGS });
-
-            if (query?.hostListings) {
-              cache.writeQuery({
-                query: HOST_LISTINGS,
-                data: {
-                  hostListings: [
-                    ...query.hostListings,
-                    data.createListing.listing,
-                  ],
-                },
-              });
-            }
-          },
+        onSubmit={(listing) => {
+          createListing({ variables: { listing } });
         }}
       />
     </>
