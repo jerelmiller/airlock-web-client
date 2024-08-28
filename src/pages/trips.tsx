@@ -11,28 +11,8 @@ export const GUEST_TRIPS: TypedDocumentNode<
 > = gql`
   query GetGuestTrips {
     upcomingGuestBookings {
-      checkInDate
-      checkOutDate
-      status
-      listing {
-        title
-        photoThumbnail
-      }
-      locationReview {
-        id
-        text
-        rating
-      }
-      hostReview {
-        id
-        text
-        rating
-      }
-      guestReview {
-        id
-        text
-        rating
-      }
+      id
+      ...Trip_trip
     }
   }
 `;

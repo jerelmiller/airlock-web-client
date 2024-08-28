@@ -7,27 +7,22 @@ export type GetGuestTripsQueryVariables = GraphQLTypes.Exact<{
 export type GetGuestTripsQuery = {
   upcomingGuestBookings: Array<{
     __typename: "Booking";
+    id: string;
     checkInDate: string;
     checkOutDate: string;
     status: GraphQLTypes.BookingStatus;
-    listing: { __typename: "Listing"; title: string; photoThumbnail: string };
+    listing: {
+      __typename: "Listing";
+      id: string;
+      photoThumbnail: string;
+      title: string;
+    };
     locationReview: {
       __typename: "Review";
-      id: string;
-      text: string;
       rating: number;
-    } | null;
-    hostReview: {
-      __typename: "Review";
-      id: string;
       text: string;
-      rating: number;
     } | null;
-    guestReview: {
-      __typename: "Review";
-      id: string;
-      text: string;
-      rating: number;
-    } | null;
+    hostReview: { __typename: "Review"; rating: number; text: string } | null;
+    guestReview: { __typename: "Review"; rating: number; text: string } | null;
   } | null>;
 };
