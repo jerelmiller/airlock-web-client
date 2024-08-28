@@ -3,7 +3,7 @@ import QueryResult from "../components/QueryResult";
 import { Button } from "@chakra-ui/react";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { LISTING_FRAGMENT } from "../utils";
-import { gql, TypedDocumentNode, useQuery } from "@apollo/client";
+import { gql, TypedDocumentNode, useMutation, useQuery } from "@apollo/client";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   GetListingQuery,
@@ -55,6 +55,11 @@ export const LISTING: TypedDocumentNode<
 
 export default function EditListing() {
   const navigate = useNavigate();
+  const [updateListing, { loading: submitting }] = useMutation(EDIT_LISTING, {
+    onCompleted: () => {
+      navigate(`/listing/${id}`);
+    },
+  });
   const { id } = useParams();
   const { loading, error, data } = useQuery(LISTING, {
     variables: { id: id! },
@@ -101,12 +106,9 @@ export default function EditListing() {
           return (
             <ListingForm
               listingData={listingData}
-              listingId={listingId}
-              mutation={EDIT_LISTING}
-              mutationOptions={{
-                onCompleted: () => {
-                  navigate(`/listing/${listingId}`);
-                },
+              submitting={submitting}
+              onSubmit={(listing) => {
+                updateListing({ variables: { listingId, listing } });
               }}
             />
           );
