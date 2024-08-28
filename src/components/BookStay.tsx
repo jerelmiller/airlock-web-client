@@ -31,7 +31,6 @@ import {
   BookStayMutation,
   BookStayMutationVariables,
 } from "./__generated__/BookStay.types";
-import * as GraphQLTypes from "../__generated__/types";
 import { DatePickerInput } from "./DatePickerInput";
 import { fragments } from "../fragments";
 
