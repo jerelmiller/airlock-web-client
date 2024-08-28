@@ -4,18 +4,13 @@ import { Container, ContainerProps } from "@chakra-ui/react";
 
 interface LayoutProps extends ContainerProps {
   children?: ReactNode;
-  containerSize?: string;
 }
 
-export default function Layout({
-  children,
-  containerSize = "container.xl",
-  ...props
-}: LayoutProps) {
+export default function Layout({ children, ...props }: LayoutProps) {
   return (
     <>
       <Nav />
-      <Container maxW={containerSize} {...props} mb={24}>
+      <Container maxW="container.xl" {...props} mb={24}>
         {children}
       </Container>
     </>
