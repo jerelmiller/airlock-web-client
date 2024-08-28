@@ -34,7 +34,6 @@ export function useUser() {
   const [user, setUser] = useState<GetMyProfileQuery["me"]>();
 
   const { loading, error } = useQuery(GET_USER, {
-    fetchPolicy: "no-cache",
     onCompleted: ({ me }) => {
       setUser({ ...me });
     },
