@@ -26,19 +26,12 @@ import {
   Textarea,
   Wrap,
 } from "@chakra-ui/react";
-import {
-  DocumentNode,
-  MutationHookOptions,
-  TypedDocumentNode,
-  gql,
-  useMutation,
-  useQuery,
-} from "@apollo/client";
+import { TypedDocumentNode, gql, useQuery } from "@apollo/client";
 import {
   GetAllAmenitiesQuery,
   GetAllAmenitiesQueryVariables,
 } from "./__generated__/ListingForm.types";
-import { Amenity } from "../__generated__/types";
+import { Amenity, LocationType } from "../__generated__/types";
 
 export const AMENITIES: TypedDocumentNode<
   GetAllAmenitiesQuery,
@@ -53,11 +46,14 @@ export const AMENITIES: TypedDocumentNode<
   }
 `;
 
-interface ListingFormProps {
-  mutation: DocumentNode;
-  mutationOptions: MutationHookOptions;
-  listingId?: string;
-  listingData: ListingData;
+interface FormValues {
+  title: string;
+  description: string;
+  amenities: string[];
+  locationType: LocationType;
+  numOfBeds: number;
+  costPerNight: number;
+  photoThumbnail: string;
 }
 
 interface ListingData {
@@ -70,11 +66,16 @@ interface ListingData {
   photoThumbnail: string;
 }
 
+interface ListingFormProps {
+  listingData: ListingData;
+  onSubmit: (values: FormValues) => void;
+  submitting: boolean;
+}
+
 export default function ListingForm({
-  mutation,
-  mutationOptions,
-  listingId,
   listingData,
+  onSubmit,
+  submitting,
 }: ListingFormProps) {
   const { loading, error, data } = useQuery(AMENITIES);
 
@@ -82,11 +83,10 @@ export default function ListingForm({
     <QueryResult loading={loading} error={error} data={data}>
       {({ listingAmenities }) => (
         <ListingFormBody
-          listingId={listingId}
           listingData={listingData}
-          mutation={mutation}
           amenities={listingAmenities}
-          mutationOptions={mutationOptions}
+          onSubmit={onSubmit}
+          submitting={submitting}
         />
       )}
     </QueryResult>
@@ -96,17 +96,15 @@ export default function ListingForm({
 interface ListingFormBodyProps {
   listingData: ListingData;
   amenities: Amenity[];
-  listingId?: string;
-  mutation: DocumentNode;
-  mutationOptions: MutationHookOptions;
+  onSubmit: (values: FormValues) => void;
+  submitting: boolean;
 }
 
 function ListingFormBody({
   listingData,
   amenities,
-  listingId,
-  mutation,
-  mutationOptions,
+  onSubmit,
+  submitting,
 }: ListingFormBodyProps) {
   const listingAmenities = listingData.amenities.map((amenity) => amenity.id);
   const allAmenities = amenities.reduce<Record<string, Amenity[]>>(
@@ -124,8 +122,6 @@ function ListingFormBody({
   const [formValues, setFormValues] = useState({
     amenities: listingAmenities,
   });
-
-  const [submitListing, { loading }] = useMutation(mutation, mutationOptions);
 
   const handleAmenitiesChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -195,18 +191,15 @@ function ListingFormBody({
         e.preventDefault();
 
         const formData = new FormData(e.target as HTMLFormElement);
-        const uncontrolledInputs = Object.fromEntries(formData);
+        const uncontrolledInputs = Object.fromEntries(
+          formData,
+        ) as unknown as FormValues;
 
-        submitListing({
-          variables: {
-            listingId,
-            listing: {
-              ...uncontrolledInputs,
-              costPerNight: Number(uncontrolledInputs.costPerNight),
-              numOfBeds: Number(uncontrolledInputs.numOfBeds),
-              ...formValues,
-            },
-          },
+        onSubmit({
+          ...uncontrolledInputs,
+          costPerNight: Number(uncontrolledInputs.costPerNight),
+          numOfBeds: Number(uncontrolledInputs.numOfBeds),
+          ...formValues,
         });
       }}
       spacing="8"
@@ -323,7 +316,7 @@ function ListingFormBody({
       </FormControl>
 
       <Flex w="full" justifyContent="flex-end">
-        <Button type="submit" isLoading={loading} colorScheme="blue">
+        <Button type="submit" isLoading={submitting} colorScheme="blue">
           Publish listing
         </Button>
       </Flex>
