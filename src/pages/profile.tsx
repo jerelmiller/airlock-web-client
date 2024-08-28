@@ -18,7 +18,6 @@ import {
   useFragment,
   useMutation,
 } from "@apollo/client";
-import { useUser } from "../utils";
 import {
   ProfileFragment,
   UpdateUserProfileMutation,
@@ -64,7 +63,6 @@ const fragment: TypedDocumentNode<ProfileFragment> = gql`
 
 export default function Profile() {
   const { data } = useFragment({ fragment, from: "ROOT_QUERY" });
-  const { setUser } = useUser();
   const txtProfileDescRef = useRef<HTMLTextAreaElement>(null);
   const [updateProfileData, { loading, error, client }] = useMutation(
     UPDATE_PROFILE,
@@ -73,8 +71,6 @@ export default function Profile() {
         if (user?.__typename !== "Host") {
           return;
         }
-
-        setUser({ ...user });
 
         if (txtProfileDescRef.current) {
           txtProfileDescRef.current.value = user.profileDescription;
