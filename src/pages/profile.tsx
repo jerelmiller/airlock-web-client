@@ -120,7 +120,7 @@ export default function Profile() {
             )}
             {user.__typename === "Guest" && (
               <Box>
-                <Button as={Link} to="wallet" rightIcon={<IoWallet />}>
+                <Button as={Link} to="/wallet" rightIcon={<IoWallet />}>
                   Go to wallet
                 </Button>
               </Box>
