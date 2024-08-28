@@ -15,12 +15,19 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { gql, useMutation, TypedDocumentNode } from "@apollo/client";
+import {
+  gql,
+  useMutation,
+  TypedDocumentNode,
+  useFragment,
+} from "@apollo/client";
 import { useUser } from "../utils";
 import {
   AddFundsMutation,
   AddFundsMutationVariables,
+  WalletUserFragment,
 } from "./__generated__/wallet.types";
+import { Guest, User } from "../__generated__/types";
 
 export const ADD_FUNDS: TypedDocumentNode<
   AddFundsMutation,
@@ -36,14 +43,29 @@ export const ADD_FUNDS: TypedDocumentNode<
   }
 `;
 
-export default function Wallet() {
-  const [funds, setFunds] = useState(100);
-  const { user, setUser } = useUser();
-  const [addFundsToWallet] = useMutation(ADD_FUNDS, {
-    onCompleted: (data) => {
-      if (user?.__typename === "Guest") {
-        setUser({ ...user, funds: data.addFundsToWallet.amount || 0 });
+const fragment: TypedDocumentNode<WalletUserFragment> = gql`
+  fragment WalletUserFragment on Query {
+    me {
+      id
+      ... on Guest {
+        funds
       }
+    }
+  }
+`;
+
+export default function Wallet() {
+  const { data } = useFragment({ fragment, from: "ROOT_QUERY" });
+  const user = data.me;
+  const [funds, setFunds] = useState(100);
+  const [addFundsToWallet] = useMutation(ADD_FUNDS, {
+    update(cache, { data }) {
+      cache.modify<Guest>({
+        id: cache.identify(user!),
+        fields: {
+          funds: () => data?.addFundsToWallet.amount ?? 0,
+        },
+      });
     },
   });
 

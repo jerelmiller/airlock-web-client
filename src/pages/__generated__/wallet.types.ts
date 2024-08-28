@@ -13,3 +13,9 @@ export type AddFundsMutation = {
     amount: number | null;
   };
 };
+
+export type WalletUserFragment = {
+  me:
+    | { __typename: "Guest"; funds: number; id: string }
+    | { __typename: "Host"; id: string };
+};
