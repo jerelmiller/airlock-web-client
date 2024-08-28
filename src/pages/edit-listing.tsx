@@ -1,9 +1,13 @@
 import ListingForm from "../components/ListingForm";
-import QueryResult from "../components/QueryResult";
-import { Button } from "@chakra-ui/react";
+import { Button, Center } from "@chakra-ui/react";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { LISTING_FRAGMENT } from "../utils";
-import { gql, TypedDocumentNode, useMutation, useQuery } from "@apollo/client";
+import {
+  gql,
+  TypedDocumentNode,
+  useMutation,
+  useSuspenseQuery,
+} from "@apollo/client";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   GetListingQuery,
@@ -61,9 +65,24 @@ export default function EditListing() {
     },
   });
   const { id } = useParams();
-  const { loading, error, data } = useQuery(LISTING, {
+  const { data } = useSuspenseQuery(LISTING, {
     variables: { id: id! },
   });
+
+  if (!data.listing) {
+    return <Center>Listing not found</Center>;
+  }
+
+  const {
+    id: listingId,
+    title,
+    description,
+    numOfBeds,
+    locationType,
+    photoThumbnail,
+    amenities,
+    costPerNight,
+  } = data.listing;
 
   return (
     <>
@@ -76,44 +95,21 @@ export default function EditListing() {
       >
         Back
       </Button>
-      <QueryResult loading={loading} error={error} data={data}>
-        {(data) => {
-          if (!data.listing) {
-            return null;
-          }
-
-          const {
-            id: listingId,
-            title,
-            description,
-            numOfBeds,
-            locationType,
-            photoThumbnail,
-            amenities,
-            costPerNight,
-          } = data.listing;
-
-          const listingData = {
-            title,
-            description,
-            numOfBeds,
-            locationType,
-            photoThumbnail,
-            amenities: amenities.filter(Boolean),
-            costPerNight,
-          };
-
-          return (
-            <ListingForm
-              listingData={listingData}
-              submitting={submitting}
-              onSubmit={(listing) => {
-                updateListing({ variables: { listingId, listing } });
-              }}
-            />
-          );
+      <ListingForm
+        listingData={{
+          title,
+          description,
+          numOfBeds,
+          locationType,
+          photoThumbnail,
+          amenities: amenities.filter(Boolean),
+          costPerNight,
         }}
-      </QueryResult>
+        submitting={submitting}
+        onSubmit={(listing) => {
+          updateListing({ variables: { listingId, listing } });
+        }}
+      />
     </>
   );
 }
