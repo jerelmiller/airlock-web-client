@@ -70,7 +70,8 @@ export default function Wallet() {
   });
 
   if (complete && data.me.__typename !== "Guest") {
-    return navigate("/");
+    navigate("/");
+    return null;
   }
 
   const user = data.me;
