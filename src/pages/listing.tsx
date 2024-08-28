@@ -20,11 +20,16 @@ import {
 import { GUEST_TRIPS } from "./trips";
 import { IoBedOutline, IoCreate } from "react-icons/io5";
 import { Link, useParams } from "react-router-dom";
-import { gql, TypedDocumentNode, useSuspenseQuery } from "@apollo/client";
-import { useUser } from "../utils";
+import {
+  gql,
+  TypedDocumentNode,
+  useFragment,
+  useSuspenseQuery,
+} from "@apollo/client";
 import {
   GetListingDetailsQuery,
   GetListingDetailsQueryVariables,
+  ListingsUserFragment,
 } from "./__generated__/listing.types";
 
 export const LISTING: TypedDocumentNode<
@@ -97,10 +102,19 @@ function AmenityList({ amenities, category }: AmenityListProps) {
   );
 }
 
+const fragment: TypedDocumentNode<ListingsUserFragment> = gql`
+  fragment ListingsUserFragment on Query {
+    me {
+      id
+    }
+  }
+`;
+
 export default function Listings() {
   const { id: idParam } = useParams();
-  const { user } = useUser();
+  const { data: currentUser } = useFragment({ fragment, from: "ROOT_QUERY" });
   const { data } = useSuspenseQuery(LISTING, { variables: { id: idParam! } });
+  const user = currentUser.me;
 
   if (!data.listing) {
     return <Center>Listing not found</Center>;

@@ -54,3 +54,7 @@ export type GetListingDetailsQuery = {
     } | null>;
   } | null;
 };
+
+export type ListingsUserFragment = {
+  me: { __typename: "Guest"; id: string } | { __typename: "Host"; id: string };
+};
