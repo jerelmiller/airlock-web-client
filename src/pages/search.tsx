@@ -1,5 +1,4 @@
 import BedroomInput from "../components/BedroomInput";
-import Layout from "../layouts/Layout";
 import ListingCell from "../components/ListingCell";
 import { Suspense, useEffect, useState } from "react";
 import format from "date-fns/format";
@@ -74,7 +73,7 @@ export default function Search() {
   });
 
   return (
-    <Layout>
+    <>
       <Center>
         <Stack>
           <Heading as="h1" mb="6" textAlign="center">
@@ -149,7 +148,7 @@ export default function Search() {
           />
         </ErrorBoundary>
       </Suspense>
-    </Layout>
+    </>
   );
 }
 

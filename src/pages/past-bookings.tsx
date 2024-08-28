@@ -1,5 +1,4 @@
 import Bookings from "../components/Bookings";
-import Layout from "../layouts/Layout";
 import QueryResult from "../components/QueryResult";
 import { gql, TypedDocumentNode, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
@@ -82,16 +81,14 @@ export default function HostBookings() {
   });
 
   return (
-    <Layout>
-      <QueryResult loading={loading} error={error} data={data}>
-        {({ bookingsForListing, listing }) => (
-          <Bookings
-            title={listing?.title ?? ""}
-            bookings={bookingsForListing.filter(Boolean)}
-            isPast
-          />
-        )}
-      </QueryResult>
-    </Layout>
+    <QueryResult loading={loading} error={error} data={data}>
+      {({ bookingsForListing, listing }) => (
+        <Bookings
+          title={listing?.title ?? ""}
+          bookings={bookingsForListing.filter(Boolean)}
+          isPast
+        />
+      )}
+    </QueryResult>
   );
 }

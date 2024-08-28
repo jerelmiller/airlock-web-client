@@ -1,4 +1,3 @@
-import Layout from "../layouts/Layout";
 import { useRef } from "react";
 import {
   Box,
@@ -64,86 +63,84 @@ export default function Profile() {
   if (error) return `Submission error! ${error.message}`;
 
   return (
-    <Layout containerSize="container.lg">
-      <Center>
-        {user && (
-          <VStack direction="column" spacing="3" textAlign="center">
-            <Heading as="h2">My profile</Heading>
-            <Image
-              boxSize="200px"
-              objectFit="cover"
-              src={user.profilePicture}
-              alt="profile picture"
-            />
-            <Stack>
-              <Text fontWeight="bold" fontSize="lg">
-                {user.name}{" "}
-                <Text
-                  as="span"
-                  textTransform="uppercase"
-                  fontWeight="normal"
-                  fontSize="sm"
-                >
-                  ({user.__typename})
-                </Text>
+    <Center>
+      {user && (
+        <VStack direction="column" spacing="3" textAlign="center">
+          <Heading as="h2">My profile</Heading>
+          <Image
+            boxSize="200px"
+            objectFit="cover"
+            src={user.profilePicture}
+            alt="profile picture"
+          />
+          <Stack>
+            <Text fontWeight="bold" fontSize="lg">
+              {user.name}{" "}
+              <Text
+                as="span"
+                textTransform="uppercase"
+                fontWeight="normal"
+                fontSize="sm"
+              >
+                ({user.__typename})
               </Text>
-            </Stack>
+            </Text>
+          </Stack>
+          {user.__typename === "Host" && (
+            <Box>
+              <Text mb="1" fontWeight="bold" alignSelf="flex-start">
+                About
+              </Text>
+              <Textarea
+                ref={txtProfileDescRef}
+                placeholder="Profile description"
+                defaultValue={user.profileDescription}
+                width="400px"
+              />
+            </Box>
+          )}
+          <Stack direction="row" spacing="2">
             {user.__typename === "Host" && (
+              <Button
+                rightIcon={<IoCheckmark />}
+                onClick={() => {
+                  const updateProfileInput = {
+                    profileDescription: txtProfileDescRef.current?.value,
+                  };
+                  return updateProfileData({
+                    variables: {
+                      updateProfileInput,
+                    },
+                  });
+                }}
+                isDisabled={loading}
+              >
+                {loading ? "Updating..." : "Update Profile"}
+              </Button>
+            )}
+            {user.__typename === "Guest" && (
               <Box>
-                <Text mb="1" fontWeight="bold" alignSelf="flex-start">
-                  About
-                </Text>
-                <Textarea
-                  ref={txtProfileDescRef}
-                  placeholder="Profile description"
-                  defaultValue={user.profileDescription}
-                  width="400px"
-                />
+                <Button as={Link} to="wallet" rightIcon={<IoWallet />}>
+                  Go to wallet
+                </Button>
               </Box>
             )}
-            <Stack direction="row" spacing="2">
-              {user.__typename === "Host" && (
-                <Button
-                  rightIcon={<IoCheckmark />}
-                  onClick={() => {
-                    const updateProfileInput = {
-                      profileDescription: txtProfileDescRef.current?.value,
-                    };
-                    return updateProfileData({
-                      variables: {
-                        updateProfileInput,
-                      },
-                    });
-                  }}
-                  isDisabled={loading}
-                >
-                  {loading ? "Updating..." : "Update Profile"}
-                </Button>
-              )}
-              {user.__typename === "Guest" && (
-                <Box>
-                  <Button as={Link} to="wallet" rightIcon={<IoWallet />}>
-                    Go to wallet
-                  </Button>
-                </Box>
-              )}
-              <Button
-                as={Link}
-                to="/login"
-                onClick={() => {
-                  localStorage.removeItem("token");
-                  setUser(undefined);
-                  client.clearStore();
-                }}
-                rightIcon={<IoExit />}
-                variant="outline"
-              >
-                Logout
-              </Button>
-            </Stack>
-          </VStack>
-        )}
-      </Center>
-    </Layout>
+            <Button
+              as={Link}
+              to="/login"
+              onClick={() => {
+                localStorage.removeItem("token");
+                setUser(undefined);
+                client.clearStore();
+              }}
+              rightIcon={<IoExit />}
+              variant="outline"
+            >
+              Logout
+            </Button>
+          </Stack>
+        </VStack>
+      )}
+    </Center>
   );
 }

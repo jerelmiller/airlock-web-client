@@ -1,5 +1,4 @@
 import Bookings from "../components/Bookings";
-import Layout from "../layouts/Layout";
 import QueryResult from "../components/QueryResult";
 import { gql, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
@@ -70,14 +69,12 @@ export default function HostBookings() {
   });
 
   return (
-    <Layout>
-      <QueryResult loading={loading} error={error} data={data}>
-        {({ upcomingBookings, currentBooking, listing }) => {
-          const bookings = [...upcomingBookings, ...currentBooking];
+    <QueryResult loading={loading} error={error} data={data}>
+      {({ upcomingBookings, currentBooking, listing }) => {
+        const bookings = [...upcomingBookings, ...currentBooking];
 
-          return <Bookings title={listing.title} bookings={bookings} />;
-        }}
-      </QueryResult>
-    </Layout>
+        return <Bookings title={listing.title} bookings={bookings} />;
+      }}
+    </QueryResult>
   );
 }

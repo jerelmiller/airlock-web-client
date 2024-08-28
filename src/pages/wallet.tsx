@@ -1,4 +1,3 @@
-import Layout from "../layouts/Layout";
 import { useState } from "react";
 import {
   Box,
@@ -49,74 +48,72 @@ export default function Wallet() {
   });
 
   return (
-    <Layout>
-      <Center textAlign="center">
-        <Stack spacing="4">
-          <Heading as="h1">My wallet</Heading>
-          <Text>
-            Welcome to your wallet! Use this space to add and manage funds for
-            your trips.
-          </Text>
-          {user && (
-            <Box
-              p={4}
-              border="1px"
-              borderColor="gray.100"
-              borderRadius={4}
-              textAlign="center"
-            >
-              <Heading size="2xl">
-                @{user.__typename === "Guest" ? user.funds : "-"}
-              </Heading>
-              <Text>credit balance</Text>
-            </Box>
-          )}
-          <Text fontWeight="semibold" textAlign="left">
-            Add funds to your account
-          </Text>
-          <Flex w="100%">
-            <Box>
-              <InputGroup alignSelf="center">
-                <InputLeftAddon bg="transparent" paddingRight="0">
-                  @
-                </InputLeftAddon>
-                <NumberInput
-                  name="numOfBeds"
-                  min={1}
-                  value={funds}
-                  onChange={(_, val) => {
-                    setFunds(val);
-                  }}
-                >
-                  <NumberInputField
-                    borderLeftWidth="0"
-                    borderTopLeftRadius="0"
-                    borderBottomLeftRadius="0"
-                  />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
-              </InputGroup>
-            </Box>
-            <Button
-              alignSelf="center"
-              maxW="150px"
-              ml={4}
-              onClick={() =>
-                addFundsToWallet({
-                  variables: {
-                    amount: funds,
-                  },
-                })
-              }
-            >
-              Add funds
-            </Button>
-          </Flex>
-        </Stack>
-      </Center>
-    </Layout>
+    <Center textAlign="center">
+      <Stack spacing="4">
+        <Heading as="h1">My wallet</Heading>
+        <Text>
+          Welcome to your wallet! Use this space to add and manage funds for
+          your trips.
+        </Text>
+        {user && (
+          <Box
+            p={4}
+            border="1px"
+            borderColor="gray.100"
+            borderRadius={4}
+            textAlign="center"
+          >
+            <Heading size="2xl">
+              @{user.__typename === "Guest" ? user.funds : "-"}
+            </Heading>
+            <Text>credit balance</Text>
+          </Box>
+        )}
+        <Text fontWeight="semibold" textAlign="left">
+          Add funds to your account
+        </Text>
+        <Flex w="100%">
+          <Box>
+            <InputGroup alignSelf="center">
+              <InputLeftAddon bg="transparent" paddingRight="0">
+                @
+              </InputLeftAddon>
+              <NumberInput
+                name="numOfBeds"
+                min={1}
+                value={funds}
+                onChange={(_, val) => {
+                  setFunds(val);
+                }}
+              >
+                <NumberInputField
+                  borderLeftWidth="0"
+                  borderTopLeftRadius="0"
+                  borderBottomLeftRadius="0"
+                />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            </InputGroup>
+          </Box>
+          <Button
+            alignSelf="center"
+            maxW="150px"
+            ml={4}
+            onClick={() =>
+              addFundsToWallet({
+                variables: {
+                  amount: funds,
+                },
+              })
+            }
+          >
+            Add funds
+          </Button>
+        </Flex>
+      </Stack>
+    </Center>
   );
 }

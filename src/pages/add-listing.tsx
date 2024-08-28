@@ -1,4 +1,3 @@
-import Layout from "../layouts/Layout";
 import ListingForm from "../components/ListingForm";
 import { Button } from "@chakra-ui/react";
 import { HOST_LISTINGS, LISTING_FRAGMENT } from "../utils";
@@ -35,7 +34,7 @@ export default function CreateListing() {
   const navigate = useNavigate();
 
   return (
-    <Layout>
+    <>
       <Button as={Link} to="/listings" leftIcon={<IoArrowBackOutline />} mb="4">
         Back to listings
       </Button>
@@ -73,6 +72,6 @@ export default function CreateListing() {
           },
         }}
       />
-    </Layout>
+    </>
   );
 }

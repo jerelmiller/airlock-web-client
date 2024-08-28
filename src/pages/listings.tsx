@@ -1,4 +1,3 @@
-import Layout from "../layouts/Layout";
 import QueryResult from "../components/QueryResult";
 import Stars from "../components/Stars";
 import {
@@ -30,16 +29,15 @@ export default function Listings() {
   const { loading, error, data } = useQuery(HOST_LISTINGS);
 
   return (
-    <Layout>
+    <>
       <Flex w="full" justifyContent="space-between">
-        <Heading as="h1" mb="4">
+        <Heading as="h1" mt={0} mb="4">
           My listings
         </Heading>
         <Button
           as={Link}
           to="/listings/create"
           leftIcon={<IoAddCircleOutline />}
-          mb="4"
         >
           Add
         </Button>
@@ -106,6 +104,6 @@ export default function Listings() {
           );
         }}
       </QueryResult>
-    </Layout>
+    </>
   );
 }

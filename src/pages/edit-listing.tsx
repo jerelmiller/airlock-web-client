@@ -1,4 +1,3 @@
-import Layout from "../layouts/Layout";
 import ListingForm from "../components/ListingForm";
 import QueryResult from "../components/QueryResult";
 import { Button } from "@chakra-ui/react";
@@ -62,7 +61,7 @@ export default function EditListing() {
   });
 
   return (
-    <Layout>
+    <>
       <Button
         role="link"
         aria-label="Go back to previous page"
@@ -113,6 +112,6 @@ export default function EditListing() {
           );
         }}
       </QueryResult>
-    </Layout>
+    </>
   );
 }
