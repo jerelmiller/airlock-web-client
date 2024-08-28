@@ -1,8 +1,14 @@
 import CurrentTrips from "../components/Trips";
-import QueryResult from "../components/QueryResult";
-import { gql, useQuery } from "@apollo/client";
+import { gql, TypedDocumentNode, useSuspenseQuery } from "@apollo/client";
+import {
+  GetGuestTripsQuery,
+  GetGuestTripsQueryVariables,
+} from "./__generated__/trips.types";
 
-export const GUEST_TRIPS = gql`
+export const GUEST_TRIPS: TypedDocumentNode<
+  GetGuestTripsQuery,
+  GetGuestTripsQueryVariables
+> = gql`
   query GetGuestTrips {
     upcomingGuestBookings {
       checkInDate
@@ -32,13 +38,8 @@ export const GUEST_TRIPS = gql`
 `;
 
 export default function Trips() {
-  const { loading, error, data } = useQuery(GUEST_TRIPS);
+  const { data } = useSuspenseQuery(GUEST_TRIPS);
+  const { upcomingGuestBookings } = data;
 
-  return (
-    <QueryResult loading={loading} error={error} data={data}>
-      {({ upcomingGuestBookings }) => (
-        <CurrentTrips trips={upcomingGuestBookings} />
-      )}
-    </QueryResult>
-  );
+  return <CurrentTrips trips={upcomingGuestBookings} />;
 }
