@@ -1,27 +1,5 @@
 import * as GraphQLTypes from "./types";
 
-export type GetMyProfileQueryVariables = GraphQLTypes.Exact<{
-  [key: string]: never;
-}>;
-
-export type GetMyProfileQuery = {
-  me:
-    | {
-        __typename: "Guest";
-        funds: number;
-        id: string;
-        name: string;
-        profilePicture: string;
-      }
-    | {
-        __typename: "Host";
-        profileDescription: string;
-        id: string;
-        name: string;
-        profilePicture: string;
-      };
-};
-
 export type ListingFragment = {
   __typename: "Listing";
   id: string;

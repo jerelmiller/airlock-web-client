@@ -9,15 +9,39 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Link, NavLink, Outlet } from "react-router-dom";
-import { useUser } from "../utils";
+import { gql, TypedDocumentNode, useSuspenseQuery } from "@apollo/client";
+import {
+  GetMyProfileQuery,
+  GetMyProfileQueryVariables,
+} from "./__generated__/Nav.types";
 
 interface NavProps {
   isLight?: boolean;
 }
 
+export const GET_USER: TypedDocumentNode<
+  GetMyProfileQuery,
+  GetMyProfileQueryVariables
+> = gql`
+  query GetMyProfile {
+    me {
+      id
+      name
+      profilePicture
+      ... on Host {
+        profileDescription
+      }
+      ... on Guest {
+        funds
+      }
+    }
+  }
+`;
+
 export default function Nav({ isLight }: NavProps) {
   const txtColor = isLight ? "#fff" : "#000";
-  const { user } = useUser();
+  const { data } = useSuspenseQuery(GET_USER, { errorPolicy: "all" });
+  const user = data?.me;
 
   return (
     <>

@@ -1,51 +1,12 @@
 import areIntervalsOverlapping from "date-fns/areIntervalsOverlapping";
 import format from "date-fns/format";
-import { gql, useQuery, TypedDocumentNode } from "@apollo/client";
-import { useState } from "react";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { Interval } from "date-fns";
 import {
   GetHostListingsQuery,
   GetHostListingsQueryVariables,
-  GetMyProfileQuery,
-  GetMyProfileQueryVariables,
   ListingFragment,
 } from "./__generated__/utils.types";
-
-export const GET_USER: TypedDocumentNode<
-  GetMyProfileQuery,
-  GetMyProfileQueryVariables
-> = gql`
-  query GetMyProfile {
-    me {
-      id
-      name
-      profilePicture
-      ... on Host {
-        profileDescription
-      }
-      ... on Guest {
-        funds
-      }
-    }
-  }
-`;
-
-export function useUser() {
-  const [user, setUser] = useState<GetMyProfileQuery["me"]>();
-
-  const { loading, error } = useQuery(GET_USER, {
-    onCompleted: ({ me }) => {
-      setUser({ ...me });
-    },
-  });
-
-  return {
-    user,
-    setUser,
-    loading,
-    error,
-  };
-}
 
 export const LISTING_FRAGMENT: TypedDocumentNode<ListingFragment> = gql`
   fragment ListingFragment on Listing {
