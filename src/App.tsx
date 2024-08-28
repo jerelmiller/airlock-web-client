@@ -18,7 +18,6 @@ import {
 import {
   createBrowserRouter,
   createRoutesFromElements,
-  Outlet,
   Route,
   RouterProvider,
 } from "react-router-dom";
@@ -32,13 +31,7 @@ const router = createBrowserRouter(
     <>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
-      <Route
-        element={
-          <Layout>
-            <Outlet />
-          </Layout>
-        }
-      >
+      <Route element={<Layout />}>
         <Route path="/search" element={<Search />} />
         <Route path="/listings" element={<Listings />} />
         <Route path="/listings/create" element={<CreateListing />} />

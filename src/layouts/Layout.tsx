@@ -1,17 +1,13 @@
-import { ReactNode } from "react";
 import Nav from "../components/Nav";
-import { Container, ContainerProps } from "@chakra-ui/react";
+import { Container } from "@chakra-ui/react";
+import { Outlet } from "react-router-dom";
 
-interface LayoutProps extends ContainerProps {
-  children?: ReactNode;
-}
-
-export default function Layout({ children, ...props }: LayoutProps) {
+export default function Layout() {
   return (
     <>
       <Nav />
-      <Container maxW="container.xl" {...props} mb={24}>
-        {children}
+      <Container maxW="container.xl" mb={24}>
+        <Outlet />
       </Container>
     </>
   );
