@@ -27,3 +27,21 @@ export type UpdateUserProfileMutation = {
       | null;
   };
 };
+
+export type ProfileFragment = {
+  me:
+    | {
+        __typename: "Guest";
+        funds: number;
+        id: string;
+        profilePicture: string;
+        name: string;
+      }
+    | {
+        __typename: "Host";
+        profileDescription: string;
+        id: string;
+        profilePicture: string;
+        name: string;
+      };
+};
