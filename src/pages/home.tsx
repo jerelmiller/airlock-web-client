@@ -1,6 +1,5 @@
 import BedroomInput from "../components/BedroomInput";
 import Hero from "../components/Hero";
-import Nav from "../components/Nav";
 import { ReactNode, Suspense, useState } from "react";
 import {
   Button,
@@ -63,7 +62,6 @@ export default function Home() {
 
   return (
     <>
-      <Nav />
       <Hero>
         <Center minHeight="500px">
           <Container maxWidth="100%">
