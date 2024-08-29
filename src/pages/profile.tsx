@@ -15,11 +15,12 @@ import { Link } from "react-router-dom";
 import {
   gql,
   TypedDocumentNode,
-  useFragment,
   useMutation,
+  useSuspenseQuery,
 } from "@apollo/client";
 import {
-  ProfileFragment,
+  GetUserQuery,
+  GetUserQueryVariables,
   UpdateUserProfileMutation,
   UpdateUserProfileMutationVariables,
 } from "./__generated__/profile.types";
@@ -45,8 +46,8 @@ export const UPDATE_PROFILE: TypedDocumentNode<
   }
 `;
 
-const fragment: TypedDocumentNode<ProfileFragment> = gql`
-  fragment ProfileFragment on Query {
+const GET_USER: TypedDocumentNode<GetUserQuery, GetUserQueryVariables> = gql`
+  query GetUser {
     me {
       id
       profilePicture
@@ -54,15 +55,12 @@ const fragment: TypedDocumentNode<ProfileFragment> = gql`
       ... on Host {
         profileDescription
       }
-      ... on Guest {
-        funds
-      }
     }
   }
 `;
 
 export default function Profile() {
-  const { data } = useFragment({ fragment, from: "ROOT_QUERY" });
+  const { data } = useSuspenseQuery(GET_USER);
   const txtProfileDescRef = useRef<HTMLTextAreaElement>(null);
   const [updateProfileData, { loading, error, client }] = useMutation(
     UPDATE_PROFILE,
@@ -79,33 +77,35 @@ export default function Profile() {
     },
   );
 
+  const { me: user } = data;
+
   if (error) return `Submission error! ${error.message}`;
 
   return (
     <Center>
-      {data.me && (
+      {user && (
         <VStack direction="column" spacing="3" textAlign="center">
           <Heading as="h2">My profile</Heading>
           <Image
             boxSize="200px"
             objectFit="cover"
-            src={data.me.profilePicture}
+            src={user.profilePicture}
             alt="profile picture"
           />
           <Stack>
             <Text fontWeight="bold" fontSize="lg">
-              {data.me.name}{" "}
+              {user.name}{" "}
               <Text
                 as="span"
                 textTransform="uppercase"
                 fontWeight="normal"
                 fontSize="sm"
               >
-                ({data.me.__typename})
+                ({user.__typename})
               </Text>
             </Text>
           </Stack>
-          {data.me.__typename === "Host" && (
+          {user.__typename === "Host" && (
             <Box>
               <Text mb="1" fontWeight="bold" alignSelf="flex-start">
                 About
@@ -113,13 +113,13 @@ export default function Profile() {
               <Textarea
                 ref={txtProfileDescRef}
                 placeholder="Profile description"
-                defaultValue={data.me.profileDescription}
+                defaultValue={user.profileDescription}
                 width="400px"
               />
             </Box>
           )}
           <Stack direction="row" spacing="2">
-            {data.me.__typename === "Host" && (
+            {user.__typename === "Host" && (
               <Button
                 rightIcon={<IoCheckmark />}
                 onClick={() => {
@@ -137,7 +137,7 @@ export default function Profile() {
                 {loading ? "Updating..." : "Update Profile"}
               </Button>
             )}
-            {data.me.__typename === "Guest" && (
+            {user.__typename === "Guest" && (
               <Box>
                 <Button as={Link} to="/wallet" rightIcon={<IoWallet />}>
                   Go to wallet
@@ -149,7 +149,6 @@ export default function Profile() {
               to="/login"
               onClick={() => {
                 localStorage.removeItem("token");
-                setUser(undefined);
                 client.clearStore();
               }}
               rightIcon={<IoExit />}

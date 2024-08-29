@@ -28,15 +28,13 @@ export type UpdateUserProfileMutation = {
   };
 };
 
-export type ProfileFragment = {
+export type GetUserQueryVariables = GraphQLTypes.Exact<{
+  [key: string]: never;
+}>;
+
+export type GetUserQuery = {
   me:
-    | {
-        __typename: "Guest";
-        funds: number;
-        id: string;
-        profilePicture: string;
-        name: string;
-      }
+    | { __typename: "Guest"; id: string; profilePicture: string; name: string }
     | {
         __typename: "Host";
         profileDescription: string;

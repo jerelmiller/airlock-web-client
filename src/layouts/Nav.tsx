@@ -31,9 +31,6 @@ export const GET_USER: TypedDocumentNode<
       id
       name
       profilePicture
-      ... on Host {
-        profileDescription
-      }
     }
   }
 `;
