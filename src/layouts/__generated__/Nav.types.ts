@@ -21,3 +21,5 @@ export type GetMyProfileQuery = {
         profilePicture: string;
       };
 };
+
+export type CurrentUserIdFragment = { currentUserId: string | null };
