@@ -2,6 +2,25 @@ import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { fragments } from "./fragments";
 
+const cache = new InMemoryCache({
+  fragments,
+  typePolicies: {
+    Query: {
+      fields: {
+        currentUserId: {
+          read: () => {
+            return localStorage.getItem("token");
+          },
+          merge: (_, userId) => {
+            localStorage.setItem("token", userId);
+            return userId;
+          },
+        },
+      },
+    },
+  },
+});
+
 const httpLink = createHttpLink({
   uri: "https://rt-airlock-router.herokuapp.com/",
 });
@@ -21,7 +40,7 @@ const authLink = setContext((_, { headers }) => {
 
 export const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache({ fragments }),
+  cache,
   name: "web-client",
   version: "0.9",
 });
