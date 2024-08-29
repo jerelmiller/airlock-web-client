@@ -135,6 +135,7 @@ export default function Search() {
       <Divider borderWidth="1px" />
       <Suspense fallback={<PageSpinner />}>
         <ErrorBoundary
+          key={[checkInDate, checkOutDate, numOfBeds].join("-")}
           fallbackRender={({ error }) => <PageError error={error} />}
         >
           <SearchResults
