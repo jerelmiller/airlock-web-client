@@ -1,4 +1,5 @@
 import "@apollo/space-kit/reset.css";
+import "./reset.css";
 import { extendTheme } from "@chakra-ui/react";
 
 import { colors } from "@apollo/space-kit/colors";
