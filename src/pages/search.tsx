@@ -48,14 +48,15 @@ export const SEARCH_LISTINGS: TypedDocumentNode<
 
 export default function Search() {
   const query = new URLSearchParams(useLocation().search);
-  const checkInDateFromUrl = query.get("startDate")!;
-  const checkOutDateFromUrl = query.get("endDate")!;
-  const numOfBedsFromUrl = parseInt(query.get("numOfBeds")!) || 1;
-
   const today = new Date();
-  const [checkInDate, setStartDate] = useState(new Date(checkInDateFromUrl));
-  const [checkOutDate, setEndDate] = useState(new Date(checkOutDateFromUrl));
-  const [numOfBeds, setNumOfBeds] = useState(numOfBedsFromUrl);
+
+  const [checkInDate, setStartDate] = useState(
+    new Date(query.get("startDate")!),
+  );
+  const [checkOutDate, setEndDate] = useState(new Date(query.get("endDate")!));
+  const [numOfBeds, setNumOfBeds] = useState(
+    parseInt(query.get("numOfBeds")!) || 1,
+  );
   const [sortBy, setSortBy] = useState(SortByCriteria.COST_ASC);
   const [page, setPage] = useState(1);
 
