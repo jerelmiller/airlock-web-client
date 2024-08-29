@@ -41,19 +41,23 @@ export const GET_USER: TypedDocumentNode<
   }
 `;
 
+const CURRENT_USER_ID_FRAGMENT: TypedDocumentNode<CurrentUserIdFragment> = gql`
+  fragment CurrentUserIdFragment on Query {
+    currentUserId @client
+  }
+`;
+
 export default function Nav() {
-  const { data: fragmentData } = useFragment<CurrentUserIdFragment>({
-    fragment: gql`
-      fragment CurrentUserIdFragment on Query {
-        currentUserId @client
-      }
-    `,
+  const { data: fragmentData } = useFragment({
+    fragment: CURRENT_USER_ID_FRAGMENT,
     from: "ROOT_QUERY",
   });
+
   const { data } = useSuspenseQuery(
     GET_USER,
     fragmentData.currentUserId ? { errorPolicy: "all" } : skipToken,
   );
+
   const user = data?.me;
 
   return (
