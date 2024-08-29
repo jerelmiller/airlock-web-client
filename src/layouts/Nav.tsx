@@ -29,7 +29,6 @@ export const GET_USER: TypedDocumentNode<
   query GetMyProfile {
     me {
       id
-      name
       profilePicture
     }
   }
