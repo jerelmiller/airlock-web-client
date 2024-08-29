@@ -19,15 +19,16 @@ import {
   gql,
   useMutation,
   TypedDocumentNode,
-  useFragment,
+  useSuspenseQuery,
 } from "@apollo/client";
 import {
   AddFundsMutation,
   AddFundsMutationVariables,
-  WalletUserFragment,
+  GetFundsQuery,
+  GetFundsQueryVariables,
 } from "./__generated__/wallet.types";
 import { Guest } from "../__generated__/types";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 export const ADD_FUNDS: TypedDocumentNode<
   AddFundsMutation,
@@ -43,8 +44,8 @@ export const ADD_FUNDS: TypedDocumentNode<
   }
 `;
 
-const fragment: TypedDocumentNode<WalletUserFragment> = gql`
-  fragment WalletUserFragment on Query {
+const GET_FUNDS: TypedDocumentNode<GetFundsQuery, GetFundsQueryVariables> = gql`
+  query GetFunds {
     me {
       id
       ... on Guest {
@@ -55,8 +56,7 @@ const fragment: TypedDocumentNode<WalletUserFragment> = gql`
 `;
 
 export default function Wallet() {
-  const navigate = useNavigate();
-  const { data, complete } = useFragment({ fragment, from: "ROOT_QUERY" });
+  const { data } = useSuspenseQuery(GET_FUNDS);
   const [funds, setFunds] = useState(100);
   const [addFundsToWallet] = useMutation(ADD_FUNDS, {
     update(cache, { data }) {
@@ -69,12 +69,11 @@ export default function Wallet() {
     },
   });
 
-  if (complete && data.me.__typename !== "Guest") {
-    navigate("/");
-    return null;
-  }
+  const { me: user } = data;
 
-  const user = data.me;
+  if (user.__typename !== "Guest") {
+    return <Navigate to="/" />;
+  }
 
   return (
     <Center textAlign="center">
@@ -84,20 +83,16 @@ export default function Wallet() {
           Welcome to your wallet! Use this space to add and manage funds for
           your trips.
         </Text>
-        {user && (
-          <Box
-            p={4}
-            border="1px"
-            borderColor="gray.100"
-            borderRadius={4}
-            textAlign="center"
-          >
-            <Heading size="2xl">
-              @{user.__typename === "Guest" ? user.funds : "-"}
-            </Heading>
-            <Text>credit balance</Text>
-          </Box>
-        )}
+        <Box
+          p={4}
+          border="1px"
+          borderColor="gray.100"
+          borderRadius={4}
+          textAlign="center"
+        >
+          <Heading size="2xl">@{user.funds}</Heading>
+          <Text>credit balance</Text>
+        </Box>
         <Text fontWeight="semibold" textAlign="left">
           Add funds to your account
         </Text>

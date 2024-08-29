@@ -34,9 +34,6 @@ export const GET_USER: TypedDocumentNode<
       ... on Host {
         profileDescription
       }
-      ... on Guest {
-        funds
-      }
     }
   }
 `;

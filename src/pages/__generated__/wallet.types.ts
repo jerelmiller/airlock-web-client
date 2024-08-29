@@ -14,7 +14,11 @@ export type AddFundsMutation = {
   };
 };
 
-export type WalletUserFragment = {
+export type GetFundsQueryVariables = GraphQLTypes.Exact<{
+  [key: string]: never;
+}>;
+
+export type GetFundsQuery = {
   me:
     | { __typename: "Guest"; funds: number; id: string }
     | { __typename: "Host"; id: string };
