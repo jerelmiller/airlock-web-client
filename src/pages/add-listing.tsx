@@ -1,6 +1,6 @@
 import ListingForm from "../components/ListingForm";
 import { Button } from "@chakra-ui/react";
-import { HOST_LISTINGS, LISTING_FRAGMENT } from "../utils";
+import { HOST_LISTINGS } from "../utils";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { gql, TypedDocumentNode, useMutation } from "@apollo/client";
@@ -18,7 +18,13 @@ export const CREATE_LISTING: TypedDocumentNode<
       success
       message
       listing {
-        ...ListingFragment
+        id
+        title
+        description
+        numOfBeds
+        locationType
+        photoThumbnail
+        costPerNight
         amenities {
           id
           category
@@ -27,7 +33,6 @@ export const CREATE_LISTING: TypedDocumentNode<
       }
     }
   }
-  ${LISTING_FRAGMENT}
 `;
 
 export default function CreateListing() {
