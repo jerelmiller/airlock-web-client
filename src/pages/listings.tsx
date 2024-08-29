@@ -61,20 +61,13 @@ export default function Listings() {
         </Button>
       </Flex>
       <VStack spacing="4" divider={<StackDivider borderColor="gray.200" />}>
-        {hostListings.filter(Boolean).map((listingData, index) => {
-          const {
-            id,
-            title,
-            photoThumbnail,
-            overallRating,
-            numberOfUpcomingBookings,
-          } = listingData;
+        {hostListings.filter(Boolean).map((listing) => {
           return (
-            <Box key={`${title}-${index}`} overflow="hidden" w="full">
+            <Box key={listing.id} overflow="hidden" w="full">
               <Flex direction="row" flexWrap="wrap">
                 <Image
-                  src={photoThumbnail}
-                  alt={title}
+                  src={listing.photoThumbnail}
+                  alt={listing.title}
                   objectFit="cover"
                   w="250px"
                   h="140px"
@@ -83,25 +76,27 @@ export default function Listings() {
                 <Flex direction="column" px="4">
                   <Flex direction="column" h="full">
                     <Heading as="h2" size="md">
-                      {title}
+                      {listing.title}
                     </Heading>
                     <Flex flexWrap="wrap" mt={4}>
-                      <Text mr={4}>{numberOfUpcomingBookings} bookings</Text>
-                      {overallRating ? (
-                        <Stars size={20} rating={overallRating} />
+                      <Text mr={4}>
+                        {listing.numberOfUpcomingBookings} bookings
+                      </Text>
+                      {listing.overallRating ? (
+                        <Stars size={20} rating={listing.overallRating} />
                       ) : (
                         <Text>No reviews yet</Text>
                       )}
                     </Flex>
                   </Flex>
                   <Flex>
-                    <Box {...LINK_PROPS} to={`/listing/${id}/edit`}>
+                    <Box {...LINK_PROPS} to={`/listing/${listing.id}/edit`}>
                       Edit
                     </Box>
-                    <Box {...LINK_PROPS} to={`/listing/${id}`}>
+                    <Box {...LINK_PROPS} to={`/listing/${listing.id}`}>
                       View
                     </Box>
-                    <Box {...LINK_PROPS} to={`/listing/${id}/bookings`}>
+                    <Box {...LINK_PROPS} to={`/listing/${listing.id}/bookings`}>
                       Manage Bookings
                     </Box>
                   </Flex>
