@@ -12,11 +12,11 @@ export type ListingFragment = {
   locationType: GraphQLTypes.LocationType;
 };
 
-export type GetHostListingsQueryVariables = GraphQLTypes.Exact<{
+export type GetHostListings_LegacyQueryVariables = GraphQLTypes.Exact<{
   [key: string]: never;
 }>;
 
-export type GetHostListingsQuery = {
+export type GetHostListings_LegacyQuery = {
   hostListings: Array<{
     __typename: "Listing";
     numberOfUpcomingBookings: number;

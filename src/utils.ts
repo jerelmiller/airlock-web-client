@@ -3,8 +3,8 @@ import format from "date-fns/format";
 import { gql, TypedDocumentNode } from "@apollo/client";
 import { Interval } from "date-fns";
 import {
-  GetHostListingsQuery,
-  GetHostListingsQueryVariables,
+  GetHostListings_LegacyQuery,
+  GetHostListings_LegacyQueryVariables,
   ListingFragment,
 } from "./__generated__/utils.types";
 
@@ -22,10 +22,10 @@ export const LISTING_FRAGMENT: TypedDocumentNode<ListingFragment> = gql`
 `;
 
 export const HOST_LISTINGS: TypedDocumentNode<
-  GetHostListingsQuery,
-  GetHostListingsQueryVariables
+  GetHostListings_LegacyQuery,
+  GetHostListings_LegacyQueryVariables
 > = gql`
-  query GetHostListings {
+  query GetHostListings_Legacy {
     hostListings {
       ...ListingFragment
       numberOfUpcomingBookings
