@@ -1,6 +1,6 @@
 import ListingForm from "../components/ListingForm";
 import { Button } from "@chakra-ui/react";
-import { HOST_LISTINGS } from "../utils";
+import { HOST_LISTINGS } from "./listings";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { gql, TypedDocumentNode, useMutation } from "@apollo/client";

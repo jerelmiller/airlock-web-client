@@ -2,11 +2,7 @@ import areIntervalsOverlapping from "date-fns/areIntervalsOverlapping";
 import format from "date-fns/format";
 import { gql, TypedDocumentNode } from "@apollo/client";
 import { Interval } from "date-fns";
-import {
-  GetHostListings_LegacyQuery,
-  GetHostListings_LegacyQueryVariables,
-  ListingFragment,
-} from "./__generated__/utils.types";
+import { ListingFragment } from "./__generated__/utils.types";
 
 export const LISTING_FRAGMENT: TypedDocumentNode<ListingFragment> = gql`
   fragment ListingFragment on Listing {
@@ -19,19 +15,6 @@ export const LISTING_FRAGMENT: TypedDocumentNode<ListingFragment> = gql`
     costPerNight
     locationType
   }
-`;
-
-export const HOST_LISTINGS: TypedDocumentNode<
-  GetHostListings_LegacyQuery,
-  GetHostListings_LegacyQueryVariables
-> = gql`
-  query GetHostListings_Legacy {
-    hostListings {
-      ...ListingFragment
-      numberOfUpcomingBookings
-    }
-  }
-  ${LISTING_FRAGMENT}
 `;
 
 export const getNextDate = (date: Date) => {
