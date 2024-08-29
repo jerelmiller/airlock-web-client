@@ -21,11 +21,18 @@ import {
 import { IoCheckmark, IoChevronDown, IoChevronUp } from "react-icons/io5";
 
 import { Link } from "react-router-dom";
+import { gql, useApolloClient } from "@apollo/client";
+import {
+  SetCurrentUserIdQuery,
+  SetCurrentUserIdQueryVariables,
+} from "./__generated__/login.types";
 
 export default function Login() {
+  const client = useApolloClient();
   const [value, setValue] = useState<string>();
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) =>
     setValue(event.target.value);
+
   const users = [
     "Athes - Guest",
     "Kelle - Host",
@@ -36,11 +43,19 @@ export default function Login() {
     "Brise - Guest",
     "Hendav - Guest",
   ];
+
   const HOST_USER = "user-1";
   const GUEST_USER = "user-2";
 
   function login(userId: string) {
-    localStorage.setItem("token", userId);
+    client.writeQuery<SetCurrentUserIdQuery, SetCurrentUserIdQueryVariables>({
+      query: gql`
+        query SetCurrentUserId {
+          currentUserId
+        }
+      `,
+      data: { currentUserId: userId },
+    });
   }
 
   return (

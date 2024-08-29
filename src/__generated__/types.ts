@@ -287,6 +287,7 @@ export type Query = {
   bookingsForListing: Array<Maybe<Booking>>;
   /** Current booking for guest based on current date */
   currentGuestBooking: Maybe<Booking>;
+  currentUserId: Maybe<Scalars["ID"]["output"]>;
   /** A curated array of listings to feature on the homepage */
   featuredListings: Array<Listing>;
   /** A list of bookings for the guest - must be authenticated as guest */
