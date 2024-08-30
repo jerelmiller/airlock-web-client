@@ -32,7 +32,7 @@ import {
   ListingsUserFragment,
 } from "./__generated__/listing.types";
 
-export const LISTING: TypedDocumentNode<
+const LISTING: TypedDocumentNode<
   GetListingDetailsQuery,
   GetListingDetailsQueryVariables
 > = gql`
