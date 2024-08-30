@@ -19,18 +19,19 @@ import {
 } from "@chakra-ui/react";
 import { GUEST_TRIPS } from "./trips";
 import { IoBedOutline, IoCreate } from "react-icons/io5";
-import { Link, useParams } from "react-router-dom";
+import { Link, LoaderFunctionArgs, useLoaderData } from "react-router-dom";
 import {
   gql,
   TypedDocumentNode,
   useFragment,
-  useSuspenseQuery,
+  useReadQuery,
 } from "@apollo/client";
 import {
   GetListingDetailsQuery,
   GetListingDetailsQueryVariables,
   ListingsUserFragment,
 } from "./__generated__/listing.types";
+import { preloadQuery } from "../apolloClient";
 
 const LISTING: TypedDocumentNode<
   GetListingDetailsQuery,
@@ -110,10 +111,18 @@ const fragment: TypedDocumentNode<ListingsUserFragment> = gql`
   }
 `;
 
+export function loader({ params }: LoaderFunctionArgs) {
+  if (!params.id) {
+    throw new Error("Invalid ID");
+  }
+
+  return preloadQuery(LISTING, { variables: { id: params.id } });
+}
+
 export default function Listings() {
-  const { id: idParam } = useParams();
+  const queryRef = useLoaderData() as ReturnType<typeof loader>;
+  const { data } = useReadQuery(queryRef);
   const { data: currentUser } = useFragment({ fragment, from: "ROOT_QUERY" });
-  const { data } = useSuspenseQuery(LISTING, { variables: { id: idParam! } });
   const user = currentUser.me;
 
   if (!data.listing) {
