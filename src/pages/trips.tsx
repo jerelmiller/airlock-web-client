@@ -1,9 +1,11 @@
 import CurrentTrips from "../components/Trips";
-import { gql, TypedDocumentNode, useSuspenseQuery } from "@apollo/client";
+import { gql, TypedDocumentNode, useReadQuery } from "@apollo/client";
 import {
   GetGuestTripsQuery,
   GetGuestTripsQueryVariables,
 } from "./__generated__/trips.types";
+import { preloadQuery } from "../apolloClient";
+import { useLoaderData } from "react-router-dom";
 
 export const GUEST_TRIPS: TypedDocumentNode<
   GetGuestTripsQuery,
@@ -17,8 +19,13 @@ export const GUEST_TRIPS: TypedDocumentNode<
   }
 `;
 
+export function loader() {
+  return preloadQuery(GUEST_TRIPS);
+}
+
 export default function Trips() {
-  const { data } = useSuspenseQuery(GUEST_TRIPS);
+  const queryRef = useLoaderData() as ReturnType<typeof loader>;
+  const { data } = useReadQuery(queryRef);
   const { upcomingGuestBookings } = data;
 
   return <CurrentTrips trips={upcomingGuestBookings.filter(Boolean)} />;

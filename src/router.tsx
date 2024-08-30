@@ -26,6 +26,7 @@ import {
   Search,
   SearchLoader,
   Trips,
+  TripsLoader,
   Wallet,
 } from "./pages";
 import Nav from "./layouts/Nav";
@@ -68,7 +69,7 @@ export const router = createBrowserRouter(
             element={<HostPastBookings />}
             loader={HostPastBookingsLoader}
           />
-          <Route path="/trips" element={<Trips />} />
+          <Route path="/trips" element={<Trips />} loader={TripsLoader} />
           <Route path="/past-trips" element={<PastTrips />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/wallet" element={<Wallet />} />
