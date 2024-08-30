@@ -27,3 +27,16 @@ export type CreateListingMutation = {
     } | null;
   };
 };
+
+export type GetListingAmenitiesQueryVariables = GraphQLTypes.Exact<{
+  [key: string]: never;
+}>;
+
+export type GetListingAmenitiesQuery = {
+  listingAmenities: Array<{
+    __typename: "Amenity";
+    id: string;
+    category: GraphQLTypes.AmenityCategory;
+    name: string;
+  }>;
+};

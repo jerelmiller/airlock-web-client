@@ -7,6 +7,7 @@ import {
 import Layout from "./layouts/Layout";
 import {
   CreateListing,
+  CreateListingLoader,
   EditListing,
   EditListingLoader,
   Home,
@@ -40,7 +41,11 @@ export const router = createBrowserRouter(
             element={<Listings />}
             loader={ListingsLoader}
           />
-          <Route path="/listings/create" element={<CreateListing />} />
+          <Route
+            path="/listings/create"
+            element={<CreateListing />}
+            loader={CreateListingLoader}
+          />
           <Route
             path="/listing/:id"
             element={<Listing />}

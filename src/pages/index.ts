@@ -11,6 +11,9 @@ export {
   default as EditListing,
   loader as EditListingLoader,
 } from "./edit-listing";
-export { default as CreateListing } from "./add-listing";
+export {
+  default as CreateListing,
+  loader as CreateListingLoader,
+} from "./add-listing";
 export { default as HostBookings } from "./bookings";
 export { default as HostPastBookings } from "./past-bookings";

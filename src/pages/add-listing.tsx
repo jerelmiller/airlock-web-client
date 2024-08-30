@@ -2,12 +2,21 @@ import ListingForm from "../components/ListingForm";
 import { Button } from "@chakra-ui/react";
 import { HOST_LISTINGS } from "./listings";
 import { IoArrowBackOutline } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
-import { gql, TypedDocumentNode, useMutation } from "@apollo/client";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
+import {
+  gql,
+  TypedDocumentNode,
+  useMutation,
+  useReadQuery,
+} from "@apollo/client";
 import {
   CreateListingMutation,
   CreateListingMutationVariables,
+  GetListingAmenitiesQuery,
+  GetListingAmenitiesQueryVariables,
 } from "./__generated__/add-listing.types";
+import { type LocationType } from "../__generated__/types";
+import { preloadQuery } from "../apolloClient";
 
 export const CREATE_LISTING: TypedDocumentNode<
   CreateListingMutation,
@@ -35,7 +44,26 @@ export const CREATE_LISTING: TypedDocumentNode<
   }
 `;
 
+const GET_LISTING_AMENITIES: TypedDocumentNode<
+  GetListingAmenitiesQuery,
+  GetListingAmenitiesQueryVariables
+> = gql`
+  query GetListingAmenities {
+    listingAmenities {
+      id
+      ...ListingForm_amentities
+    }
+  }
+`;
+
+export function loader() {
+  return preloadQuery(GET_LISTING_AMENITIES);
+}
+
 export default function CreateListing() {
+  const queryRef = useLoaderData() as ReturnType<typeof loader>;
+  const { data } = useReadQuery(queryRef);
+
   const navigate = useNavigate();
   const [createListing, { loading }] = useMutation(CREATE_LISTING, {
     onCompleted: () => {
@@ -64,17 +92,18 @@ export default function CreateListing() {
       </Button>
       <ListingForm
         submitting={loading}
+        amenities={data.listingAmenities}
         listing={{
           title: "",
           description: "",
           numOfBeds: 1,
-          locationType: "",
+          locationType: "" as LocationType,
           photoThumbnail: "",
           amenities: [],
           costPerNight: 100,
         }}
-        onSubmit={(listing) => {
-          createListing({ variables: { listing } });
+        onSubmit={(formValues) => {
+          createListing({ variables: { listing: formValues } });
         }}
       />
     </>
