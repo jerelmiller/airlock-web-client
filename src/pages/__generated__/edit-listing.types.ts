@@ -14,12 +14,12 @@ export type UpdateListingMutation = {
       __typename: "Listing";
       id: string;
       title: string;
-      photoThumbnail: string;
-      numOfBeds: number;
       description: string;
-      overallRating: number | null;
-      costPerNight: number;
+      numOfBeds: number;
       locationType: GraphQLTypes.LocationType;
+      photoThumbnail: string;
+      costPerNight: number;
+      overallRating: number | null;
       amenities: Array<{
         __typename: "Amenity";
         id: string;

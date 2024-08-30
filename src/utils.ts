@@ -1,21 +1,6 @@
 import areIntervalsOverlapping from "date-fns/areIntervalsOverlapping";
 import format from "date-fns/format";
-import { gql, TypedDocumentNode } from "@apollo/client";
 import { Interval } from "date-fns";
-import { ListingFragment } from "./__generated__/utils.types";
-
-export const LISTING_FRAGMENT: TypedDocumentNode<ListingFragment> = gql`
-  fragment ListingFragment on Listing {
-    id
-    title
-    photoThumbnail
-    numOfBeds
-    description
-    overallRating
-    costPerNight
-    locationType
-  }
-`;
 
 export const getNextDate = (date: Date) => {
   const nextDate = new Date(date).setDate(date.getDate() + 1);
