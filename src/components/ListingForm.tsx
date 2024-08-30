@@ -25,12 +25,16 @@ import {
   Textarea,
   Wrap,
 } from "@chakra-ui/react";
-import { TypedDocumentNode, gql, useSuspenseQuery } from "@apollo/client";
+import { TypedDocumentNode, gql } from "@apollo/client";
 import {
+  AmenitiesSelection_amentitiesFragment,
   GetAllAmenitiesQuery,
   GetAllAmenitiesQueryVariables,
+  ListingForm_amentitiesFragment,
+  ListingForm_listingFragment,
 } from "./__generated__/ListingForm.types";
 import { Amenity, LocationType } from "../__generated__/types";
+import { fragments } from "../fragments";
 
 export const AMENITIES: TypedDocumentNode<
   GetAllAmenitiesQuery,
@@ -66,54 +70,51 @@ interface ListingData {
 }
 
 interface ListingFormProps {
-  listing: ListingData;
+  amenities: ListingForm_amentitiesFragment[];
+  listing: Omit<ListingForm_listingFragment, "__typename">;
   onSubmit: (values: FormValues) => void;
   submitting: boolean;
 }
 
+fragments.register(gql`
+  fragment ListingForm_listing on Listing {
+    title
+    description
+    numOfBeds
+    locationType
+    photoThumbnail
+    costPerNight
+    amenities {
+      id
+    }
+  }
+
+  fragment ListingForm_amentities on Amenity {
+    id
+    category
+    ...AmenitiesSelection_amentities
+  }
+`);
+
 export default function ListingForm({
+  amenities,
   listing,
   onSubmit,
   submitting,
 }: ListingFormProps) {
-  const { data } = useSuspenseQuery(AMENITIES);
-  const { listingAmenities } = data;
-
-  return (
-    <ListingFormBody
-      listing={listing}
-      amenities={listingAmenities}
-      onSubmit={onSubmit}
-      submitting={submitting}
-    />
-  );
-}
-
-interface ListingFormBodyProps {
-  listing: ListingData;
-  amenities: Amenity[];
-  onSubmit: (values: FormValues) => void;
-  submitting: boolean;
-}
-
-function ListingFormBody({
-  listing,
-  amenities,
-  onSubmit,
-  submitting,
-}: ListingFormBodyProps) {
-  const listingAmenities = listing.amenities.map((amenity) => amenity.id);
-  const allAmenities = amenities.reduce<Record<string, Amenity[]>>(
-    (acc, curr) => {
-      return {
-        ...acc,
-        [curr.category]: acc[curr.category]
-          ? [...acc[curr.category], curr]
-          : [curr],
-      };
-    },
-    {},
-  );
+  const listingAmenities = listing.amenities
+    .filter(Boolean)
+    .map((amenity) => amenity.id);
+  const allAmenities = amenities.reduce<
+    Record<string, ListingForm_amentitiesFragment[]>
+  >((acc, amenity) => {
+    return {
+      ...acc,
+      [amenity.category]: acc[amenity.category]
+        ? [...acc[amenity.category], amenity]
+        : [amenity],
+    };
+  }, {});
 
   const [formValues, setFormValues] = useState({
     amenities: listingAmenities,
@@ -320,9 +321,16 @@ function ListingFormBody({
   );
 }
 
+fragments.register(gql`
+  fragment AmenitiesSelection_amentities on Amenity {
+    id
+    name
+  }
+`);
+
 interface AmenitiesSelectionProps {
   category: string;
-  amenities: Amenity[];
+  amenities: AmenitiesSelection_amentitiesFragment[];
   formValues: unknown[];
   onChange: (
     e: React.ChangeEvent<HTMLInputElement>,
