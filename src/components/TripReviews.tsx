@@ -113,7 +113,6 @@ export function HostAndLocationReview({
       {!submittedLocationReview && !submittedHostReview && (
         <>
           <Button
-            mt={4}
             variant="link"
             rightIcon={isReviewInputOpen ? <IoChevronUp /> : <IoChevronDown />}
             onClick={() => setIsReviewInputOpen((prevState) => !prevState)}
