@@ -5,7 +5,7 @@ export { default as PastTrips, loader as PastTripsLoader } from "./past-trips";
 export { default as Search, loader as SearchLoader } from "./search";
 export { default as Trips, loader as TripsLoader } from "./trips";
 export { default as Login } from "./login";
-export { default as Profile } from "./profile";
+export { default as Profile, loader as ProfileLoader } from "./profile";
 export { default as Wallet } from "./wallet";
 export {
   default as EditListing,

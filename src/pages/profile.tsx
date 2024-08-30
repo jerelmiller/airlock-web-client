@@ -11,12 +11,12 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { IoCheckmark, IoExit, IoWallet } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import {
   gql,
   TypedDocumentNode,
   useMutation,
-  useSuspenseQuery,
+  useReadQuery,
 } from "@apollo/client";
 import {
   GetUserQuery,
@@ -24,6 +24,7 @@ import {
   UpdateUserProfileMutation,
   UpdateUserProfileMutationVariables,
 } from "./__generated__/profile.types";
+import { preloadQuery } from "../apolloClient";
 
 export const UPDATE_PROFILE: TypedDocumentNode<
   UpdateUserProfileMutation,
@@ -59,8 +60,13 @@ const GET_USER: TypedDocumentNode<GetUserQuery, GetUserQueryVariables> = gql`
   }
 `;
 
+export function loader() {
+  return preloadQuery(GET_USER);
+}
+
 export default function Profile() {
-  const { data } = useSuspenseQuery(GET_USER);
+  const queryRef = useLoaderData() as ReturnType<typeof loader>;
+  const { data } = useReadQuery(queryRef);
   const txtProfileDescRef = useRef<HTMLTextAreaElement>(null);
   const [updateProfileData, { loading, error, client }] = useMutation(
     UPDATE_PROFILE,
