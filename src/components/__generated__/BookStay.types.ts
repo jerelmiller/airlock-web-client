@@ -23,3 +23,9 @@ export type BookStay_bookingsFragment = {
   checkInDate: string;
   checkOutDate: string;
 };
+
+export type CurrentUserIdQueryVariables = GraphQLTypes.Exact<{
+  [key: string]: never;
+}>;
+
+export type CurrentUserIdQuery = { currentUserId: string | null };

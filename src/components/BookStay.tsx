@@ -30,9 +30,11 @@ import {
   BookStay_bookingsFragment,
   BookStayMutation,
   BookStayMutationVariables,
+  CurrentUserIdQuery,
 } from "./__generated__/BookStay.types";
 import { DatePickerInput } from "./DatePickerInput";
 import { fragments } from "../fragments";
+import { Guest } from "../__generated__/types";
 
 export const BOOK_STAY: TypedDocumentNode<
   BookStayMutation,
@@ -130,6 +132,25 @@ export default function BookStay({
       // another, more optimized option is to update the cache directly -- https://www.apollographql.com/docs/react/data/mutations/#updating-the-cache-directly
     },
     refetchQueries,
+    update: (cache) => {
+      const data = cache.readQuery<CurrentUserIdQuery>({
+        query: gql`
+          query CurrentUserIdQuery {
+            currentUserId @client
+          }
+        `,
+      });
+
+      if (data?.currentUserId) {
+        cache.modify<Guest>({
+          id: cache.identify({ __typename: "Guest", id: data.currentUserId }),
+          fields: {
+            // Force our wallet to refetch funds
+            funds: (_, { DELETE }) => DELETE,
+          },
+        });
+      }
+    },
   });
 
   if (error) {
