@@ -1,9 +1,11 @@
 import Trips from "../components/Trips";
-import { gql, TypedDocumentNode, useSuspenseQuery } from "@apollo/client";
+import { gql, TypedDocumentNode, useReadQuery } from "@apollo/client";
 import {
   GetPastTripsQuery,
   GetPastTripsQueryVariables,
 } from "./__generated__/past-trips.types";
+import { preloadQuery } from "../apolloClient";
+import { useLoaderData } from "react-router-dom";
 
 export const PAST_GUEST_TRIPS: TypedDocumentNode<
   GetPastTripsQuery,
@@ -17,8 +19,13 @@ export const PAST_GUEST_TRIPS: TypedDocumentNode<
   }
 `;
 
+export function loader() {
+  return preloadQuery(PAST_GUEST_TRIPS);
+}
+
 export default function PastTrips() {
-  const { data } = useSuspenseQuery(PAST_GUEST_TRIPS);
+  const queryRef = useLoaderData() as ReturnType<typeof loader>;
+  const { data } = useReadQuery(queryRef);
   const { pastGuestBookings } = data;
 
   return <Trips trips={pastGuestBookings.filter(Boolean)} isPast />;

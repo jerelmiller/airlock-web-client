@@ -22,6 +22,7 @@ import {
   ListingsLoader,
   Login,
   PastTrips,
+  PastTripsLoader,
   Profile,
   Search,
   SearchLoader,
@@ -70,7 +71,11 @@ export const router = createBrowserRouter(
             loader={HostPastBookingsLoader}
           />
           <Route path="/trips" element={<Trips />} loader={TripsLoader} />
-          <Route path="/past-trips" element={<PastTrips />} />
+          <Route
+            path="/past-trips"
+            element={<PastTrips />}
+            loader={PastTripsLoader}
+          />
           <Route path="/profile" element={<Profile />} />
           <Route path="/wallet" element={<Wallet />} />
         </Route>
