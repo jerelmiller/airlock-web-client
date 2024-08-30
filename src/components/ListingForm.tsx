@@ -33,7 +33,7 @@ import {
   ListingForm_amentitiesFragment,
   ListingForm_listingFragment,
 } from "./__generated__/ListingForm.types";
-import { Amenity, LocationType } from "../__generated__/types";
+import { LocationType } from "../__generated__/types";
 import { fragments } from "../fragments";
 
 export const AMENITIES: TypedDocumentNode<
@@ -54,16 +54,6 @@ interface FormValues {
   description: string;
   amenities: string[];
   locationType: LocationType;
-  numOfBeds: number;
-  costPerNight: number;
-  photoThumbnail: string;
-}
-
-interface ListingData {
-  title: string;
-  description: string;
-  amenities: Amenity[];
-  locationType: string;
   numOfBeds: number;
   costPerNight: number;
   photoThumbnail: string;
