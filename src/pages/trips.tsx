@@ -21,5 +21,5 @@ export default function Trips() {
   const { data } = useSuspenseQuery(GUEST_TRIPS);
   const { upcomingGuestBookings } = data;
 
-  return <CurrentTrips trips={upcomingGuestBookings} />;
+  return <CurrentTrips trips={upcomingGuestBookings.filter(Boolean)} />;
 }
