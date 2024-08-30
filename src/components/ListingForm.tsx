@@ -66,13 +66,13 @@ interface ListingData {
 }
 
 interface ListingFormProps {
-  listingData: ListingData;
+  listing: ListingData;
   onSubmit: (values: FormValues) => void;
   submitting: boolean;
 }
 
 export default function ListingForm({
-  listingData,
+  listing,
   onSubmit,
   submitting,
 }: ListingFormProps) {
@@ -81,7 +81,7 @@ export default function ListingForm({
 
   return (
     <ListingFormBody
-      listingData={listingData}
+      listing={listing}
       amenities={listingAmenities}
       onSubmit={onSubmit}
       submitting={submitting}
@@ -90,19 +90,19 @@ export default function ListingForm({
 }
 
 interface ListingFormBodyProps {
-  listingData: ListingData;
+  listing: ListingData;
   amenities: Amenity[];
   onSubmit: (values: FormValues) => void;
   submitting: boolean;
 }
 
 function ListingFormBody({
-  listingData,
+  listing,
   amenities,
   onSubmit,
   submitting,
 }: ListingFormBodyProps) {
-  const listingAmenities = listingData.amenities.map((amenity) => amenity.id);
+  const listingAmenities = listing.amenities.map((amenity) => amenity.id);
   const allAmenities = amenities.reduce<Record<string, Amenity[]>>(
     (acc, curr) => {
       return {
@@ -212,7 +212,7 @@ function ListingFormBody({
               type="text"
               name="title"
               placeholder="Give your location a name"
-              defaultValue={listingData.title}
+              defaultValue={listing.title}
             />
           </FormControl>
           <FormControl isRequired>
@@ -220,7 +220,7 @@ function ListingFormBody({
             <Textarea
               name="description"
               placeholder="Describe your location"
-              defaultValue={listingData.description}
+              defaultValue={listing.description}
             />
           </FormControl>
         </Stack>
@@ -237,7 +237,7 @@ function ListingFormBody({
               <Select
                 name="locationType"
                 placeholder="Select option"
-                defaultValue={listingData.locationType}
+                defaultValue={listing.locationType}
               >
                 <option value="APARTMENT">Apartment</option>
                 <option value="CAMPSITE">Campsite</option>
@@ -251,7 +251,7 @@ function ListingFormBody({
               <NumberInput
                 name="numOfBeds"
                 min={1}
-                defaultValue={listingData.numOfBeds}
+                defaultValue={listing.numOfBeds}
               >
                 <NumberInputField />
                 <NumberInputStepper>
@@ -269,7 +269,7 @@ function ListingFormBody({
                 <NumberInput
                   name="costPerNight"
                   min={1}
-                  defaultValue={listingData.costPerNight}
+                  defaultValue={listing.costPerNight}
                 >
                   <NumberInputField
                     borderLeftWidth="0"
@@ -285,7 +285,7 @@ function ListingFormBody({
                 name="photoThumbnail"
                 type="text"
                 placeholder="Image URL"
-                defaultValue={listingData.photoThumbnail}
+                defaultValue={listing.photoThumbnail}
               />
             </FormControl>
           </Wrap>

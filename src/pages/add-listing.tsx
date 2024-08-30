@@ -64,7 +64,7 @@ export default function CreateListing() {
       </Button>
       <ListingForm
         submitting={loading}
-        listingData={{
+        listing={{
           title: "",
           description: "",
           numOfBeds: 1,

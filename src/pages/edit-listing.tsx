@@ -112,7 +112,7 @@ export default function EditListing() {
         Back
       </Button>
       <ListingForm
-        listingData={{
+        listing={{
           title,
           description,
           numOfBeds,
