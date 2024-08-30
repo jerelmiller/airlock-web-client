@@ -10,12 +10,18 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { IoAddCircleOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
-import { gql, TypedDocumentNode, useSuspenseQuery } from "@apollo/client";
+import { Link, useLoaderData } from "react-router-dom";
+import {
+  gql,
+  TypedDocumentNode,
+  useReadQuery,
+  useSuspenseQuery,
+} from "@apollo/client";
 import {
   GetHostListingsQuery,
   GetHostListingsQueryVariables,
 } from "./__generated__/listings.types";
+import { preloadQuery } from "../apolloClient";
 
 const LINK_PROPS = {
   as: Link,
@@ -42,8 +48,13 @@ export const HOST_LISTINGS: TypedDocumentNode<
   }
 `;
 
+export function loader() {
+  return preloadQuery(HOST_LISTINGS);
+}
+
 export default function Listings() {
-  const { data } = useSuspenseQuery(HOST_LISTINGS);
+  const queryRef = useLoaderData() as ReturnType<typeof loader>;
+  const { data } = useReadQuery(queryRef);
   const { hostListings } = data;
 
   return (
