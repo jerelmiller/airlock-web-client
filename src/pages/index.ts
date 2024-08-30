@@ -7,7 +7,10 @@ export { default as Trips } from "./trips";
 export { default as Login } from "./login";
 export { default as Profile } from "./profile";
 export { default as Wallet } from "./wallet";
-export { default as EditListing } from "./edit-listing";
+export {
+  default as EditListing,
+  loader as EditListingLoader,
+} from "./edit-listing";
 export { default as CreateListing } from "./add-listing";
 export { default as HostBookings } from "./bookings";
 export { default as HostPastBookings } from "./past-bookings";

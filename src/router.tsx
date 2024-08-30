@@ -8,6 +8,7 @@ import Layout from "./layouts/Layout";
 import {
   CreateListing,
   EditListing,
+  EditListingLoader,
   Home,
   HomeLoader,
   HostBookings,
@@ -45,7 +46,11 @@ export const router = createBrowserRouter(
             element={<Listing />}
             loader={ListingLoader}
           />
-          <Route path="/listing/:id/edit" element={<EditListing />} />
+          <Route
+            path="/listing/:id/edit"
+            element={<EditListing />}
+            loader={EditListingLoader}
+          />
           <Route path="/listing/:id/bookings" element={<HostBookings />} />
           <Route
             path="/listing/:id/past-bookings"

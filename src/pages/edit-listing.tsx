@@ -6,15 +6,20 @@ import {
   gql,
   TypedDocumentNode,
   useMutation,
-  useSuspenseQuery,
+  useReadQuery,
 } from "@apollo/client";
-import { useNavigate, useParams } from "react-router-dom";
+import {
+  LoaderFunctionArgs,
+  useLoaderData,
+  useNavigate,
+} from "react-router-dom";
 import {
   GetListingQuery,
   GetListingQueryVariables,
   UpdateListingMutation,
   UpdateListingMutationVariables,
 } from "./__generated__/edit-listing.types";
+import { preloadQuery } from "../apolloClient";
 
 export const EDIT_LISTING: TypedDocumentNode<
   UpdateListingMutation,
@@ -46,6 +51,7 @@ export const LISTING: TypedDocumentNode<
 > = gql`
   query GetListing($id: ID!) {
     listing(id: $id) {
+      id
       ...ListingFragment
       amenities {
         id
@@ -57,16 +63,26 @@ export const LISTING: TypedDocumentNode<
   ${LISTING_FRAGMENT}
 `;
 
+export function loader({ params }: LoaderFunctionArgs) {
+  const { id } = params;
+
+  if (!id) {
+    throw new Error("Invalid listing ID");
+  }
+
+  return preloadQuery(LISTING, { variables: { id } });
+}
+
 export default function EditListing() {
+  const queryRef = useLoaderData() as ReturnType<typeof loader>;
+  const { data } = useReadQuery(queryRef);
+  const listing = data.listing;
+
   const navigate = useNavigate();
   const [updateListing, { loading: submitting }] = useMutation(EDIT_LISTING, {
     onCompleted: () => {
-      navigate(`/listing/${id}`);
+      navigate(`/listing/${listing!.id}`);
     },
-  });
-  const { id } = useParams();
-  const { data } = useSuspenseQuery(LISTING, {
-    variables: { id: id! },
   });
 
   if (!data.listing) {
