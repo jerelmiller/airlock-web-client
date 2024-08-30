@@ -1,7 +1,6 @@
 import ListingForm from "../components/ListingForm";
 import { Button, Center } from "@chakra-ui/react";
 import { IoArrowBackOutline } from "react-icons/io5";
-import { LISTING_FRAGMENT } from "../utils";
 import {
   gql,
   TypedDocumentNode,
@@ -34,7 +33,13 @@ export const EDIT_LISTING: TypedDocumentNode<
       message
       listing {
         id
-        ...ListingFragment
+        title
+        description
+        numOfBeds
+        locationType
+        photoThumbnail
+        costPerNight
+        overallRating
         amenities {
           id
           category
@@ -43,7 +48,6 @@ export const EDIT_LISTING: TypedDocumentNode<
       }
     }
   }
-  ${LISTING_FRAGMENT}
 `;
 
 export const LISTING: TypedDocumentNode<
