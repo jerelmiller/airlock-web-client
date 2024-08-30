@@ -1,6 +1,5 @@
 import Bookings from "../components/Bookings";
-import QueryResult from "../components/QueryResult";
-import { gql, TypedDocumentNode, useQuery } from "@apollo/client";
+import { gql, TypedDocumentNode, useSuspenseQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import {
   GetPastBookingsForHostListingQuery,
@@ -73,22 +72,20 @@ export const HOST_BOOKINGS: TypedDocumentNode<
 
 export default function HostBookings() {
   const { id } = useParams();
-  const { loading, error, data } = useQuery(HOST_BOOKINGS, {
+  const { data } = useSuspenseQuery(HOST_BOOKINGS, {
     variables: {
       listingId: id!,
       status: BookingStatus.COMPLETED,
     },
   });
 
+  const { bookingsForListing, listing } = data;
+
   return (
-    <QueryResult loading={loading} error={error} data={data}>
-      {({ bookingsForListing, listing }) => (
-        <Bookings
-          title={listing?.title ?? ""}
-          bookings={bookingsForListing.filter(Boolean)}
-          isPast
-        />
-      )}
-    </QueryResult>
+    <Bookings
+      title={listing?.title ?? ""}
+      bookings={bookingsForListing.filter(Boolean)}
+      isPast
+    />
   );
 }
