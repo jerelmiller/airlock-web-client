@@ -11,16 +11,10 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import { format } from "date-fns";
 import { getNextDate } from "../utils";
-import {
-  gql,
-  QueryRef,
-  TypedDocumentNode,
-  useBackgroundQuery,
-  useReadQuery,
-} from "@apollo/client";
+import { gql, QueryRef, TypedDocumentNode, useReadQuery } from "@apollo/client";
 
 import "react-datepicker/dist/react-datepicker.css";
 import {
@@ -32,6 +26,7 @@ import { PageSpinner } from "../components/PageSpinner";
 import { ErrorBoundary } from "react-error-boundary";
 import { PageError } from "../components/PageError";
 import ListingCard from "../components/ListingCard";
+import { preloadQuery } from "../apolloClient";
 
 export const FEATURED_LISTINGS: TypedDocumentNode<
   GetFeaturedListingsQuery,
@@ -52,13 +47,16 @@ const INPUT_PROPS = {
   marginTop: "2",
 };
 
+export function loader() {
+  return preloadQuery(FEATURED_LISTINGS);
+}
+
 export default function Home() {
+  const queryRef = useLoaderData() as ReturnType<typeof loader>;
   const today = new Date();
   const [startDate, setStartDate] = useState(today);
   const [endDate, setEndDate] = useState(getNextDate(today));
   const [numOfBeds, setNumOfBeds] = useState(1);
-
-  const [queryRef] = useBackgroundQuery(FEATURED_LISTINGS);
 
   return (
     <>

@@ -9,6 +9,7 @@ import {
   CreateListing,
   EditListing,
   Home,
+  HomeLoader,
   HostBookings,
   HostPastBookings,
   Listing,
@@ -27,7 +28,7 @@ export const router = createBrowserRouter(
     <>
       <Route path="/login" element={<Login />} />
       <Route element={<Nav />}>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home />} loader={HomeLoader} />
         <Route element={<Layout />}>
           <Route path="/search" element={<Search />} />
           <Route path="/listings" element={<Listings />} />
