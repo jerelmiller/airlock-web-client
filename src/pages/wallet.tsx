@@ -19,7 +19,7 @@ import {
   gql,
   useMutation,
   TypedDocumentNode,
-  useSuspenseQuery,
+  useReadQuery,
 } from "@apollo/client";
 import {
   AddFundsMutation,
@@ -28,7 +28,8 @@ import {
   GetFundsQueryVariables,
 } from "./__generated__/wallet.types";
 import { Guest } from "../__generated__/types";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLoaderData } from "react-router-dom";
+import { preloadQuery } from "../apolloClient";
 
 export const ADD_FUNDS: TypedDocumentNode<
   AddFundsMutation,
@@ -55,8 +56,13 @@ const GET_FUNDS: TypedDocumentNode<GetFundsQuery, GetFundsQueryVariables> = gql`
   }
 `;
 
+export function loader() {
+  return preloadQuery(GET_FUNDS);
+}
+
 export default function Wallet() {
-  const { data } = useSuspenseQuery(GET_FUNDS);
+  const queryRef = useLoaderData() as ReturnType<typeof loader>;
+  const { data } = useReadQuery(queryRef);
   const [funds, setFunds] = useState(100);
   const [addFundsToWallet] = useMutation(ADD_FUNDS, {
     update(cache, { data }) {

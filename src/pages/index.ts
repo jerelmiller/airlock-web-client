@@ -6,7 +6,7 @@ export { default as Search, loader as SearchLoader } from "./search";
 export { default as Trips, loader as TripsLoader } from "./trips";
 export { default as Login } from "./login";
 export { default as Profile, loader as ProfileLoader } from "./profile";
-export { default as Wallet } from "./wallet";
+export { default as Wallet, loader as WalletLoader } from "./wallet";
 export {
   default as EditListing,
   loader as EditListingLoader,

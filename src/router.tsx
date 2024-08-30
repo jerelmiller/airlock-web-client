@@ -30,6 +30,7 @@ import {
   Trips,
   TripsLoader,
   Wallet,
+  WalletLoader,
 } from "./pages";
 import Nav from "./layouts/Nav";
 
@@ -78,7 +79,7 @@ export const router = createBrowserRouter(
             loader={PastTripsLoader}
           />
           <Route path="/profile" element={<Profile />} loader={ProfileLoader} />
-          <Route path="/wallet" element={<Wallet />} />
+          <Route path="/wallet" element={<Wallet />} loader={WalletLoader} />
         </Route>
       </Route>
     </>
