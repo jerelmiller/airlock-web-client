@@ -1,9 +1,17 @@
 import Bookings from "../components/Bookings";
-import QueryResult from "../components/QueryResult";
-import { gql, useQuery } from "@apollo/client";
+import { gql, TypedDocumentNode, useSuspenseQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
+import {
+  GetCurrrentAndUpcomingBookingsForHostListingQuery,
+  GetCurrrentAndUpcomingBookingsForHostListingQueryVariables,
+} from "./__generated__/bookings.types";
+import { BookingStatus } from "../__generated__/types";
+import { Center } from "@chakra-ui/react";
 
-export const HOST_BOOKINGS = gql`
+export const HOST_BOOKINGS: TypedDocumentNode<
+  GetCurrrentAndUpcomingBookingsForHostListingQuery,
+  GetCurrrentAndUpcomingBookingsForHostListingQueryVariables
+> = gql`
   query GetCurrrentAndUpcomingBookingsForHostListing(
     $listingId: ID!
     $upcomingStatus: BookingStatus
@@ -18,20 +26,7 @@ export const HOST_BOOKINGS = gql`
       status: $upcomingStatus
     ) {
       id
-      listing {
-        id
-        host {
-          id
-        }
-      }
-      guest {
-        id
-        name
-        profilePicture
-      }
-      checkInDate
-      checkOutDate
-      status
+      ...Bookings_bookings
     }
 
     currentBooking: bookingsForListing(
@@ -39,42 +34,27 @@ export const HOST_BOOKINGS = gql`
       status: $currentStatus
     ) {
       id
-      listing {
-        id
-        title
-        host {
-          id
-        }
-      }
-      guest {
-        id
-        name
-        profilePicture
-      }
-      checkInDate
-      checkOutDate
-      status
+      ...Bookings_bookings
     }
   }
 `;
 
 export default function HostBookings() {
   const { id } = useParams();
-  const { loading, error, data } = useQuery(HOST_BOOKINGS, {
+  const { data } = useSuspenseQuery(HOST_BOOKINGS, {
     variables: {
-      listingId: id,
-      upcomingStatus: "UPCOMING",
-      currentStatus: "CURRENT",
+      listingId: id!,
+      upcomingStatus: BookingStatus.UPCOMING,
+      currentStatus: BookingStatus.CURRENT,
     },
   });
 
-  return (
-    <QueryResult loading={loading} error={error} data={data}>
-      {({ upcomingBookings, currentBooking, listing }) => {
-        const bookings = [...upcomingBookings, ...currentBooking];
+  const { upcomingBookings, currentBooking, listing } = data;
+  const bookings = [...upcomingBookings, ...currentBooking];
 
-        return <Bookings title={listing.title} bookings={bookings} />;
-      }}
-    </QueryResult>
-  );
+  if (!listing) {
+    return <Center>Listing could not be found</Center>;
+  }
+
+  return <Bookings title={listing.title} bookings={bookings.filter(Boolean)} />;
 }
