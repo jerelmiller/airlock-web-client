@@ -37,35 +37,7 @@ export const HOST_BOOKINGS: TypedDocumentNode<
     }
     bookingsForListing(listingId: $listingId, status: $status) {
       id
-      listing {
-        id
-        host {
-          id
-        }
-      }
-      guest {
-        id
-        name
-        profilePicture
-      }
-      checkInDate
-      checkOutDate
-      status
-      locationReview {
-        id
-        rating
-        text
-      }
-      hostReview {
-        id
-        rating
-        text
-      }
-      guestReview {
-        id
-        rating
-        text
-      }
+      ...Bookings_bookings
     }
   }
 `;

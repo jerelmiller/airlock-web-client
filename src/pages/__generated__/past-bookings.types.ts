@@ -32,17 +32,7 @@ export type GetPastBookingsForHostListingQuery = {
     checkInDate: string;
     checkOutDate: string;
     status: GraphQLTypes.BookingStatus;
-    listing: {
-      __typename: "Listing";
-      id: string;
-      host: { __typename: "Host"; id: string };
-    };
-    guest: {
-      __typename: "Guest";
-      id: string;
-      name: string;
-      profilePicture: string;
-    };
+    listing: { __typename: "Listing"; id: string };
     locationReview: {
       __typename: "Review";
       id: string;
@@ -55,6 +45,12 @@ export type GetPastBookingsForHostListingQuery = {
       rating: number;
       text: string;
     } | null;
+    guest: {
+      __typename: "Guest";
+      id: string;
+      profilePicture: string;
+      name: string;
+    };
     guestReview: {
       __typename: "Review";
       id: string;
