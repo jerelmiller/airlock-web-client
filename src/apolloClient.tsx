@@ -1,4 +1,9 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
+import {
+  ApolloClient,
+  createHttpLink,
+  createQueryPreloader,
+  InMemoryCache,
+} from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { fragments } from "./fragments";
 
@@ -44,3 +49,5 @@ export const client = new ApolloClient({
   name: "web-client",
   version: "0.9",
 });
+
+export const preloadQuery = createQueryPreloader(client);
