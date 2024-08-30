@@ -1,6 +1,6 @@
 import Bookings from "../components/Bookings";
-import { gql, TypedDocumentNode, useSuspenseQuery } from "@apollo/client";
-import { useParams } from "react-router-dom";
+import { gql, TypedDocumentNode, useReadQuery } from "@apollo/client";
+import { LoaderFunctionArgs, useLoaderData } from "react-router-dom";
 import {
   GetPastBookingsForHostListingQuery,
   GetPastBookingsForHostListingQueryVariables,
@@ -8,6 +8,7 @@ import {
   SubmitGuestReviewMutationVariables,
 } from "./__generated__/past-bookings.types";
 import { BookingStatus } from "../__generated__/types";
+import { preloadQuery } from "../apolloClient";
 
 export const SUBMIT_REVIEW: TypedDocumentNode<
   SubmitGuestReviewMutation,
@@ -42,14 +43,24 @@ export const HOST_BOOKINGS: TypedDocumentNode<
   }
 `;
 
-export default function HostBookings() {
-  const { id } = useParams();
-  const { data } = useSuspenseQuery(HOST_BOOKINGS, {
+export function loader({ params }: LoaderFunctionArgs) {
+  const { id } = params;
+
+  if (!id) {
+    throw new Error("Invalid booking ID");
+  }
+
+  return preloadQuery(HOST_BOOKINGS, {
     variables: {
-      listingId: id!,
+      listingId: id,
       status: BookingStatus.COMPLETED,
     },
   });
+}
+
+export default function HostBookings() {
+  const queryRef = useLoaderData() as ReturnType<typeof loader>;
+  const { data } = useReadQuery(queryRef);
 
   const { bookingsForListing, listing } = data;
 

@@ -15,6 +15,7 @@ import {
   HostBookings,
   HostBookingsLoader,
   HostPastBookings,
+  HostPastBookingsLoader,
   Listing,
   ListingLoader,
   Listings,
@@ -65,6 +66,7 @@ export const router = createBrowserRouter(
           <Route
             path="/listing/:id/past-bookings"
             element={<HostPastBookings />}
+            loader={HostPastBookingsLoader}
           />
           <Route path="/trips" element={<Trips />} />
           <Route path="/past-trips" element={<PastTrips />} />

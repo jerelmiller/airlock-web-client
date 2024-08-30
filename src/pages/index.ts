@@ -19,4 +19,7 @@ export {
   default as HostBookings,
   loader as HostBookingsLoader,
 } from "./bookings";
-export { default as HostPastBookings } from "./past-bookings";
+export {
+  default as HostPastBookings,
+  loader as HostPastBookingsLoader,
+} from "./past-bookings";
