@@ -18,6 +18,7 @@ import {
   PastTrips,
   Profile,
   Search,
+  SearchLoader,
   Trips,
   Wallet,
 } from "./pages";
@@ -30,7 +31,7 @@ export const router = createBrowserRouter(
       <Route element={<Nav />}>
         <Route path="/" element={<Home />} loader={HomeLoader} />
         <Route element={<Layout />}>
-          <Route path="/search" element={<Search />} />
+          <Route path="/search" element={<Search />} loader={SearchLoader} />
           <Route path="/listings" element={<Listings />} />
           <Route path="/listings/create" element={<CreateListing />} />
           <Route path="/listing/:id" element={<Listing />} />

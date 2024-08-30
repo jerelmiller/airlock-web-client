@@ -14,14 +14,12 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { gql, QueryRef, TypedDocumentNode, useReadQuery } from "@apollo/client";
 import {
-  gql,
-  QueryRef,
-  TypedDocumentNode,
-  useBackgroundQuery,
-  useReadQuery,
-} from "@apollo/client";
-import { useLocation } from "react-router-dom";
+  LoaderFunctionArgs,
+  useLoaderData,
+  useSearchParams,
+} from "react-router-dom";
 
 import "react-datepicker/dist/react-datepicker.css";
 import {
@@ -33,6 +31,7 @@ import { DatePickerInput } from "../components/DatePickerInput";
 import { PageSpinner } from "../components/PageSpinner";
 import { ErrorBoundary } from "react-error-boundary";
 import { PageError } from "../components/PageError";
+import { preloadQuery } from "../apolloClient";
 
 export const SEARCH_LISTINGS: TypedDocumentNode<
   SearchListingsQuery,
@@ -46,32 +45,58 @@ export const SEARCH_LISTINGS: TypedDocumentNode<
   }
 `;
 
+export function loader({ request }: LoaderFunctionArgs) {
+  const url = new URL(request.url);
+  const checkInDate = url.searchParams.get("startDate");
+  const checkOutDate = url.searchParams.get("endDate");
+  const sortBy =
+    (url.searchParams.get("sortBy") as SortByCriteria | null) ??
+    SortByCriteria.COST_ASC;
+
+  if (!checkInDate || !checkOutDate) {
+    throw new Error("Could not determine dates to check");
+  }
+
+  const params = {
+    checkInDate,
+    checkOutDate,
+    sortBy,
+    limit: 5,
+    numOfBeds: parseInt(url.searchParams.get("numOfBeds") ?? "1", 10),
+    page: parseInt(url.searchParams.get("page") ?? "1", 10),
+  };
+
+  return {
+    params,
+    queryRef: preloadQuery(SEARCH_LISTINGS, {
+      variables: { searchListingsInput: params },
+    }),
+  };
+}
+
 export default function Search() {
-  const query = new URLSearchParams(useLocation().search);
+  const { queryRef, params } = useLoaderData() as ReturnType<typeof loader>;
+  const [searchParams, setSearchParams] = useSearchParams();
   const today = new Date();
+  const checkInDate = new Date(params.checkInDate);
+  const checkOutDate = new Date(params.checkOutDate);
 
-  const [checkInDate, setStartDate] = useState(
-    new Date(query.get("startDate")!),
-  );
-  const [checkOutDate, setEndDate] = useState(new Date(query.get("endDate")!));
-  const [numOfBeds, setNumOfBeds] = useState(
-    parseInt(query.get("numOfBeds")!) || 1,
-  );
-  const [sortBy, setSortBy] = useState(SortByCriteria.COST_ASC);
-  const [page, setPage] = useState(1);
+  function setSearchParam(key: string, value: string) {
+    searchParams.set(key, value);
+    setSearchParams(searchParams);
+  }
 
-  const [queryRef] = useBackgroundQuery(SEARCH_LISTINGS, {
-    variables: {
-      searchListingsInput: {
-        checkInDate: checkInDate.toISOString(),
-        checkOutDate: checkOutDate.toISOString(),
-        numOfBeds,
-        page,
-        limit: 5,
-        sortBy,
-      },
-    },
-  });
+  function formatDateForURL(date: Date) {
+    return format(date, "MM-dd-yyyy");
+  }
+
+  function setStartDate(date: Date) {
+    setSearchParam("startDate", formatDateForURL(date));
+  }
+
+  function setEndDate(date: Date) {
+    setSearchParam("endDate", formatDateForURL(date));
+  }
 
   return (
     <>
@@ -116,15 +141,17 @@ export default function Search() {
                   setEndDate={setEndDate}
                   selected={checkOutDate}
                   minDate={today < checkInDate ? checkInDate : today}
-                  onChange={(date) => setEndDate(date)}
+                  onChange={setEndDate}
                   width="150px"
                 />
               </Stack>
               <BedroomInput
                 size="lg"
                 w="150px"
-                numOfBeds={numOfBeds}
-                setNumOfBeds={setNumOfBeds}
+                numOfBeds={params.numOfBeds}
+                setNumOfBeds={(numOfBeds) =>
+                  setSearchParam("numOfBeds", String(numOfBeds))
+                }
               />
               <Button w="150px" size="lg">
                 Find a place
@@ -136,17 +163,17 @@ export default function Search() {
       <Divider borderWidth="1px" />
       <Suspense fallback={<PageSpinner />}>
         <ErrorBoundary
-          key={[checkInDate, checkOutDate, numOfBeds].join("-")}
+          key={[checkInDate, checkOutDate, params.numOfBeds].join("-")}
           fallbackRender={({ error }) => <PageError error={error} />}
         >
           <SearchResults
             queryRef={queryRef}
-            page={page}
+            page={params.page}
             checkInDate={checkInDate}
             checkOutDate={checkOutDate}
-            sortBy={sortBy}
-            onChangePage={setPage}
-            onChangeSort={setSortBy}
+            sortBy={params.sortBy}
+            onChangePage={(page) => setSearchParam("page", String(page))}
+            onChangeSort={(sortBy) => setSearchParam("sortBy", sortBy)}
           />
         </ErrorBoundary>
       </Suspense>
