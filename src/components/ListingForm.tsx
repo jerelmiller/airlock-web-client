@@ -1,4 +1,3 @@
-import QueryResult from "./QueryResult";
 import { useState } from "react";
 import intersection from "lodash/intersection";
 import isEqual from "lodash/isEqual";
@@ -26,7 +25,7 @@ import {
   Textarea,
   Wrap,
 } from "@chakra-ui/react";
-import { TypedDocumentNode, gql, useQuery } from "@apollo/client";
+import { TypedDocumentNode, gql, useSuspenseQuery } from "@apollo/client";
 import {
   GetAllAmenitiesQuery,
   GetAllAmenitiesQueryVariables,
@@ -77,19 +76,16 @@ export default function ListingForm({
   onSubmit,
   submitting,
 }: ListingFormProps) {
-  const { loading, error, data } = useQuery(AMENITIES);
+  const { data } = useSuspenseQuery(AMENITIES);
+  const { listingAmenities } = data;
 
   return (
-    <QueryResult loading={loading} error={error} data={data}>
-      {({ listingAmenities }) => (
-        <ListingFormBody
-          listingData={listingData}
-          amenities={listingAmenities}
-          onSubmit={onSubmit}
-          submitting={submitting}
-        />
-      )}
-    </QueryResult>
+    <ListingFormBody
+      listingData={listingData}
+      amenities={listingAmenities}
+      onSubmit={onSubmit}
+      submitting={submitting}
+    />
   );
 }
 
