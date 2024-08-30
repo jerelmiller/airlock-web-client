@@ -33,6 +33,7 @@ export const EDIT_LISTING: TypedDocumentNode<
       success
       message
       listing {
+        id
         ...ListingFragment
         amenities {
           id
@@ -50,17 +51,15 @@ export const LISTING: TypedDocumentNode<
   GetListingQueryVariables
 > = gql`
   query GetListing($id: ID!) {
+    listingAmenities {
+      id
+      ...ListingForm_amentities
+    }
     listing(id: $id) {
       id
-      ...ListingFragment
-      amenities {
-        id
-        name
-        category
-      }
+      ...ListingForm_listing
     }
   }
-  ${LISTING_FRAGMENT}
 `;
 
 export function loader({ params }: LoaderFunctionArgs) {
@@ -85,20 +84,9 @@ export default function EditListing() {
     },
   });
 
-  if (!data.listing) {
+  if (!listing) {
     return <Center>Listing not found</Center>;
   }
-
-  const {
-    id: listingId,
-    title,
-    description,
-    numOfBeds,
-    locationType,
-    photoThumbnail,
-    amenities,
-    costPerNight,
-  } = data.listing;
 
   return (
     <>
@@ -112,18 +100,13 @@ export default function EditListing() {
         Back
       </Button>
       <ListingForm
-        listing={{
-          title,
-          description,
-          numOfBeds,
-          locationType,
-          photoThumbnail,
-          amenities: amenities.filter(Boolean),
-          costPerNight,
-        }}
+        amenities={data.listingAmenities}
+        listing={listing}
         submitting={submitting}
-        onSubmit={(listing) => {
-          updateListing({ variables: { listingId, listing } });
+        onSubmit={(formValues) => {
+          updateListing({
+            variables: { listingId: listing.id, listing: formValues },
+          });
         }}
       />
     </>

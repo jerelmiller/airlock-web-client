@@ -35,21 +35,21 @@ export type GetListingQueryVariables = GraphQLTypes.Exact<{
 }>;
 
 export type GetListingQuery = {
+  listingAmenities: Array<{
+    __typename: "Amenity";
+    id: string;
+    category: GraphQLTypes.AmenityCategory;
+    name: string;
+  }>;
   listing: {
     __typename: "Listing";
     id: string;
     title: string;
-    photoThumbnail: string;
-    numOfBeds: number;
     description: string;
-    overallRating: number | null;
-    costPerNight: number;
+    numOfBeds: number;
     locationType: GraphQLTypes.LocationType;
-    amenities: Array<{
-      __typename: "Amenity";
-      id: string;
-      name: string;
-      category: GraphQLTypes.AmenityCategory;
-    } | null>;
+    photoThumbnail: string;
+    costPerNight: number;
+    amenities: Array<{ __typename: "Amenity"; id: string } | null>;
   } | null;
 };
