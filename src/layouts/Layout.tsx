@@ -109,11 +109,7 @@ export function Layout() {
 
       <Suspense fallback={<PageSpinner />}>
         <ErrorBoundary
-          fallbackRender={({ error }) => (
-            <PageContainer>
-              <PageError error={error} />
-            </PageContainer>
-          )}
+          fallbackRender={({ error }) => <PageError error={error} />}
         >
           <div style={{ opacity: navigation.state === "loading" ? 0.5 : 1 }}>
             <Outlet />
