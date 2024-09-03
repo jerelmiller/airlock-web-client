@@ -33,6 +33,10 @@ import {
 } from "./pages";
 import { Layout, loader as LayoutLoader } from "./layouts/Layout";
 import { RootErrorBoundary } from "./components/RootErrorBoundary";
+import {
+  BookingsLayout,
+  loader as BookingsLayoutLoader,
+} from "./layouts/Bookings";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -57,15 +61,21 @@ export const router = createBrowserRouter(
         loader={EditListingLoader}
       />
       <Route
-        path="/listing/:id/bookings"
-        element={<HostBookings />}
-        loader={HostBookingsLoader}
-      />
-      <Route
-        path="/listing/:id/past-bookings"
-        element={<HostPastBookings />}
-        loader={HostPastBookingsLoader}
-      />
+        path="/listing/:id/*"
+        element={<BookingsLayout />}
+        loader={BookingsLayoutLoader}
+      >
+        <Route
+          path="bookings"
+          element={<HostBookings />}
+          loader={HostBookingsLoader}
+        />
+        <Route
+          path="past-bookings"
+          element={<HostPastBookings />}
+          loader={HostPastBookingsLoader}
+        />
+      </Route>
       <Route path="/trips" element={<Trips />} loader={TripsLoader} />
       <Route
         path="/past-trips"

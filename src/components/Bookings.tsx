@@ -1,8 +1,5 @@
 import {
   Box,
-  Flex,
-  Heading,
-  Link,
   StackDivider,
   Text,
   useToast,
@@ -10,10 +7,8 @@ import {
   Wrap,
 } from "@chakra-ui/react";
 import { Content, Image, InnerContainer, OuterContainer } from "./Card";
-import { IoChevronBack } from "react-icons/io5";
 
 import { HOST_BOOKINGS, SUBMIT_REVIEW } from "../pages/past-bookings";
-import { Link as RouterLink, useLocation, useParams } from "react-router-dom";
 import { GuestReview } from "./TripReviews";
 import { gql, useMutation } from "@apollo/client";
 import { fragments } from "../fragments";
@@ -167,7 +162,6 @@ function Booking({ booking, isPast }: BookingProps) {
 }
 
 interface BookingsProps {
-  title: string;
   bookings: Bookings_bookingsFragment[];
   isPast?: boolean;
 }
@@ -179,80 +173,16 @@ fragments.register(gql`
   }
 `);
 
-export default function Bookings({
-  title,
-  bookings,
-  isPast = false,
-}: BookingsProps) {
-  const { pathname } = useLocation();
-  const { id } = useParams();
-
-  return (
-    <>
-      <Flex
-        alignItems="center"
-        mb="4"
-        color="indigo.dark"
-        fontWeight="semibold"
-      >
-        <IoChevronBack />
-        <Link as={RouterLink} to={"/listings"} fontWeight="semibold">
-          Back to listings
-        </Link>
-      </Flex>
-      <Heading as="h1" mb={4}>
-        {title}
-      </Heading>
-      <Box
-        as="nav"
-        w="full"
-        mb="4"
-        fontSize="lg"
-        borderBottomWidth="1px"
-        borderBottomColor="gray.200"
-      >
-        <Link
-          as={RouterLink}
-          to={`/listing/${id}/bookings`}
-          mr="8"
-          fontWeight={
-            pathname === `/listing/${id}/bookings` ? "bold" : "normal"
-          }
-          color={
-            pathname === `/listing/${id}/bookings` ? "indigo.dark" : "gray.dark"
-          }
-        >
-          Upcoming Bookings
-        </Link>
-        <Link
-          as={RouterLink}
-          to={`/listing/${id}/past-bookings`}
-          fontWeight={
-            pathname === `/listing/${id}/past-bookings` ? "bold" : "normal"
-          }
-          color={
-            pathname === `/listing/${id}/past-bookings`
-              ? "indigo.dark"
-              : "gray.dark"
-          }
-        >
-          Past Bookings
-        </Link>
-      </Box>
-
-      {bookings.length ? (
-        <VStack spacing="4" divider={<StackDivider />}>
-          {bookings.map((booking) => {
-            return (
-              <Booking key={booking.id} booking={booking} isPast={isPast} />
-            );
-          })}
-        </VStack>
-      ) : (
-        <Text textAlign="center">
-          You have no {isPast ? "previous" : "current or upcoming"} bookings
-        </Text>
-      )}
-    </>
+export default function Bookings({ bookings, isPast = false }: BookingsProps) {
+  return bookings.length ? (
+    <VStack spacing="4" divider={<StackDivider />}>
+      {bookings.map((booking) => {
+        return <Booking key={booking.id} booking={booking} isPast={isPast} />;
+      })}
+    </VStack>
+  ) : (
+    <Text textAlign="center">
+      You have no {isPast ? "previous" : "current or upcoming"} bookings
+    </Text>
   );
 }

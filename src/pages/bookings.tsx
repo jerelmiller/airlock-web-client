@@ -6,9 +6,7 @@ import {
   GetCurrrentAndUpcomingBookingsForHostListingQueryVariables,
 } from "./__generated__/bookings.types";
 import { BookingStatus } from "../__generated__/types";
-import { Center } from "@chakra-ui/react";
 import { preloadQuery } from "../apolloClient";
-import { PageContainer } from "../components/PageContainer";
 
 export const HOST_BOOKINGS: TypedDocumentNode<
   GetCurrrentAndUpcomingBookingsForHostListingQuery,
@@ -19,10 +17,6 @@ export const HOST_BOOKINGS: TypedDocumentNode<
     $upcomingStatus: BookingStatus
     $currentStatus: BookingStatus
   ) {
-    listing(id: $listingId) {
-      id
-      title
-    }
     upcomingBookings: bookingsForListing(
       listingId: $listingId
       status: $upcomingStatus
@@ -61,16 +55,8 @@ export default function HostBookings() {
   const queryRef = useLoaderData() as Awaited<ReturnType<typeof loader>>;
   const { data } = useReadQuery(queryRef);
 
-  const { upcomingBookings, currentBooking, listing } = data;
+  const { upcomingBookings, currentBooking } = data;
   const bookings = [...upcomingBookings, ...currentBooking];
 
-  if (!listing) {
-    return <Center>Listing could not be found</Center>;
-  }
-
-  return (
-    <PageContainer>
-      <Bookings title={listing.title} bookings={bookings.filter(Boolean)} />
-    </PageContainer>
-  );
+  return <Bookings bookings={bookings.filter(Boolean)} />;
 }

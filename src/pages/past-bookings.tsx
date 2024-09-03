@@ -33,10 +33,6 @@ export const HOST_BOOKINGS: TypedDocumentNode<
   GetPastBookingsForHostListingQueryVariables
 > = gql`
   query GetPastBookingsForHostListing($listingId: ID!, $status: BookingStatus) {
-    listing(id: $listingId) {
-      id
-      title
-    }
     bookingsForListing(listingId: $listingId, status: $status) {
       id
       ...Bookings_bookings
@@ -63,15 +59,5 @@ export default function HostBookings() {
   const queryRef = useLoaderData() as Awaited<ReturnType<typeof loader>>;
   const { data } = useReadQuery(queryRef);
 
-  const { bookingsForListing, listing } = data;
-
-  return (
-    <PageContainer>
-      <Bookings
-        title={listing?.title ?? ""}
-        bookings={bookingsForListing.filter(Boolean)}
-        isPast
-      />
-    </PageContainer>
-  );
+  return <Bookings bookings={data.bookingsForListing.filter(Boolean)} isPast />;
 }

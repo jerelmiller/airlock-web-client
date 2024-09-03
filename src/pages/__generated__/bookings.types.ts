@@ -8,7 +8,6 @@ export type GetCurrrentAndUpcomingBookingsForHostListingQueryVariables =
   }>;
 
 export type GetCurrrentAndUpcomingBookingsForHostListingQuery = {
-  listing: { __typename: "Listing"; id: string; title: string } | null;
   upcomingBookings: Array<{
     __typename: "Booking";
     id: string;

@@ -25,7 +25,6 @@ export type GetPastBookingsForHostListingQueryVariables = GraphQLTypes.Exact<{
 }>;
 
 export type GetPastBookingsForHostListingQuery = {
-  listing: { __typename: "Listing"; id: string; title: string } | null;
   bookingsForListing: Array<{
     __typename: "Booking";
     id: string;
