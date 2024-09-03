@@ -1,4 +1,3 @@
-import Logo from "../assets/airlock-logo.svg";
 import { useState } from "react";
 import {
   Accordion,
@@ -12,7 +11,6 @@ import {
   Flex,
   HStack,
   Heading,
-  Image,
   Select,
   Spacer,
   Stack,
