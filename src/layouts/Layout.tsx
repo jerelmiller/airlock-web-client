@@ -22,7 +22,7 @@ import { gql, TypedDocumentNode, useReadQuery } from "@apollo/client";
 import {
   GetMyProfileQuery,
   GetMyProfileQueryVariables,
-} from "./__generated__/Nav.types";
+} from "./__generated__/Layout.types";
 import { preloadQuery } from "../apolloClient";
 import { Suspense } from "react";
 import { PageSpinner } from "../components/PageSpinner";
