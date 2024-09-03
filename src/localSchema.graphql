@@ -1,4 +1,5 @@
 directive @client on FIELD | INLINE_FRAGMENT | FRAGMENT_SPREAD
+directive @nonreactive on FIELD | INLINE_FRAGMENT | FRAGMENT_SPREAD
 
 extend type Query {
   currentUserId: ID
