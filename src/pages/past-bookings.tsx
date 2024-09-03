@@ -59,7 +59,7 @@ export function loader({ params }: LoaderFunctionArgs) {
 }
 
 export default function HostBookings() {
-  const queryRef = useLoaderData() as ReturnType<typeof loader>;
+  const queryRef = useLoaderData() as Awaited<ReturnType<typeof loader>>;
   const { data } = useReadQuery(queryRef);
 
   const { bookingsForListing, listing } = data;

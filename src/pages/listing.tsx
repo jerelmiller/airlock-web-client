@@ -120,7 +120,7 @@ export function loader({ params }: LoaderFunctionArgs) {
 }
 
 export default function Listings() {
-  const queryRef = useLoaderData() as ReturnType<typeof loader>;
+  const queryRef = useLoaderData() as Awaited<ReturnType<typeof loader>>;
   const { data } = useReadQuery(queryRef);
   const { data: currentUser } = useFragment({ fragment, from: "ROOT_QUERY" });
   const user = currentUser.me;

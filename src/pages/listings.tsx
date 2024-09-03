@@ -53,7 +53,7 @@ export function loader() {
 }
 
 export default function Listings() {
-  const queryRef = useLoaderData() as ReturnType<typeof loader>;
+  const queryRef = useLoaderData() as Awaited<ReturnType<typeof loader>>;
   const { data } = useReadQuery(queryRef);
   const { hostListings } = data;
 

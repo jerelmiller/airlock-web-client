@@ -61,7 +61,7 @@ export function loader() {
 }
 
 export default function Wallet() {
-  const queryRef = useLoaderData() as ReturnType<typeof loader>;
+  const queryRef = useLoaderData() as Awaited<ReturnType<typeof loader>>;
   const { data } = useReadQuery(queryRef);
   const [funds, setFunds] = useState(100);
   const [addFundsToWallet] = useMutation(ADD_FUNDS, {

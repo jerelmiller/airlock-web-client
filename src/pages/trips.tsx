@@ -24,7 +24,7 @@ export function loader() {
 }
 
 export default function Trips() {
-  const queryRef = useLoaderData() as ReturnType<typeof loader>;
+  const queryRef = useLoaderData() as Awaited<ReturnType<typeof loader>>;
   const { data } = useReadQuery(queryRef);
   const { upcomingGuestBookings } = data;
 

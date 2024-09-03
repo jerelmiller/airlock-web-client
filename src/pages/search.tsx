@@ -75,7 +75,9 @@ export function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function Search() {
-  const { queryRef, params } = useLoaderData() as ReturnType<typeof loader>;
+  const { queryRef, params } = useLoaderData() as Awaited<
+    ReturnType<typeof loader>
+  >;
   const [searchParams, setSearchParams] = useSearchParams();
   const today = new Date();
   const checkInDate = new Date(params.checkInDate);

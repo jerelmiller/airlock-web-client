@@ -65,7 +65,7 @@ export function loader() {
 }
 
 export default function Profile() {
-  const queryRef = useLoaderData() as ReturnType<typeof loader>;
+  const queryRef = useLoaderData() as Awaited<ReturnType<typeof loader>>;
   const { data } = useReadQuery(queryRef);
   const txtProfileDescRef = useRef<HTMLTextAreaElement>(null);
   const [updateProfileData, { loading, error, client }] = useMutation(

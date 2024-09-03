@@ -77,7 +77,7 @@ export function loader({ params }: LoaderFunctionArgs) {
 }
 
 export default function EditListing() {
-  const queryRef = useLoaderData() as ReturnType<typeof loader>;
+  const queryRef = useLoaderData() as Awaited<ReturnType<typeof loader>>;
   const { data } = useReadQuery(queryRef);
   const listing = data.listing;
 
