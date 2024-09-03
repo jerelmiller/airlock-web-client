@@ -32,13 +32,13 @@ import {
   Wallet,
   WalletLoader,
 } from "./pages";
-import Nav from "./layouts/Nav";
+import Nav, { loader as NavLoader } from "./layouts/Nav";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/login" element={<Login />} />
-      <Route element={<Nav />}>
+      <Route element={<Nav />} loader={NavLoader}>
         <Route path="/" element={<Home />} loader={HomeLoader} />
         <Route element={<Layout />}>
           <Route path="/search" element={<Search />} loader={SearchLoader} />

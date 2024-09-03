@@ -8,19 +8,13 @@ import {
   Image,
   Text,
 } from "@chakra-ui/react";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useLoaderData } from "react-router-dom";
+import { gql, TypedDocumentNode, useReadQuery } from "@apollo/client";
 import {
-  gql,
-  skipToken,
-  TypedDocumentNode,
-  useFragment,
-  useSuspenseQuery,
-} from "@apollo/client";
-import {
-  CurrentUserIdFragment,
   GetMyProfileQuery,
   GetMyProfileQueryVariables,
 } from "./__generated__/Nav.types";
+import { preloadQuery } from "../apolloClient";
 
 export const GET_USER: TypedDocumentNode<
   GetMyProfileQuery,
@@ -34,22 +28,13 @@ export const GET_USER: TypedDocumentNode<
   }
 `;
 
-const CURRENT_USER_ID_FRAGMENT: TypedDocumentNode<CurrentUserIdFragment> = gql`
-  fragment CurrentUserIdFragment on Query {
-    currentUserId @client
-  }
-`;
+export function loader() {
+  return preloadQuery(GET_USER, { errorPolicy: "ignore" });
+}
 
 export default function Nav() {
-  const { data: fragmentData } = useFragment({
-    fragment: CURRENT_USER_ID_FRAGMENT,
-    from: "ROOT_QUERY",
-  });
-
-  const { data } = useSuspenseQuery(
-    GET_USER,
-    fragmentData.currentUserId ? { errorPolicy: "all" } : skipToken,
-  );
+  const queryRef = useLoaderData() as Awaited<ReturnType<typeof loader>>;
+  const { data } = useReadQuery(queryRef);
 
   const user = data?.me;
 
