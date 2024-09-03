@@ -23,10 +23,7 @@ import {
 } from "./__generated__/Nav.types";
 import { preloadQuery } from "../apolloClient";
 import { Suspense } from "react";
-import { ErrorBoundary } from "react-error-boundary";
 import { PageSpinner } from "../components/PageSpinner";
-import { PageError } from "../components/PageError";
-import { PageContainer } from "../components/PageContainer";
 
 export const GET_USER: TypedDocumentNode<
   GetMyProfileQuery,
@@ -108,13 +105,9 @@ export function Layout() {
       </Box>
 
       <Suspense fallback={<PageSpinner />}>
-        <ErrorBoundary
-          fallbackRender={({ error }) => <PageError error={error} />}
-        >
-          <div style={{ opacity: navigation.state === "loading" ? 0.5 : 1 }}>
-            <Outlet />
-          </div>
-        </ErrorBoundary>
+        <div style={{ opacity: navigation.state === "loading" ? 0.5 : 1 }}>
+          <Outlet />
+        </div>
       </Suspense>
     </>
   );

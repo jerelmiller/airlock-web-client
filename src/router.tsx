@@ -32,10 +32,15 @@ import {
   WalletLoader,
 } from "./pages";
 import { Layout, loader as LayoutLoader } from "./layouts/Layout";
+import { RootErrorBoundary } from "./components/RootErrorBoundary";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route element={<Layout />} loader={LayoutLoader}>
+    <Route
+      element={<Layout />}
+      loader={LayoutLoader}
+      errorElement={<RootErrorBoundary />}
+    >
       <Route path="/" element={<Home />} loader={HomeLoader} />
       <Route path="/login" element={<Login />} />
       <Route path="/search" element={<Search />} loader={SearchLoader} />
