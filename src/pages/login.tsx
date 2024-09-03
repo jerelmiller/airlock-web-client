@@ -60,26 +60,6 @@ export default function Login() {
 
   return (
     <>
-      <Box as={Link} to="/" width="100%">
-        <HStack spacing="2" p="4">
-          <Image
-            boxSize="50px"
-            objectFit="cover"
-            src={Logo}
-            alt="airlock logo"
-          />
-
-          <Text
-            fontWeight="600"
-            fontSize="2xl"
-            textTransform="uppercase"
-            fontFamily="Source Sans Pro"
-            letterSpacing="1.4px"
-          >
-            Airlock
-          </Text>
-        </HStack>
-      </Box>
       <Container maxW="container.md">
         <Stack spacing={6} alignItems="center">
           <Heading as="h1" size="xl">

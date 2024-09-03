@@ -8,7 +8,13 @@ import {
   Image,
   Text,
 } from "@chakra-ui/react";
-import { Link, NavLink, Outlet, useLoaderData } from "react-router-dom";
+import {
+  Link,
+  NavLink,
+  Outlet,
+  useLoaderData,
+  useLocation,
+} from "react-router-dom";
 import { gql, TypedDocumentNode, useReadQuery } from "@apollo/client";
 import {
   GetMyProfileQuery,
@@ -34,6 +40,7 @@ export function loader() {
 
 export default function Nav() {
   const queryRef = useLoaderData() as Awaited<ReturnType<typeof loader>>;
+  const location = useLocation();
   const { data } = useReadQuery(queryRef);
 
   const user = data?.me;
@@ -84,11 +91,11 @@ export default function Nav() {
                   />
                 </Box>
               </>
-            ) : (
+            ) : location.pathname !== "/login" ? (
               <Button as={NavLink} to="/login">
                 Log in
               </Button>
-            )}
+            ) : null}
           </HStack>
         </Flex>
       </Box>
