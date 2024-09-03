@@ -12,6 +12,11 @@ const cache = new InMemoryCache({
   typePolicies: {
     Query: {
       fields: {
+        listing: {
+          read: (_, { args, toReference }) => {
+            return toReference({ __typename: "Listing", id: args?.id });
+          },
+        },
         currentUserId: {
           read: () => {
             return localStorage.getItem("token");
