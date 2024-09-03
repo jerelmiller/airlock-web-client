@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Spinner } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 import { fragments } from "../fragments";
 import { gql, TypedDocumentNode, useFragment } from "@apollo/client";
@@ -18,19 +18,15 @@ const GUEST_NAV_FRAGMENT: TypedDocumentNode<GuestNav_guestFragment> = gql`
 fragments.register(GUEST_NAV_FRAGMENT);
 
 export function GuestNav({ guest }: GuestNavProps) {
-  const { data, complete } = useFragment({
+  const { data } = useFragment({
     fragment: GUEST_NAV_FRAGMENT,
     from: guest,
   });
 
-  if (!complete) {
-    return null;
-  }
-
   return (
     <>
       <Button as={NavLink} to="/wallet" variant="ghost">
-        ¤{data.funds}
+        {data.funds ? `¤${data.funds}` : <Spinner size="sm" />}
       </Button>
       <Button as={NavLink} to="/trips" variant="ghost">
         My trips
