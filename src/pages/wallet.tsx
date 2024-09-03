@@ -38,9 +38,6 @@ export const ADD_FUNDS: TypedDocumentNode<
 > = gql`
   mutation AddFunds($amount: Float!) {
     addFundsToWallet(amount: $amount) {
-      code
-      success
-      message
       amount
     }
   }
