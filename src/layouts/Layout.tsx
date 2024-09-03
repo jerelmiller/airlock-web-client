@@ -13,6 +13,7 @@ import {
   NavLink,
   Outlet,
   useLoaderData,
+  useLocation,
   useNavigation,
 } from "react-router-dom";
 import { gql, TypedDocumentNode, useReadQuery } from "@apollo/client";
@@ -45,7 +46,8 @@ export function loader() {
 
 export function Layout() {
   const queryRef = useLoaderData() as Awaited<ReturnType<typeof loader>>;
-  const { state, location } = useNavigation();
+  const location = useLocation();
+  const navigation = useNavigation();
   const { data } = useReadQuery(queryRef);
 
   const user = data?.me;
@@ -96,7 +98,7 @@ export function Layout() {
                   />
                 </Box>
               </>
-            ) : location?.pathname !== "/login" ? (
+            ) : location.pathname !== "/login" ? (
               <Button as={NavLink} to="/login">
                 Log in
               </Button>
@@ -113,7 +115,7 @@ export function Layout() {
             </PageContainer>
           )}
         >
-          <div style={{ opacity: state === "loading" ? 0.5 : 1 }}>
+          <div style={{ opacity: navigation.state === "loading" ? 0.5 : 1 }}>
             <Outlet />
           </div>
         </ErrorBoundary>
