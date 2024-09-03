@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 import { fragments } from "../fragments";
 import { gql, TypedDocumentNode, useFragment } from "@apollo/client";
