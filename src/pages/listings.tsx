@@ -11,12 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { Link, useLoaderData } from "react-router-dom";
-import {
-  gql,
-  TypedDocumentNode,
-  useReadQuery,
-  useSuspenseQuery,
-} from "@apollo/client";
+import { gql, TypedDocumentNode, useReadQuery } from "@apollo/client";
 import {
   GetHostListingsQuery,
   GetHostListingsQueryVariables,
