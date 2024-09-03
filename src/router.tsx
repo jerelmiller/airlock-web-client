@@ -31,11 +31,11 @@ import {
   Wallet,
   WalletLoader,
 } from "./pages";
-import Nav, { loader as NavLoader } from "./layouts/Nav";
+import { Layout, loader as LayoutLoader } from "./layouts/Layout";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route element={<Nav />} loader={NavLoader}>
+    <Route element={<Layout />} loader={LayoutLoader}>
       <Route path="/" element={<Home />} loader={HomeLoader} />
       <Route path="/login" element={<Login />} />
       <Route path="/search" element={<Search />} loader={SearchLoader} />
