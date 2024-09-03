@@ -116,7 +116,7 @@ export function loader({ params }: LoaderFunctionArgs) {
     throw new Error("Invalid ID");
   }
 
-  return preloadQuery(LISTING, { variables: { id: params.id } });
+  return preloadQuery(LISTING, { variables: { id: params.id } }).toPromise();
 }
 
 export default function Listings() {

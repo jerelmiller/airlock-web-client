@@ -45,7 +45,7 @@ export const SEARCH_LISTINGS: TypedDocumentNode<
   }
 `;
 
-export function loader({ request }: LoaderFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const checkInDate = url.searchParams.get("startDate");
   const checkOutDate = url.searchParams.get("endDate");
@@ -68,9 +68,9 @@ export function loader({ request }: LoaderFunctionArgs) {
 
   return {
     params,
-    queryRef: preloadQuery(SEARCH_LISTINGS, {
+    queryRef: await preloadQuery(SEARCH_LISTINGS, {
       variables: { searchListingsInput: params },
-    }),
+    }).toPromise(),
   };
 }
 

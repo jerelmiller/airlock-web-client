@@ -20,7 +20,7 @@ export const PAST_GUEST_TRIPS: TypedDocumentNode<
 `;
 
 export function loader() {
-  return preloadQuery(PAST_GUEST_TRIPS);
+  return preloadQuery(PAST_GUEST_TRIPS).toPromise();
 }
 
 export default function PastTrips() {

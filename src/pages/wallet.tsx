@@ -57,7 +57,7 @@ const GET_FUNDS: TypedDocumentNode<GetFundsQuery, GetFundsQueryVariables> = gql`
 `;
 
 export function loader() {
-  return preloadQuery(GET_FUNDS);
+  return preloadQuery(GET_FUNDS).toPromise();
 }
 
 export default function Wallet() {

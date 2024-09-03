@@ -48,7 +48,7 @@ const INPUT_PROPS = {
 };
 
 export function loader() {
-  return preloadQuery(FEATURED_LISTINGS);
+  return preloadQuery(FEATURED_LISTINGS).toPromise();
 }
 
 export default function Home() {

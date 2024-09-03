@@ -55,7 +55,7 @@ export function loader({ params }: LoaderFunctionArgs) {
       listingId: id,
       status: BookingStatus.COMPLETED,
     },
-  });
+  }).toPromise();
 }
 
 export default function HostBookings() {

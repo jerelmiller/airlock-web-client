@@ -73,7 +73,7 @@ export function loader({ params }: LoaderFunctionArgs) {
     throw new Error("Invalid listing ID");
   }
 
-  return preloadQuery(LISTING, { variables: { id } });
+  return preloadQuery(LISTING, { variables: { id } }).toPromise();
 }
 
 export default function EditListing() {

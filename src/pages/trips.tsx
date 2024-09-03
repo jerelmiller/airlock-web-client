@@ -20,7 +20,7 @@ export const GUEST_TRIPS: TypedDocumentNode<
 `;
 
 export function loader() {
-  return preloadQuery(GUEST_TRIPS);
+  return preloadQuery(GUEST_TRIPS).toPromise();
 }
 
 export default function Trips() {

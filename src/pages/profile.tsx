@@ -61,7 +61,7 @@ const GET_USER: TypedDocumentNode<GetUserQuery, GetUserQueryVariables> = gql`
 `;
 
 export function loader() {
-  return preloadQuery(GET_USER);
+  return preloadQuery(GET_USER).toPromise();
 }
 
 export default function Profile() {

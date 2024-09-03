@@ -57,7 +57,7 @@ const GET_LISTING_AMENITIES: TypedDocumentNode<
 `;
 
 export function loader() {
-  return preloadQuery(GET_LISTING_AMENITIES);
+  return preloadQuery(GET_LISTING_AMENITIES).toPromise();
 }
 
 export default function CreateListing() {

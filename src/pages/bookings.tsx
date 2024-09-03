@@ -53,7 +53,7 @@ export function loader({ params }: LoaderFunctionArgs) {
       upcomingStatus: BookingStatus.UPCOMING,
       currentStatus: BookingStatus.CURRENT,
     },
-  });
+  }).toPromise();
 }
 
 export default function HostBookings() {
