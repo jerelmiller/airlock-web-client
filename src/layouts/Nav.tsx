@@ -3,6 +3,7 @@ import {
   Avatar,
   Box,
   Button,
+  Container,
   Flex,
   HStack,
   Image,
@@ -13,7 +14,7 @@ import {
   NavLink,
   Outlet,
   useLoaderData,
-  useLocation,
+  useNavigation,
 } from "react-router-dom";
 import { gql, TypedDocumentNode, useReadQuery } from "@apollo/client";
 import {
@@ -21,6 +22,10 @@ import {
   GetMyProfileQueryVariables,
 } from "./__generated__/Nav.types";
 import { preloadQuery } from "../apolloClient";
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import { PageSpinner } from "../components/PageSpinner";
+import { PageError } from "../components/PageError";
 
 export const GET_USER: TypedDocumentNode<
   GetMyProfileQuery,
@@ -40,7 +45,7 @@ export function loader() {
 
 export default function Nav() {
   const queryRef = useLoaderData() as Awaited<ReturnType<typeof loader>>;
-  const location = useLocation();
+  const { state, location } = useNavigation();
   const { data } = useReadQuery(queryRef);
 
   const user = data?.me;
@@ -91,7 +96,7 @@ export default function Nav() {
                   />
                 </Box>
               </>
-            ) : location.pathname !== "/login" ? (
+            ) : location?.pathname !== "/login" ? (
               <Button as={NavLink} to="/login">
                 Log in
               </Button>
@@ -99,7 +104,20 @@ export default function Nav() {
           </HStack>
         </Flex>
       </Box>
-      <Outlet />
+
+      <Suspense fallback={<PageSpinner />}>
+        <ErrorBoundary
+          fallbackRender={({ error }) => (
+            <Container maxW="container.xl">
+              <PageError error={error} />
+            </Container>
+          )}
+        >
+          <div style={{ opacity: state === "loading" ? 0.5 : 1 }}>
+            <Outlet />
+          </div>
+        </ErrorBoundary>
+      </Suspense>
     </>
   );
 }
