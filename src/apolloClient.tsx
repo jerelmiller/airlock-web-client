@@ -17,15 +17,6 @@ const cache = new InMemoryCache({
             return toReference({ __typename: "Listing", id: args?.id });
           },
         },
-        currentUserId: {
-          read: () => {
-            return localStorage.getItem("token");
-          },
-          merge: (_, userId) => {
-            localStorage.setItem("token", userId);
-            return userId;
-          },
-        },
       },
     },
   },
