@@ -26,6 +26,7 @@ import {
 import { preloadQuery } from "../apolloClient";
 import { Suspense } from "react";
 import { PageSpinner } from "../components/PageSpinner";
+import { GuestNav } from "../components/GuestNav";
 
 export const GET_USER: TypedDocumentNode<
   GetMyProfileQuery,
@@ -35,6 +36,9 @@ export const GET_USER: TypedDocumentNode<
     me {
       id
       profilePicture
+      ... on Guest {
+        ...GuestNav_guest
+      }
     }
   }
 `;
@@ -90,11 +94,7 @@ export function Layout() {
           <HStack spacing="2">
             {user ? (
               <>
-                {user.__typename === "Guest" && (
-                  <Button as={NavLink} to="/trips" variant="ghost">
-                    My trips
-                  </Button>
-                )}
+                {user.__typename === "Guest" && <GuestNav guest={user} />}
                 {user.__typename === "Host" && (
                   <Button as={NavLink} to="/listings" variant="ghost">
                     My listings
