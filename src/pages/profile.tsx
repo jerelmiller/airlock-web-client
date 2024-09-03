@@ -11,7 +11,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { IoCheckmark, IoExit, IoWallet } from "react-icons/io5";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, useLoaderData, useRevalidator } from "react-router-dom";
 import {
   gql,
   TypedDocumentNode,
@@ -69,6 +69,7 @@ export default function Profile() {
   const queryRef = useLoaderData() as Awaited<ReturnType<typeof loader>>;
   const { data } = useReadQuery(queryRef);
   const txtProfileDescRef = useRef<HTMLTextAreaElement>(null);
+  const revalidator = useRevalidator();
   const [updateProfileData, { loading, error, client }] = useMutation(
     UPDATE_PROFILE,
     {
@@ -155,9 +156,10 @@ export default function Profile() {
               <Button
                 as={Link}
                 to="/login"
-                onClick={() => {
+                onClick={async () => {
                   localStorage.removeItem("token");
-                  client.clearStore();
+                  await client.clearStore();
+                  revalidator.revalidate();
                 }}
                 rightIcon={<IoExit />}
                 variant="outline"

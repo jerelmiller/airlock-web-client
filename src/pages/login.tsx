@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { IoCheckmark, IoChevronDown, IoChevronUp } from "react-icons/io5";
 
-import { Link } from "react-router-dom";
+import { Link, useRevalidator } from "react-router-dom";
 import { gql, useApolloClient } from "@apollo/client";
 import {
   SetCurrentUserIdQuery,
@@ -27,6 +27,7 @@ import {
 
 export default function Login() {
   const client = useApolloClient();
+  const revalidator = useRevalidator();
   const [value, setValue] = useState<string>();
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) =>
     setValue(event.target.value);
@@ -54,6 +55,7 @@ export default function Login() {
       `,
       data: { currentUserId: userId },
     });
+    revalidator.revalidate();
   }
 
   return (
