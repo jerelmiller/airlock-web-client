@@ -19,14 +19,8 @@ import {
 import { IoCheckmark, IoChevronDown, IoChevronUp } from "react-icons/io5";
 
 import { Link, useRevalidator } from "react-router-dom";
-import { gql, useApolloClient } from "@apollo/client";
-import {
-  SetCurrentUserIdQuery,
-  SetCurrentUserIdQueryVariables,
-} from "./__generated__/login.types";
 
 export default function Login() {
-  const client = useApolloClient();
   const revalidator = useRevalidator();
   const [value, setValue] = useState<string>();
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) =>
@@ -47,14 +41,7 @@ export default function Login() {
   const GUEST_USER = "user-2";
 
   function login(userId: string) {
-    client.writeQuery<SetCurrentUserIdQuery, SetCurrentUserIdQueryVariables>({
-      query: gql`
-        query SetCurrentUserId {
-          currentUserId
-        }
-      `,
-      data: { currentUserId: userId },
-    });
+    localStorage.setItem("token", userId);
     revalidator.revalidate();
   }
 
