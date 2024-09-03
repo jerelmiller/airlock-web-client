@@ -37,7 +37,7 @@ export const GET_USER: TypedDocumentNode<
       id
       profilePicture
       ... on Guest {
-        ...GuestNav_guest
+        ...GuestNav_guest @nonreactive
       }
     }
   }
