@@ -17,6 +17,7 @@ import {
   GetHostListingsQueryVariables,
 } from "./__generated__/listings.types";
 import { preloadQuery } from "../apolloClient";
+import { PageContainer } from "../components/PageContainer";
 
 const LINK_PROPS = {
   as: Link,
@@ -53,7 +54,7 @@ export default function Listings() {
   const { hostListings } = data;
 
   return (
-    <>
+    <PageContainer>
       <Flex w="full" justifyContent="space-between">
         <Heading as="h1" mt={0} mb="4">
           My listings
@@ -112,6 +113,6 @@ export default function Listings() {
           );
         })}
       </VStack>
-    </>
+    </PageContainer>
   );
 }

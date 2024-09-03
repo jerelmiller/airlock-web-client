@@ -3,7 +3,6 @@ import {
   Avatar,
   Box,
   Button,
-  Container,
   Flex,
   HStack,
   Image,
@@ -26,6 +25,7 @@ import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { PageSpinner } from "../components/PageSpinner";
 import { PageError } from "../components/PageError";
+import { PageContainer } from "../components/PageContainer";
 
 export const GET_USER: TypedDocumentNode<
   GetMyProfileQuery,
@@ -108,9 +108,9 @@ export default function Nav() {
       <Suspense fallback={<PageSpinner />}>
         <ErrorBoundary
           fallbackRender={({ error }) => (
-            <Container maxW="container.xl">
+            <PageContainer>
               <PageError error={error} />
-            </Container>
+            </PageContainer>
           )}
         >
           <div style={{ opacity: state === "loading" ? 0.5 : 1 }}>

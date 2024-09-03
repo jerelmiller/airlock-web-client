@@ -9,6 +9,7 @@ import {
 } from "./__generated__/past-bookings.types";
 import { BookingStatus } from "../__generated__/types";
 import { preloadQuery } from "../apolloClient";
+import { PageContainer } from "../components/PageContainer";
 
 export const SUBMIT_REVIEW: TypedDocumentNode<
   SubmitGuestReviewMutation,
@@ -65,10 +66,12 @@ export default function HostBookings() {
   const { bookingsForListing, listing } = data;
 
   return (
-    <Bookings
-      title={listing?.title ?? ""}
-      bookings={bookingsForListing.filter(Boolean)}
-      isPast
-    />
+    <PageContainer>
+      <Bookings
+        title={listing?.title ?? ""}
+        bookings={bookingsForListing.filter(Boolean)}
+        isPast
+      />
+    </PageContainer>
   );
 }

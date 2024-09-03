@@ -32,6 +32,7 @@ import { PageSpinner } from "../components/PageSpinner";
 import { ErrorBoundary } from "react-error-boundary";
 import { PageError } from "../components/PageError";
 import { preloadQuery } from "../apolloClient";
+import { PageContainer } from "../components/PageContainer";
 
 export const SEARCH_LISTINGS: TypedDocumentNode<
   SearchListingsQuery,
@@ -101,7 +102,7 @@ export default function Search() {
   }
 
   return (
-    <>
+    <PageContainer>
       <Center>
         <Stack>
           <Heading as="h1" mb="6" textAlign="center">
@@ -179,7 +180,7 @@ export default function Search() {
           />
         </ErrorBoundary>
       </Suspense>
-    </>
+    </PageContainer>
   );
 }
 

@@ -19,6 +19,7 @@ import {
   UpdateListingMutationVariables,
 } from "./__generated__/edit-listing.types";
 import { preloadQuery } from "../apolloClient";
+import { PageContainer } from "../components/PageContainer";
 
 export const EDIT_LISTING: TypedDocumentNode<
   UpdateListingMutation,
@@ -93,7 +94,7 @@ export default function EditListing() {
   }
 
   return (
-    <>
+    <PageContainer>
       <Button
         role="link"
         aria-label="Go back to previous page"
@@ -113,6 +114,6 @@ export default function EditListing() {
           });
         }}
       />
-    </>
+    </PageContainer>
   );
 }

@@ -8,6 +8,7 @@ import {
 import { BookingStatus } from "../__generated__/types";
 import { Center } from "@chakra-ui/react";
 import { preloadQuery } from "../apolloClient";
+import { PageContainer } from "../components/PageContainer";
 
 export const HOST_BOOKINGS: TypedDocumentNode<
   GetCurrrentAndUpcomingBookingsForHostListingQuery,
@@ -67,5 +68,9 @@ export default function HostBookings() {
     return <Center>Listing could not be found</Center>;
   }
 
-  return <Bookings title={listing.title} bookings={bookings.filter(Boolean)} />;
+  return (
+    <PageContainer>
+      <Bookings title={listing.title} bookings={bookings.filter(Boolean)} />
+    </PageContainer>
+  );
 }

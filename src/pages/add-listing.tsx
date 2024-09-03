@@ -17,6 +17,7 @@ import {
 } from "./__generated__/add-listing.types";
 import { type LocationType } from "../__generated__/types";
 import { preloadQuery } from "../apolloClient";
+import { PageContainer } from "../components/PageContainer";
 
 export const CREATE_LISTING: TypedDocumentNode<
   CreateListingMutation,
@@ -86,7 +87,7 @@ export default function CreateListing() {
   });
 
   return (
-    <>
+    <PageContainer>
       <Button as={Link} to="/listings" leftIcon={<IoArrowBackOutline />} mb="4">
         Back to listings
       </Button>
@@ -106,6 +107,6 @@ export default function CreateListing() {
           createListing({ variables: { listing: formValues } });
         }}
       />
-    </>
+    </PageContainer>
   );
 }

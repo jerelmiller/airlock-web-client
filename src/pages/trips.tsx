@@ -6,6 +6,7 @@ import {
 } from "./__generated__/trips.types";
 import { preloadQuery } from "../apolloClient";
 import { useLoaderData } from "react-router-dom";
+import { PageContainer } from "../components/PageContainer";
 
 export const GUEST_TRIPS: TypedDocumentNode<
   GetGuestTripsQuery,
@@ -28,5 +29,9 @@ export default function Trips() {
   const { data } = useReadQuery(queryRef);
   const { upcomingGuestBookings } = data;
 
-  return <CurrentTrips trips={upcomingGuestBookings.filter(Boolean)} />;
+  return (
+    <PageContainer>
+      <CurrentTrips trips={upcomingGuestBookings.filter(Boolean)} />
+    </PageContainer>
+  );
 }

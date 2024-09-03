@@ -6,6 +6,7 @@ import {
 } from "./__generated__/past-trips.types";
 import { preloadQuery } from "../apolloClient";
 import { useLoaderData } from "react-router-dom";
+import { PageContainer } from "../components/PageContainer";
 
 export const PAST_GUEST_TRIPS: TypedDocumentNode<
   GetPastTripsQuery,
@@ -28,5 +29,9 @@ export default function PastTrips() {
   const { data } = useReadQuery(queryRef);
   const { pastGuestBookings } = data;
 
-  return <Trips trips={pastGuestBookings.filter(Boolean)} isPast />;
+  return (
+    <PageContainer>
+      <Trips trips={pastGuestBookings.filter(Boolean)} isPast />
+    </PageContainer>
+  );
 }
