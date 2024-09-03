@@ -3,9 +3,11 @@ import {
   Avatar,
   Box,
   Button,
+  Center,
   Flex,
   HStack,
   Image,
+  Spinner,
   Text,
 } from "@chakra-ui/react";
 import {
@@ -47,10 +49,23 @@ export function Layout() {
   const navigation = useNavigation();
   const { data } = useReadQuery(queryRef);
 
+  const loading = navigation.state === "loading";
   const user = data?.me;
 
   return (
     <>
+      {loading && (
+        <Center
+          h="100vh"
+          w="100vw"
+          position="fixed"
+          left={0}
+          top={0}
+          zIndex={-1}
+        >
+          <Spinner size="xl" />
+        </Center>
+      )}
       <Box px="2" h="80px" bgColor="white">
         <Flex direction="row" justify="space-between" align="center" p={4}>
           <Box as={Link} to="/">
@@ -105,9 +120,9 @@ export function Layout() {
       </Box>
 
       <Suspense fallback={<PageSpinner />}>
-        <div style={{ opacity: navigation.state === "loading" ? 0.5 : 1 }}>
+        <Box opacity={loading ? 0.5 : 1} transition="0.15s opacity ease-out">
           <Outlet />
-        </div>
+        </Box>
       </Suspense>
     </>
   );
